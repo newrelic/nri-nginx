@@ -1,0 +1,65 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"path": "appengine/cloudsql",
+			"revision": ""
+		},
+		{
+			"checksumSHA1": "Ksl4kXr4ty0HwjrLRLZOrNz05Bw=",
+			"path": "github.com/Sirupsen/logrus",
+			"revision": "ba1b36c82c5e05c4f912a88eab0dcd91a171688f",
+			"revisionTime": "2017-03-14T19:23:53Z",
+			"version": "v0.11.5",
+			"versionExact": "v0.11.5"
+		},
+		{
+			"checksumSHA1": "MfMZSsn79Ey3/+Zn2UX1mgVGU/A=",
+			"path": "github.com/newrelic/infra-integrations-sdk/args",
+			"revision": "baf70b67539dc2821d60b5810639b6bc188b86f8",
+			"revisionTime": "2017-10-11T10:26:32Z",
+			"version": "v2.0.0",
+			"versionExact": "v2.0.0"
+		},
+		{
+			"checksumSHA1": "45zcAovsGwfEvjiql/9SI1JWArE=",
+			"path": "github.com/newrelic/infra-integrations-sdk/cache",
+			"revision": "baf70b67539dc2821d60b5810639b6bc188b86f8",
+			"revisionTime": "2017-10-11T10:26:32Z",
+			"version": "v2.0.0",
+			"versionExact": "v2.0.0"
+		},
+		{
+			"checksumSHA1": "gRz6v46pNwphQXmd9rSP05I7cHo=",
+			"path": "github.com/newrelic/infra-integrations-sdk/log",
+			"revision": "baf70b67539dc2821d60b5810639b6bc188b86f8",
+			"revisionTime": "2017-10-11T10:26:32Z",
+			"version": "v2.0.0",
+			"versionExact": "v2.0.0"
+		},
+		{
+			"checksumSHA1": "/OBil2T0jjmaRvLhTCsMXLVG2N4=",
+			"path": "github.com/newrelic/infra-integrations-sdk/metric",
+			"revision": "baf70b67539dc2821d60b5810639b6bc188b86f8",
+			"revisionTime": "2017-10-11T10:26:32Z",
+			"version": "v2.0.0",
+			"versionExact": "v2.0.0"
+		},
+		{
+			"checksumSHA1": "VorxNshE8dikg0M7bOHfUTzupfI=",
+			"path": "github.com/newrelic/infra-integrations-sdk/sdk",
+			"revision": "baf70b67539dc2821d60b5810639b6bc188b86f8",
+			"revisionTime": "2017-10-11T10:26:32Z",
+			"version": "v2.0.0",
+			"versionExact": "v2.0.0"
+		},
+		{
+			"checksumSHA1": "Dbw6GrXllNPecT0AnoOyAiv66EI=",
+			"path": "golang.org/x/sys/unix",
+			"revision": "9c9d83fe39ed3fd2d9249fcf6b755891fff54b03",
+			"revisionTime": "2017-05-06T01:47:39Z"
+		}
+	],
+	"rootPath": "github.com/newrelic/nri-nginx"
+}
