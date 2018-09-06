@@ -12,8 +12,8 @@ PACKAGE_URL        = "https://www.newrelic.com/infrastructure"
 SUMMARY            = "New Relic Infrastructure $(INTEGRATION) Integration"
 DESCRIPTION        = "New Relic Infrastructure $(INTEGRATION) Integration extend the core New Relic\nInfrastructure agent's capabilities to allow you to collect metric and\nlive state data from your infrastructure $(INTEGRATION) components."
 FPM_COMMON_OPTIONS = --verbose -C $(SOURCE_DIR) -s dir -n $(PROJECT_NAME) -v $(VERSION) --iteration $(RELEASE) --prefix "" --license $(LICENSE) --vendor $(VENDOR) -m $(PACKAGER) --url $(PACKAGE_URL) --config-files /etc/newrelic-infra/ --description "$$(printf $(DESCRIPTION))" --depends "newrelic-infra >= 1.0.726"
-FPM_DEB_OPTIONS    = -t deb -p $(PACKAGES_DIR)/deb/  --replaces "newrelic-infra-integrations (<= 1.4.0)"
-FPM_RPM_OPTIONS    = -t rpm -p $(PACKAGES_DIR)/rpm/ --epoch 0 --rpm-summary $(SUMMARY)  --replaces "newrelic-infra-integrations <= 1.4.0"
+FPM_DEB_OPTIONS    = -t deb -p $(PACKAGES_DIR)/deb/  --replaces "newrelic-infra-integrations (<= 1.4.0-1)"
+FPM_RPM_OPTIONS    = -t rpm -p $(PACKAGES_DIR)/rpm/ --epoch 0 --rpm-summary $(SUMMARY)  --replaces "newrelic-infra-integrations <= 1.4.0-1"
 
 package: create-bins prep-pkg-env $(PACKAGE_TYPES)
 
