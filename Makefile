@@ -1,7 +1,7 @@
 INTEGRATION     := nginx
 BINARY_NAME      = nr-$(INTEGRATION)
-SRC_DIR					 = ./src/
-VALIDATE_DEPS    = github.com/golang/lint/golint
+SRC_DIR          = ./src/
+VALIDATE_DEPS    = golang.org/x/lint/golint
 TEST_DEPS        = github.com/axw/gocov/gocov github.com/AlekSi/gocov-xml
 INTEGRATIONS_DIR = /var/db/newrelic-infra/newrelic-integrations/
 CONFIG_DIR       = /etc/newrelic-infra/integrations.d
