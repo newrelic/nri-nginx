@@ -165,9 +165,8 @@ func getMetricsData(sample *metric.MetricSet) error {
 	if err != nil {
 		return err
 	}
-	// If is not a successful status code 2xx.
-	if resp.StatusCode/100 != 2 {
-		return fmt.Errorf("failed to get stats from nginx. Server returned code %d (%s). Expecting 2xx",
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("failed to get stats from nginx. Server returned code %d (%s). Expecting 200",
 			resp.StatusCode, resp.Status)
 	}
 	defer resp.Body.Close()
