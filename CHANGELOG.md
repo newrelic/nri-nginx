@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## Next Release (date TBD)
+### Fixed
+- Issue where if nginx status page response code was different than 200
+
 ## 1.0.1 (2018-09-07)
 ### Changed
 - Update Makefile
