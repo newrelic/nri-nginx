@@ -3,10 +3,6 @@
 	"ignore": "test",
 	"package": [
 		{
-			"path": "appengine/cloudsql",
-			"revision": ""
-		},
-		{
 			"checksumSHA1": "Ksl4kXr4ty0HwjrLRLZOrNz05Bw=",
 			"path": "github.com/Sirupsen/logrus",
 			"revision": "ba1b36c82c5e05c4f912a88eab0dcd91a171688f",
