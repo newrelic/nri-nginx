@@ -19,8 +19,12 @@ func populateInventory(reader *bufio.Reader, inventory sdk.Inventory) error {
 
 	for {
 		r, _, err := reader.ReadRune()
-		if err == io.EOF {
-			return nil
+		if err != nil {
+			// If we reached the end of the file no error should be returned.
+			if err == io.EOF {
+				return nil
+			}
+			return fmt.Errorf("error occured while checking inventory from nginx config file, error: %v", err)
 		}
 
 		switch r {
