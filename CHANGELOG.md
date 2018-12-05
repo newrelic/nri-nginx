@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Next Release (date TBD)
+
+## 1.0.2 (2018-11-05)
 ### Fixed
 - Issue where if 'config_path' provided is a directory the integration generates high CPU load.
 - Issue where if nginx status page response code was different than 200
