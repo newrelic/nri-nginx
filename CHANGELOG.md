@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Next Release (date TBD)
+### Changed
+- Update Makefile to use gometalinter
+
+### Fixed
+- Catch and report more error conditions
 
 ## 1.0.2 (2018-11-05)
 ### Fixed

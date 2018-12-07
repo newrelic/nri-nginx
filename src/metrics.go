@@ -157,11 +157,13 @@ func populateMetrics(sample *metric.MetricSet, metrics map[string]interface{}, m
 	return nil
 }
 
-func getMetricsData(sample *metric.MetricSet) error {
+func getMetricsData(sample *metric.MetricSet) (err error) {
+	var resp *http.Response
+
 	netClient := &http.Client{
 		Timeout: time.Second * 1,
 	}
-	resp, err := netClient.Get(args.StatusURL)
+	resp, err = netClient.Get(args.StatusURL)
 	if err != nil {
 		return err
 	}
@@ -169,7 +171,13 @@ func getMetricsData(sample *metric.MetricSet) error {
 		return fmt.Errorf("failed to get stats from nginx. Server returned code %d (%s). Expecting 200",
 			resp.StatusCode, resp.Status)
 	}
-	defer resp.Body.Close()
+	defer func() {
+		e := resp.Body.Close()
+		if (e != nil) && (err == nil) { // Don't mask a previous err
+			err = e
+		}
+	}()
+
 	var rawMetrics map[string]interface{}
 	var metricsDefinition map[string][]interface{}
 
@@ -186,5 +194,8 @@ func getMetricsData(sample *metric.MetricSet) error {
 	if err != nil {
 		return err
 	}
-	return populateMetrics(sample, rawMetrics, metricsDefinition)
+
+	err = populateMetrics(sample, rawMetrics, metricsDefinition)
+
+	return err
 }

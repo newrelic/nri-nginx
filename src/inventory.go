@@ -10,7 +10,7 @@ import (
 	"github.com/newrelic/infra-integrations-sdk/sdk"
 )
 
-func populateInventory(reader *bufio.Reader, inventory sdk.Inventory) error {
+func populateInventory(reader *bufio.Reader, inventory sdk.Inventory) (err error) {
 	var curCmd string
 	var curValue string
 
@@ -59,7 +59,7 @@ func populateInventory(reader *bufio.Reader, inventory sdk.Inventory) error {
 				r, _, _ = reader.ReadRune()
 			}
 			lineNo++
-			reader.UnreadRune()
+			err = reader.UnreadRune()
 		case '#':
 			// ignore comments
 			for r != '\n' {
@@ -78,15 +78,28 @@ func populateInventory(reader *bufio.Reader, inventory sdk.Inventory) error {
 		default:
 			curValue += string(r)
 		}
+
+		if (err != nil) && (err != io.EOF) {
+			break
+		}
 	}
+
+	return err
 }
 
-func setInventoryData(inventory sdk.Inventory) error {
-	f, err := os.Open(args.ConfigPath)
+func setInventoryData(inventory sdk.Inventory) (err error) {
+	var f *os.File
+	f, err = os.Open(args.ConfigPath)
 	if err != nil {
 		return err
 	}
-	defer f.Close()
+	defer func() {
+		e := f.Close()
+		if (e != nil) && (err == nil) { // Don't mask a previous err
+			err = e
+		}
+	}()
 
-	return populateInventory(bufio.NewReader(f), inventory)
+	err = populateInventory(bufio.NewReader(f), inventory)
+	return err
 }
