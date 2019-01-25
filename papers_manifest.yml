@@ -1,0 +1,25 @@
+golang:
+  github.com/newrelic/nri-nginx/vendor/github.com/Sirupsen/logrus:
+    license: MIT
+    license_url: github.com/newrelic/nri-nginx/vendor/github.com/Sirupsen/logrus/LICENSE
+    project_url: github.com/newrelic/nri-nginx/vendor/github.com/Sirupsen/logrus
+  github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/args:
+    license: Unknown
+    license_url: github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/LICENSE
+    project_url: github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/args
+  github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/cache:
+    license: Unknown
+    license_url: github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/LICENSE
+    project_url: github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/cache
+  github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/log:
+    license: Unknown
+    license_url: github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/LICENSE
+    project_url: github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/log
+  github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/metric:
+    license: Unknown
+    license_url: github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/LICENSE
+    project_url: github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/metric
+  github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/sdk:
+    license: Unknown
+    license_url: github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/LICENSE
+    project_url: github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/sdk
