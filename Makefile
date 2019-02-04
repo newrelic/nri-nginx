@@ -1,3 +1,5 @@
+export PATH := $(PATH):$(GOPATH)/bin
+
 INTEGRATION     := nginx
 BINARY_NAME      = nr-$(INTEGRATION)
 SRC_DIR          = ./src/

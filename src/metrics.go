@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
+	"github.com/newrelic/infra-integrations-sdk/data/metric"
 	"io"
 	"net/http"
 	"regexp"
@@ -12,7 +13,6 @@ import (
 	"time"
 
 	"github.com/newrelic/infra-integrations-sdk/log"
-	"github.com/newrelic/infra-integrations-sdk/metric"
 )
 
 var metricsPlusDefinition = map[string][]interface{}{
@@ -125,7 +125,7 @@ func getPlusMetrics(reader *bufio.Reader) (map[string]interface{}, error) {
 	return metrics, nil
 }
 
-func populateMetrics(sample *metric.MetricSet, metrics map[string]interface{}, metricsDefinition map[string][]interface{}) error {
+func populateMetrics(sample *metric.Set, metrics map[string]interface{}, metricsDefinition map[string][]interface{}) error {
 	for metricName, metricInfo := range metricsDefinition {
 		rawSource := metricInfo[0]
 		metricType := metricInfo[1].(metric.SourceType)
@@ -157,7 +157,7 @@ func populateMetrics(sample *metric.MetricSet, metrics map[string]interface{}, m
 	return nil
 }
 
-func getMetricsData(sample *metric.MetricSet) error {
+func getMetricsData(sample *metric.Set) error {
 	netClient := &http.Client{
 		Timeout: time.Second * 1,
 	}

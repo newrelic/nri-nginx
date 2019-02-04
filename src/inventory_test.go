@@ -2,10 +2,9 @@ package main
 
 import (
 	"bufio"
+	"github.com/newrelic/infra-integrations-sdk/data/inventory"
 	"strings"
 	"testing"
-
-	"github.com/newrelic/infra-integrations-sdk/sdk"
 )
 
 var (
@@ -61,23 +60,25 @@ http {
 )
 
 func TestParseNginxConf(t *testing.T) {
-	inventory := make(sdk.Inventory)
-	err := populateInventory(bufio.NewReader(strings.NewReader(testNginxConf)), inventory)
+
+	i := inventory.New()
+
+	err := populateInventory(bufio.NewReader(strings.NewReader(testNginxConf)), i)
 
 	if err != nil {
 		t.Fatal()
 	}
 
-	if inventory["pid"]["value"] != "/run/nginx.pid" {
+	if i.Items()["pid"]["value"] != "/run/nginx.pid" {
 		t.Error()
 	}
-	if inventory["events/worker_connections"]["value"] != "1024" {
+	if i.Items()["events/worker_connections"]["value"] != "1024" {
 		t.Error()
 	}
-	if inventory["http/server/server_name"]["value"] != "www.example.com" {
+	if i.Items()["http/server/server_name"]["value"] != "www.example.com" {
 		t.Error()
 	}
-	if inventory["http/server/location::status/allow"]["value"] != "192.168.100.0/24" {
+	if i.Items()["http/server/location::status/allow"]["value"] != "192.168.100.0/24" {
 		t.Error()
 	}
 

@@ -2,8 +2,8 @@ package main
 
 import (
 	sdk_args "github.com/newrelic/infra-integrations-sdk/args"
+	"github.com/newrelic/infra-integrations-sdk/integration"
 	"github.com/newrelic/infra-integrations-sdk/log"
-	"github.com/newrelic/infra-integrations-sdk/sdk"
 )
 
 type argumentList struct {
@@ -22,20 +22,22 @@ var (
 )
 
 func main() {
-	integration, err := sdk.NewIntegration(integrationName, integrationVersion, &args)
+	i, err := integration.New(integrationName, integrationVersion, integration.Args(&args))
 	fatalIfErr(err)
 	log.SetupLogging(args.Verbose)
 
-	if args.All || args.Inventory {
-		fatalIfErr(setInventoryData(integration.Inventory))
+	e := i.LocalEntity()
+
+	if args.HasInventory() {
+		fatalIfErr(setInventoryData(e.Inventory))
 	}
 
-	if args.All || args.Metrics {
-		sample := integration.NewMetricSet("NginxSample")
-		fatalIfErr(getMetricsData(sample))
+	if args.HasMetrics() {
+		ms := e.NewMetricSet("NginxSample")
+		fatalIfErr(getMetricsData(ms))
 	}
 
-	fatalIfErr(integration.Publish())
+	fatalIfErr(i.Publish())
 }
 
 func fatalIfErr(err error) {

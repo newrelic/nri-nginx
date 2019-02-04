@@ -3,14 +3,13 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"github.com/newrelic/infra-integrations-sdk/data/inventory"
 	"io"
 	"os"
 	"strings"
-
-	"github.com/newrelic/infra-integrations-sdk/sdk"
 )
 
-func populateInventory(reader *bufio.Reader, inventory sdk.Inventory) error {
+func populateInventory(reader *bufio.Reader, i *inventory.Inventory) error {
 	var curCmd string
 	var curValue string
 
@@ -48,7 +47,7 @@ func populateInventory(reader *bufio.Reader, inventory sdk.Inventory) error {
 		case ';':
 			// parse end statement
 			prefix = append(prefix, curCmd)
-			inventory.SetItem(strings.Join(prefix, "/"), "value", curValue)
+			i.SetItem(strings.Join(prefix, "/"), "value", curValue)
 			prefix = prefix[:len(prefix)-1]
 
 			curValue = ""
@@ -81,12 +80,12 @@ func populateInventory(reader *bufio.Reader, inventory sdk.Inventory) error {
 	}
 }
 
-func setInventoryData(inventory sdk.Inventory) error {
+func setInventoryData(i *inventory.Inventory) error {
 	f, err := os.Open(args.ConfigPath)
 	if err != nil {
 		return err
 	}
 	defer f.Close()
 
-	return populateInventory(bufio.NewReader(f), inventory)
+	return populateInventory(bufio.NewReader(f), i)
 }

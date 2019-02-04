@@ -27,6 +27,7 @@ _testmain.go
 bin/
 coverage.xml
 target/
+bin
 # Vim swap
 [._]*.s[a-w][a-z]
 [._]s[a-w][a-z]
