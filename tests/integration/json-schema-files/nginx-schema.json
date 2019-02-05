@@ -1,0 +1,478 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "title": "The Root Schema",
+  "required": [
+    "name",
+    "protocol_version",
+    "integration_version",
+    "data"
+  ],
+  "properties": {
+    "name": {
+      "$id": "#/properties/name",
+      "type": "string",
+      "title": "The Name Schema",
+      "default": "",
+      "examples": [
+        "com.newrelic.nginx"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "protocol_version": {
+      "$id": "#/properties/protocol_version",
+      "type": "string",
+      "title": "The Protocol_version Schema",
+      "default": "",
+      "examples": [
+        "2"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "integration_version": {
+      "$id": "#/properties/integration_version",
+      "type": "string",
+      "title": "The Integration_version Schema",
+      "default": "",
+      "examples": [
+        "1.1.0"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "data": {
+      "$id": "#/properties/data",
+      "type": "array",
+      "title": "The Data Schema",
+      "items": {
+        "$id": "#/properties/data/items",
+        "type": "object",
+        "title": "The Items Schema",
+        "required": [
+          "metrics",
+          "inventory",
+          "events"
+        ],
+        "properties": {
+          "metrics": {
+            "$id": "#/properties/data/items/properties/metrics",
+            "type": "array",
+            "title": "The Metrics Schema",
+            "items": {
+              "$id": "#/properties/data/items/properties/metrics/items",
+              "type": "object",
+              "title": "The Items Schema",
+              "required": [
+                "event_type",
+                "net.connectionsActive",
+                "net.connectionsReading",
+                "net.connectionsWaiting",
+                "net.connectionsWriting",
+                "software.edition",
+                "software.version"
+              ],
+              "properties": {
+                "event_type": {
+                  "$id": "#/properties/data/items/properties/metrics/items/properties/event_type",
+                  "type": "string",
+                  "title": "The Event_type Schema",
+                  "default": "",
+                  "examples": [
+                    "NginxSample"
+                  ],
+                  "pattern": "^(.*)$"
+                },
+                "net.connectionsActive": {
+                  "$id": "#/properties/data/items/properties/metrics/items/properties/net.connectionsActive",
+                  "type": "integer",
+                  "title": "The Net.connectionsactive Schema",
+                  "default": 0,
+                  "examples": [
+                    1
+                  ]
+                },
+                "net.connectionsReading": {
+                  "$id": "#/properties/data/items/properties/metrics/items/properties/net.connectionsReading",
+                  "type": "integer",
+                  "title": "The Net.connectionsreading Schema",
+                  "default": 0,
+                  "examples": [
+                    0
+                  ]
+                },
+                "net.connectionsWaiting": {
+                  "$id": "#/properties/data/items/properties/metrics/items/properties/net.connectionsWaiting",
+                  "type": "integer",
+                  "title": "The Net.connectionswaiting Schema",
+                  "default": 0,
+                  "examples": [
+                    0
+                  ]
+                },
+                "net.connectionsWriting": {
+                  "$id": "#/properties/data/items/properties/metrics/items/properties/net.connectionsWriting",
+                  "type": "integer",
+                  "title": "The Net.connectionswriting Schema",
+                  "default": 0,
+                  "examples": [
+                    1
+                  ]
+                },
+                "software.edition": {
+                  "$id": "#/properties/data/items/properties/metrics/items/properties/software.edition",
+                  "type": "string",
+                  "title": "The Software.edition Schema",
+                  "default": "",
+                  "examples": [
+                    "open source"
+                  ],
+                  "pattern": "^(.*)$"
+                },
+                "software.version": {
+                  "$id": "#/properties/data/items/properties/metrics/items/properties/software.version",
+                  "type": "string",
+                  "title": "The Software.version Schema",
+                  "default": "",
+                  "examples": [
+                    "1.4.6 (Ubuntu)"
+                  ],
+                  "pattern": "^(.*)$"
+                }
+              }
+            }
+          },
+          "inventory": {
+            "$id": "#/properties/data/items/properties/inventory",
+            "type": "object",
+            "title": "The Inventory Schema",
+            "required": [
+              "events/worker_connections",
+              "http/access_log",
+              "http/default_type",
+              "http/error_log",
+              "http/gzip",
+              "http/gzip_disable",
+              "http/include",
+              "http/keepalive_timeout",
+              "http/sendfile",
+              "http/tcp_nodelay",
+              "http/tcp_nopush",
+              "http/types_hash_max_size",
+              "pid",
+              "user",
+              "worker_processes"
+            ],
+            "properties": {
+              "events/worker_connections": {
+                "$id": "#/properties/data/items/properties/inventory/properties/events/worker_connections",
+                "type": "object",
+                "title": "The Events/worker_connections Schema",
+                "required": [
+                  "value"
+                ],
+                "properties": {
+                  "value": {
+                    "$id": "#/properties/data/items/properties/inventory/properties/events/worker_connections/properties/value",
+                    "type": "string",
+                    "title": "The Value Schema",
+                    "default": "",
+                    "examples": [
+                      "768"
+                    ],
+                    "pattern": "^(.*)$"
+                  }
+                }
+              },
+              "http/access_log": {
+                "$id": "#/properties/data/items/properties/inventory/properties/http/access_log",
+                "type": "object",
+                "title": "The Http/access_log Schema",
+                "required": [
+                  "value"
+                ],
+                "properties": {
+                  "value": {
+                    "$id": "#/properties/data/items/properties/inventory/properties/http/access_log/properties/value",
+                    "type": "string",
+                    "title": "The Value Schema",
+                    "default": "",
+                    "examples": [
+                      "/var/log/nginx/access.log"
+                    ],
+                    "pattern": "^(.*)$"
+                  }
+                }
+              },
+              "http/default_type": {
+                "$id": "#/properties/data/items/properties/inventory/properties/http/default_type",
+                "type": "object",
+                "title": "The Http/default_type Schema",
+                "required": [
+                  "value"
+                ],
+                "properties": {
+                  "value": {
+                    "$id": "#/properties/data/items/properties/inventory/properties/http/default_type/properties/value",
+                    "type": "string",
+                    "title": "The Value Schema",
+                    "default": "",
+                    "examples": [
+                      "application/octet-stream"
+                    ],
+                    "pattern": "^(.*)$"
+                  }
+                }
+              },
+              "http/error_log": {
+                "$id": "#/properties/data/items/properties/inventory/properties/http/error_log",
+                "type": "object",
+                "title": "The Http/error_log Schema",
+                "required": [
+                  "value"
+                ],
+                "properties": {
+                  "value": {
+                    "$id": "#/properties/data/items/properties/inventory/properties/http/error_log/properties/value",
+                    "type": "string",
+                    "title": "The Value Schema",
+                    "default": "",
+                    "examples": [
+                      "/var/log/nginx/error.log"
+                    ],
+                    "pattern": "^(.*)$"
+                  }
+                }
+              },
+              "http/gzip": {
+                "$id": "#/properties/data/items/properties/inventory/properties/http/gzip",
+                "type": "object",
+                "title": "The Http/gzip Schema",
+                "required": [
+                  "value"
+                ],
+                "properties": {
+                  "value": {
+                    "$id": "#/properties/data/items/properties/inventory/properties/http/gzip/properties/value",
+                    "type": "string",
+                    "title": "The Value Schema",
+                    "default": "",
+                    "examples": [
+                      "on"
+                    ],
+                    "pattern": "^(.*)$"
+                  }
+                }
+              },
+              "http/gzip_disable": {
+                "$id": "#/properties/data/items/properties/inventory/properties/http/gzip_disable",
+                "type": "object",
+                "title": "The Http/gzip_disable Schema",
+                "required": [
+                  "value"
+                ],
+                "properties": {
+                  "value": {
+                    "$id": "#/properties/data/items/properties/inventory/properties/http/gzip_disable/properties/value",
+                    "type": "string",
+                    "title": "The Value Schema",
+                    "default": "",
+                    "examples": [
+                      "\"msie6\""
+                    ],
+                    "pattern": "^(.*)$"
+                  }
+                }
+              },
+              "http/include": {
+                "$id": "#/properties/data/items/properties/inventory/properties/http/include",
+                "type": "object",
+                "title": "The Http/include Schema",
+                "required": [
+                  "value"
+                ],
+                "properties": {
+                  "value": {
+                    "$id": "#/properties/data/items/properties/inventory/properties/http/include/properties/value",
+                    "type": "string",
+                    "title": "The Value Schema",
+                    "default": "",
+                    "examples": [
+                      "/etc/nginx/sites-enabled/*"
+                    ],
+                    "pattern": "^(.*)$"
+                  }
+                }
+              },
+              "http/keepalive_timeout": {
+                "$id": "#/properties/data/items/properties/inventory/properties/http/keepalive_timeout",
+                "type": "object",
+                "title": "The Http/keepalive_timeout Schema",
+                "required": [
+                  "value"
+                ],
+                "properties": {
+                  "value": {
+                    "$id": "#/properties/data/items/properties/inventory/properties/http/keepalive_timeout/properties/value",
+                    "type": "string",
+                    "title": "The Value Schema",
+                    "default": "",
+                    "examples": [
+                      "65"
+                    ],
+                    "pattern": "^(.*)$"
+                  }
+                }
+              },
+              "http/sendfile": {
+                "$id": "#/properties/data/items/properties/inventory/properties/http/sendfile",
+                "type": "object",
+                "title": "The Http/sendfile Schema",
+                "required": [
+                  "value"
+                ],
+                "properties": {
+                  "value": {
+                    "$id": "#/properties/data/items/properties/inventory/properties/http/sendfile/properties/value",
+                    "type": "string",
+                    "title": "The Value Schema",
+                    "default": "",
+                    "examples": [
+                      "on"
+                    ],
+                    "pattern": "^(.*)$"
+                  }
+                }
+              },
+              "http/tcp_nodelay": {
+                "$id": "#/properties/data/items/properties/inventory/properties/http/tcp_nodelay",
+                "type": "object",
+                "title": "The Http/tcp_nodelay Schema",
+                "required": [
+                  "value"
+                ],
+                "properties": {
+                  "value": {
+                    "$id": "#/properties/data/items/properties/inventory/properties/http/tcp_nodelay/properties/value",
+                    "type": "string",
+                    "title": "The Value Schema",
+                    "default": "",
+                    "examples": [
+                      "on"
+                    ],
+                    "pattern": "^(.*)$"
+                  }
+                }
+              },
+              "http/tcp_nopush": {
+                "$id": "#/properties/data/items/properties/inventory/properties/http/tcp_nopush",
+                "type": "object",
+                "title": "The Http/tcp_nopush Schema",
+                "required": [
+                  "value"
+                ],
+                "properties": {
+                  "value": {
+                    "$id": "#/properties/data/items/properties/inventory/properties/http/tcp_nopush/properties/value",
+                    "type": "string",
+                    "title": "The Value Schema",
+                    "default": "",
+                    "examples": [
+                      "on"
+                    ],
+                    "pattern": "^(.*)$"
+                  }
+                }
+              },
+              "http/types_hash_max_size": {
+                "$id": "#/properties/data/items/properties/inventory/properties/http/types_hash_max_size",
+                "type": "object",
+                "title": "The Http/types_hash_max_size Schema",
+                "required": [
+                  "value"
+                ],
+                "properties": {
+                  "value": {
+                    "$id": "#/properties/data/items/properties/inventory/properties/http/types_hash_max_size/properties/value",
+                    "type": "string",
+                    "title": "The Value Schema",
+                    "default": "",
+                    "examples": [
+                      "2048"
+                    ],
+                    "pattern": "^(.*)$"
+                  }
+                }
+              },
+              "pid": {
+                "$id": "#/properties/data/items/properties/inventory/properties/pid",
+                "type": "object",
+                "title": "The Pid Schema",
+                "required": [
+                  "value"
+                ],
+                "properties": {
+                  "value": {
+                    "$id": "#/properties/data/items/properties/inventory/properties/pid/properties/value",
+                    "type": "string",
+                    "title": "The Value Schema",
+                    "default": "",
+                    "examples": [
+                      "/run/nginx.pid"
+                    ],
+                    "pattern": "^(.*)$"
+                  }
+                }
+              },
+              "user": {
+                "$id": "#/properties/data/items/properties/inventory/properties/user",
+                "type": "object",
+                "title": "The User Schema",
+                "required": [
+                  "value"
+                ],
+                "properties": {
+                  "value": {
+                    "$id": "#/properties/data/items/properties/inventory/properties/user/properties/value",
+                    "type": "string",
+                    "title": "The Value Schema",
+                    "default": "",
+                    "examples": [
+                      "www-data"
+                    ],
+                    "pattern": "^(.*)$"
+                  }
+                }
+              },
+              "worker_processes": {
+                "$id": "#/properties/data/items/properties/inventory/properties/worker_processes",
+                "type": "object",
+                "title": "The Worker_processes Schema",
+                "required": [
+                  "value"
+                ],
+                "properties": {
+                  "value": {
+                    "$id": "#/properties/data/items/properties/inventory/properties/worker_processes/properties/value",
+                    "type": "string",
+                    "title": "The Value Schema",
+                    "default": "",
+                    "examples": [
+                      "4"
+                    ],
+                    "pattern": "^(.*)$"
+                  }
+                }
+              }
+            }
+          },
+          "events": {
+            "$id": "#/properties/data/items/properties/events",
+            "type": "array",
+            "title": "The Events Schema"
+          }
+        }
+      }
+    }
+  }
+}
