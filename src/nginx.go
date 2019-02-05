@@ -2,6 +2,7 @@ package main
 
 import (
 	sdk_args "github.com/newrelic/infra-integrations-sdk/args"
+	"github.com/newrelic/infra-integrations-sdk/data/metric"
 	"github.com/newrelic/infra-integrations-sdk/integration"
 	"github.com/newrelic/infra-integrations-sdk/log"
 )
@@ -33,7 +34,7 @@ func main() {
 	}
 
 	if args.HasMetrics() {
-		ms := e.NewMetricSet("NginxSample")
+		ms := e.NewMetricSet("NginxSample", metric.Attr("status_url", args.StatusURL))
 		fatalIfErr(getMetricsData(ms))
 	}
 
