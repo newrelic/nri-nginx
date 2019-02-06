@@ -5,6 +5,7 @@ instances:
       command: metrics
       arguments:
           status_url: http://127.0.0.1/status
+          remote_monitoring: false #new users should leave remote_monitoring = true
       labels:
           env: production
           role: load_balancer
@@ -13,6 +14,7 @@ instances:
       command: inventory
       arguments:
           config_path: /etc/nginx/nginx.conf
+          remote_monitoring: false #new users should leave remote_monitoring = true
       labels:
           env: production
           role: load_balancer
