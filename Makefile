@@ -79,6 +79,12 @@ test-only:
 
 test: test-deps test-only
 
+integration-test: test-deps
+	@echo "=== $(INTEGRATION) === [ test ]: running integration tests..."
+	@docker-compose -f tests/integration/docker-compose.yml up -d --build --force-recreate --renew-anon-volumes
+	@go test -v -tags=integration ./tests/integration/. || (ret=$$?; docker-compose -f tests/integration/docker-compose.yml down && exit $$ret)
+	@docker-compose -f tests/integration/docker-compose.yml down
+
 install: bin/$(BINARY_NAME)
 	@echo "=== $(INTEGRATION) === [ install ]: installing bin/$(BINARY_NAME)..."
 	@sudo install -D --mode=755 --owner=root --strip $(ROOT)bin/$(BINARY_NAME) $(INTEGRATIONS_DIR)/bin/$(BINARY_NAME)
@@ -88,4 +94,4 @@ install: bin/$(BINARY_NAME)
 # Include thematic Makefiles
 include Makefile-*.mk
 
-.PHONY: all build clean validate-deps validate-only validate compile-deps compile test-deps test-only test install
+.PHONY: all build clean validate-deps validate-only validate compile-deps compile test-deps test-only test integration-test install

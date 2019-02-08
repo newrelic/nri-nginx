@@ -1,37 +1,19 @@
 package helpers
 
 import (
+	"bytes"
 	"fmt"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"reflect"
+	"strings"
 	"testing"
 
 	"github.com/bitly/go-simplejson"
+	"github.com/sirupsen/logrus"
 	"github.com/xeipuuv/gojsonschema"
 )
-
-// CheckIntegrationIsInstalled accepts an integration name as an argument and
-// checks if the integration files are placed in the proper directories.
-func CheckIntegrationIsInstalled(iName string) error {
-	iPaths := []string{
-		fmt.Sprintf("/var/db/newrelic-infra/newrelic-integrations/bin/nr-%s", iName),
-		fmt.Sprintf("/var/db/newrelic-infra/newrelic-integrations/%s-definition.yml", iName),
-		fmt.Sprintf("/etc/newrelic-infra/integrations.d/%s-config.yml.sample", iName),
-	}
-
-	return CheckPathsExist(iPaths)
-}
-
-func CheckPathsExist(iPaths []string) error {
-	for i := range iPaths {
-		_, err := os.Stat(iPaths[i])
-		if err != nil {
-			return err
-		}
-	}
-	return nil
-}
 
 // ValidateJSONSchema validates the input argument against JSON schema. If the
 // input is not valid the error is returned. The first argument is the file name
@@ -184,4 +166,34 @@ func ModifyJSONSchemaInventoryPresent(schema *simplejson.Json) error {
 	// `required` section for `inventory` should be empty, as none of the inventory data is obligatory
 	mainProperties.Get("inventory").Set("required", make([]interface{}, 0))
 	return nil
+}
+
+// ExecInContainer executes the given command inside the specified container. It returns three values:
+// 1st - Standard Output
+// 2nd - Standard Error
+// 3rd - Runtime error, if any
+func ExecInContainer(container string, command []string, envVars ...string) (string, string, error) {
+	cmdLine := make([]string, 0, 3+len(command))
+	cmdLine = append(cmdLine, "exec", "-i")
+
+	for _, envVar := range envVars {
+		cmdLine = append(cmdLine, "-e", envVar)
+	}
+
+	cmdLine = append(cmdLine, container)
+	cmdLine = append(cmdLine, command...)
+
+	logrus.Debugf("executing: docker %s", strings.Join(cmdLine, " "))
+
+	cmd := exec.Command("docker", cmdLine...)
+
+	var outbuf, errbuf bytes.Buffer
+	cmd.Stdout = &outbuf
+	cmd.Stderr = &errbuf
+
+	err := cmd.Run()
+	stdout := outbuf.String()
+	stderr := errbuf.String()
+
+	return stdout, stderr, err
 }

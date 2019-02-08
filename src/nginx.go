@@ -5,6 +5,8 @@ import (
 	"github.com/newrelic/infra-integrations-sdk/data/metric"
 	"github.com/newrelic/infra-integrations-sdk/integration"
 	"github.com/newrelic/infra-integrations-sdk/log"
+	"github.com/newrelic/infra-integrations-sdk/persist"
+	"os"
 )
 
 type argumentList struct {
@@ -23,7 +25,23 @@ var (
 )
 
 func main() {
-	i, err := integration.New(integrationName, integrationVersion, integration.Args(&args))
+	var i *integration.Integration
+	var err error
+	cachePath := os.Getenv("NRIA_CACHE_PATH")
+
+	if cachePath == "" {
+		i, err = integration.New(integrationName, integrationVersion, integration.Args(&args))
+	} else {
+		var storer persist.Storer
+
+		logger := log.NewStdErr(args.Verbose)
+		storer, err = persist.NewFileStore(cachePath, logger, persist.DefaultTTL)
+		fatalIfErr(err)
+
+		i, err = integration.New(integrationName, integrationVersion, integration.Args(&args),
+			integration.Storer(storer), integration.Logger(logger))
+	}
+
 	fatalIfErr(err)
 	log.SetupLogging(args.Verbose)
 
