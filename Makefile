@@ -47,7 +47,7 @@ else
 		exit 1 ;\
 	fi
 	@printf "=== $(INTEGRATION) === [ validate ]: running go vet... "
-	@OUTPUT="$(shell go vet  $(SRC_DIR)...)" ;\
+	@OUTPUT="$(shell go vet $(SRC_DIR)...)" ;\
 	if [ -z "$$OUTPUT" ]; then \
 		echo "passed." ;\
 	else \
