@@ -7,14 +7,6 @@
 			"revision": ""
 		},
 		{
-			"checksumSHA1": "4+wnUoVOdK9cHy7rqdQdweYKiOA=",
-			"path": "github.com/bitly/go-simplejson",
-			"revision": "aabad6e819789e569bd6aabf444c935aa9ba1e44",
-			"revisionTime": "2015-09-15T16:53:35Z",
-			"version": "v0.5.0",
-			"versionExact": "v0.5.0"
-		},
-		{
 			"checksumSHA1": "CSPbwbyzqA6sfORicn4HFtIhF/c=",
 			"path": "github.com/davecgh/go-spew/spew",
 			"revision": "d8f796af33cc11cb798c1aaeb27a4ebc5099927d",
