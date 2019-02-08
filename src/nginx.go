@@ -13,7 +13,7 @@ type argumentList struct {
 	sdk_args.DefaultArgumentList
 	StatusURL        string `default:"http://127.0.0.1/status" help:"NGINX status URL."`
 	ConfigPath       string `default:"/etc/nginx/nginx.conf" help:"NGINX configuration file."`
-	RemoteMonitoring bool   `default:"false" help:"Allows to monitor multiple instances."`
+	RemoteMonitoring bool   `default:"false" help:"Identifies the monitored entity as 'remote'. In doubt: set to true."`
 }
 
 const (
