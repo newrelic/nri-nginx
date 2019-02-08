@@ -7,6 +7,7 @@ import (
 	"github.com/newrelic/infra-integrations-sdk/integration"
 	"github.com/newrelic/infra-integrations-sdk/log"
 	"github.com/newrelic/infra-integrations-sdk/persist"
+	"github.com/pkg/errors"
 	"net/url"
 	"os"
 )
@@ -25,6 +26,7 @@ const (
 	entityRemoteType = "nginx"
 
 	httpsProtocol    = `https`
+	httpProtocol     = `http`
 	httpDefaultPort  = `80`
 	httpsDefaultPort = `443`
 )
@@ -91,8 +93,14 @@ func parseStatusURL(statusURL string) (hostname, port string, err error) {
 		return
 	}
 
+	isHTTP := u.Scheme == httpProtocol || u.Scheme == httpsProtocol
+	if !isHTTP {
+		err = errors.New("unsupported protocol scheme")
+		return
+	}
+
 	if u.Hostname() == "" {
-		err = fmt.Errorf("the hostname is empty")
+		err = errors.New("http: no Host in request URL")
 		return
 	}
 
