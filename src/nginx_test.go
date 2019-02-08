@@ -38,7 +38,7 @@ func TestParseURL(t *testing.T) {
 	assert.EqualError(t, err4, "parse ://localhost/status: missing protocol scheme")
 
 	_, _, err5 := parseStatusURL("localhost/status")
-	assert.EqualError(t, err5, "the hostname is empty")
+	assert.EqualError(t, err5, "unsupported protocol scheme")
 }
 
 func TestEntityRemote(t *testing.T) {
