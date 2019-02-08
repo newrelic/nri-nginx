@@ -3,6 +3,7 @@ package helpers
 import (
 	"bytes"
 	"fmt"
+	"github.com/newrelic/infra-integrations-sdk/log"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -11,7 +12,6 @@ import (
 	"testing"
 
 	"github.com/bitly/go-simplejson"
-	"github.com/sirupsen/logrus"
 	"github.com/xeipuuv/gojsonschema"
 )
 
@@ -183,7 +183,7 @@ func ExecInContainer(container string, command []string, envVars ...string) (str
 	cmdLine = append(cmdLine, container)
 	cmdLine = append(cmdLine, command...)
 
-	logrus.Debugf("executing: docker %s", strings.Join(cmdLine, " "))
+	log.Debug("executing: docker %s", strings.Join(cmdLine, " "))
 
 	cmd := exec.Command("docker", cmdLine...)
 

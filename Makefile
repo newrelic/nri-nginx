@@ -38,7 +38,7 @@ else
 		exit 1 ;\
 	fi
 	@printf "=== $(INTEGRATION) === [ validate ]: running golint... "
-	@OUTPUT="$(shell golint ./...)" ;\
+	@OUTPUT="$(shell golint $(SRC_DIR)...)" ;\
 	if [ -z "$$OUTPUT" ]; then \
 		echo "passed." ;\
 	else \
@@ -47,7 +47,7 @@ else
 		exit 1 ;\
 	fi
 	@printf "=== $(INTEGRATION) === [ validate ]: running go vet... "
-	@OUTPUT="$(shell go vet ./...)" ;\
+	@OUTPUT="$(shell go vet  $(SRC_DIR)...)" ;\
 	if [ -z "$$OUTPUT" ]; then \
 		echo "passed." ;\
 	else \
