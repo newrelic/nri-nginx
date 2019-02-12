@@ -72,7 +72,7 @@ func TestNGINXIntegration(t *testing.T) {
 	stdout, stderr, err := runIntegration(t, fmt.Sprintf("NRIA_CACHE_PATH=/tmp/%v.json", testName))
 
 	if stderr != "" {
-		t.Fatalf("Unexpected stderr output: %s", stdout)
+		t.Fatalf("Unexpected stderr output: %s", stderr)
 	}
 
 	require.NoError(t, err, "Unexpected error")
@@ -90,7 +90,7 @@ func TestNGINXIntegrationOnlyMetrics(t *testing.T) {
 	stdout, stderr, err := runIntegration(t, "METRICS=true", fmt.Sprintf("NRIA_CACHE_PATH=/tmp/%v.json", testName))
 
 	if stderr != "" {
-		t.Fatalf("Unexpected stderr output: %s", stdout)
+		t.Fatalf("Unexpected stderr output: %s", stderr)
 	}
 
 	require.NoError(t, err, "Unexpected error")
@@ -108,7 +108,7 @@ func TestNGINXIntegrationOnlyInventory(t *testing.T) {
 	stdout, stderr, err := runIntegration(t, "INVENTORY=true", fmt.Sprintf("NRIA_CACHE_PATH=/tmp/%v.json", testName))
 
 	if stderr != "" {
-		t.Fatalf("Unexpected stderr output: %s", stdout)
+		t.Fatalf("Unexpected stderr output: %s", stderr)
 	}
 
 	require.NoError(t, err, "Unexpected error")
