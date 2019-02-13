@@ -6,7 +6,10 @@ import (
 	"github.com/newrelic/infra-integrations-sdk/data/metric"
 	"github.com/newrelic/infra-integrations-sdk/integration"
 	"github.com/newrelic/infra-integrations-sdk/log"
+	"github.com/newrelic/infra-integrations-sdk/persist"
+	"github.com/pkg/errors"
 	"net/url"
+	"os"
 )
 
 type argumentList struct {
@@ -19,9 +22,11 @@ type argumentList struct {
 const (
 	integrationName    = "com.newrelic.nginx"
 	integrationVersion = "1.1.0"
-	entityRemoteType   = "nginx"
+
+	entityRemoteType = "nginx"
 
 	httpsProtocol    = `https`
+	httpProtocol     = `http`
 	httpDefaultPort  = `80`
 	httpsDefaultPort = `443`
 )
@@ -31,9 +36,8 @@ var (
 )
 
 func main() {
-	i, err := integration.New(integrationName, integrationVersion, integration.Args(&args))
+	i, err := createIntegration()
 	fatalIfErr(err)
-	log.SetupLogging(args.Verbose)
 
 	hostname, port, err := parseStatusURL(args.StatusURL)
 	fatalIfErr(err)
@@ -65,6 +69,21 @@ func entity(i *integration.Integration, hostname, port string) (*integration.Ent
 	return i.LocalEntity(), nil
 }
 
+func createIntegration() (*integration.Integration, error) {
+	cachePath := os.Getenv("NRIA_CACHE_PATH")
+	if cachePath == "" {
+		return integration.New(integrationName, integrationVersion, integration.Args(&args))
+	}
+
+	l := log.NewStdErr(args.Verbose)
+	s, err := persist.NewFileStore(cachePath, l, persist.DefaultTTL)
+	if err != nil {
+		return nil, err
+	}
+
+	return integration.New(integrationName, integrationVersion, integration.Args(&args), integration.Storer(s), integration.Logger(l))
+}
+
 // parseStatusURL will extract the hostname and the port from the nginx status URL.
 func parseStatusURL(statusURL string) (hostname, port string, err error) {
 	u, err := url.Parse(statusURL)
@@ -72,12 +91,16 @@ func parseStatusURL(statusURL string) (hostname, port string, err error) {
 		return
 	}
 
-	if u.Hostname() == "" {
-		err = fmt.Errorf("the hostname is empty")
+	if !isHTTP(u) {
+		err = errors.New("unsupported protocol scheme")
 		return
 	}
 
 	hostname = u.Hostname()
+	if hostname == "" {
+		err = errors.New("http: no Host in request URL")
+		return
+	}
 
 	if u.Port() != "" {
 		port = u.Port()
@@ -87,6 +110,11 @@ func parseStatusURL(statusURL string) (hostname, port string, err error) {
 		port = httpDefaultPort
 	}
 	return
+}
+
+// isHTTP is checking if the URL is http/s protocol.
+func isHTTP(u *url.URL) bool {
+	return u.Scheme == httpProtocol || u.Scheme == httpsProtocol
 }
 
 func fatalIfErr(err error) {

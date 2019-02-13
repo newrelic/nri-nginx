@@ -1,0 +1,12 @@
+integration,metric_name,metric_type,metric_enabled,metric_description
+Nginx,net.connectionsIdle,GAUGE,true,Number of connections without requests
+Nginx,net.connectionsActive,GAUGE,true,Number of all open connections to Nginx
+Nginx,net.connectionsAcceptedPerSecond,RATE,true,Total accepted connections to Nginx
+Nginx,net.connectionsDroppedPerSecond,RATE,true,Total dropped connections to Nginx
+Nginx,net.connectionsReading,GAUGE,true,Number of reading connections to Nginx
+Nginx,net.connectionsWaiting,GAUGE,true,Number of waiting connections to Nginx
+Nginx,net.connectionsWriting,GAUGE,true,Number of writing connections to Nginx
+Nginx,net.requestsPerSecond,RATE,true,Number of requests per second to Nginx
+Nginx,software.edition,ATTRIBUTE,true,Nginx server edition
+Nginx,software.version,ATTRIBUTE,true,Nginx server version
+

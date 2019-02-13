@@ -1,0 +1,18 @@
+entity type,inventory source,inventory path
+nginx,conf/nginx,error_log
+nginx,conf/nginx,http/keepalive_timeout
+nginx,conf/nginx,http/sendfile
+nginx,conf/nginx,worker_processes
+nginx,conf/nginx,events/worker_connections
+nginx,conf/nginx,http/access_log
+nginx,conf/nginx,http/server/listen
+nginx,conf/nginx,pid
+nginx,conf/nginx,http/include
+nginx,conf/nginx,http/log_format
+nginx,conf/nginx,http/server/location::status/access_log
+nginx,conf/nginx,http/server/location::status/stub_status
+nginx,conf/nginx,http/server/server_name
+nginx,conf/nginx,http/default_type
+nginx,conf/nginx,http/server/location::status/allow
+nginx,conf/nginx,user
+

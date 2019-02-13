@@ -1,0 +1,111 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "description": "",
+  "properties": {
+    "integration_version": {
+      "minLength": 1,
+      "pattern": "^1.1.0$",
+      "type": "string"
+    },
+    "data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "events": {
+            "items": {
+              "properties": {},
+              "required": []
+            },
+            "type": "array"
+          },
+          "inventory": {
+            "maxProperties": 0,
+            "properties": {},
+            "required": [],
+            "type": "object"
+          },
+          "metrics": {
+            "items": [
+              {
+                "properties": {
+                  "event_type": {
+                    "minLength": 1,
+                    "pattern": "^NginxSample$",
+                    "type": "string"
+                  },
+                  "net.connectionsAcceptedPerSecond": {
+                    "type": "number"
+                  },
+                  "net.connectionsActive": {
+                    "type": "number"
+                  },
+                  "net.connectionsDroppedPerSecond": {
+                    "type": "number"
+                  },
+                  "net.connectionsReading": {
+                    "type": "number"
+                  },
+                  "net.connectionsWaiting": {
+                    "type": "number"
+                  },
+                  "net.connectionsWriting": {
+                    "type": "number"
+                  },
+                  "net.requestsPerSecond": {
+                    "type": "number"
+                  },
+                  "software.edition": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "software.version": {
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "event_type",
+                  "net.connectionsAcceptedPerSecond",
+                  "net.connectionsActive",
+                  "net.connectionsDroppedPerSecond",
+                  "net.connectionsReading",
+                  "net.connectionsWaiting",
+                  "net.connectionsWriting",
+                  "net.requestsPerSecond",
+                  "software.edition",
+                  "software.version"
+                ]
+              }
+            ],
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "metrics",
+          "inventory",
+          "events"
+        ]
+      }
+    },
+    "name": {
+      "minLength": 1,
+      "pattern": "^com.newrelic.nginx$",
+      "type": "string"
+    },
+    "protocol_version": {
+      "minLength": 1,
+      "pattern": "^2$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "protocol_version",
+    "integration_version",
+    "data"
+  ],
+  "type": "object"
+}
