@@ -1,5 +1,3 @@
-// +build integration
-
 package integration
 
 import (
@@ -8,7 +6,7 @@ import (
 	"github.com/newrelic/infra-integrations-sdk/log"
 	"github.com/newrelic/nri-nginx/tests/integration/helpers"
 	"github.com/newrelic/nri-nginx/tests/integration/jsonschema"
-	"github.com/stretchr/testify/require"
+	"github.com/stretchr/testify/assert"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -71,54 +69,39 @@ func TestNGINXIntegration(t *testing.T) {
 	testName := helpers.GetTestName(t)
 	stdout, stderr, err := runIntegration(t, fmt.Sprintf("NRIA_CACHE_PATH=/tmp/%v.json", testName))
 
-	if stderr != "" {
-		t.Fatalf("Unexpected stderr output: %s", stderr)
-	}
-
-	require.NoError(t, err, "Unexpected error")
+	assert.NotNil(t, stderr, "unexpected stderr")
+	assert.NoError(t, err, "Unexpected error")
 
 	schemaPath := filepath.Join("json-schema-files", "nginx-schema.json")
 
 	err = jsonschema.Validate(schemaPath, stdout)
-	if err != nil {
-		t.Fatalf("The output of NGINX integration doesn't have expected format. Err: %s", err)
-	}
+	assert.NoError(t, err, "The output of NGINX integration doesn't have expected format.")
 }
 
 func TestNGINXIntegrationOnlyMetrics(t *testing.T) {
 	testName := helpers.GetTestName(t)
 	stdout, stderr, err := runIntegration(t, "METRICS=true", fmt.Sprintf("NRIA_CACHE_PATH=/tmp/%v.json", testName))
 
-	if stderr != "" {
-		t.Fatalf("Unexpected stderr output: %s", stderr)
-	}
-
-	require.NoError(t, err, "Unexpected error")
+	assert.NotNil(t, stderr, "unexpected stderr")
+	assert.NoError(t, err, "Unexpected error")
 
 	schemaPath := filepath.Join("json-schema-files", "nginx-schema-metrics.json")
 
 	err = jsonschema.Validate(schemaPath, stdout)
-	if err != nil {
-		t.Fatalf("The output of NGINX integration doesn't have expected format. Err: %s", err)
-	}
+	assert.NoError(t, err, "The output of NGINX integration doesn't have expected format.")
 }
 
 func TestNGINXIntegrationOnlyInventory(t *testing.T) {
 	testName := helpers.GetTestName(t)
 	stdout, stderr, err := runIntegration(t, "INVENTORY=true", fmt.Sprintf("NRIA_CACHE_PATH=/tmp/%v.json", testName))
 
-	if stderr != "" {
-		t.Fatalf("Unexpected stderr output: %s", stderr)
-	}
-
-	require.NoError(t, err, "Unexpected error")
+	assert.NotNil(t, stderr, "unexpected stderr")
+	assert.NoError(t, err, "Unexpected error")
 
 	schemaPath := filepath.Join("json-schema-files", "nginx-schema-inventory.json")
 
 	err = jsonschema.Validate(schemaPath, stdout)
-	if err != nil {
-		t.Fatalf("The output of NGINX integration doesn't have expected format. Err: %s", err)
-	}
+	assert.NoError(t, err, "The output of NGINX integration doesn't have expected format.")
 }
 
 func TestNGINXIntegrationInvalidStatusURL(t *testing.T) {
@@ -129,12 +112,10 @@ func TestNGINXIntegrationInvalidStatusURL(t *testing.T) {
 	expectedErrorMessage := " connect: connection refused"
 
 	errMatch, _ := regexp.MatchString(expectedErrorMessage, stderr)
-	if err == nil || !errMatch {
-		t.Fatalf("Expected error message: '%s', got: '%s'", expectedErrorMessage, stderr)
-	}
-	if stdout != "" {
-		t.Fatalf("Unexpected output: %s", stdout)
-	}
+	assert.Error(t, err, "Expected error")
+	assert.Truef(t, errMatch, "Expected error message: '%s', got: '%s'", expectedErrorMessage, stderr)
+
+	assert.NotNil(t, stdout, "unexpected stdout")
 }
 
 func TestNGINXIntegrationInvalidStatusURL_NoExistingHost(t *testing.T) {
@@ -145,12 +126,10 @@ func TestNGINXIntegrationInvalidStatusURL_NoExistingHost(t *testing.T) {
 	expectedErrorMessage := "no such host"
 
 	errMatch, _ := regexp.MatchString(expectedErrorMessage, stderr)
-	if err == nil || !errMatch {
-		t.Fatalf("Expected error message: '%s', got: '%s'", expectedErrorMessage, stderr)
-	}
-	if stdout != "" {
-		t.Fatalf("Unexpected output: %s", stdout)
-	}
+	assert.Error(t, err, "Expected error")
+	assert.Truef(t, errMatch, "Expected error message: '%s', got: '%s'", expectedErrorMessage, stderr)
+
+	assert.NotNil(t, stdout, "unexpected stdout")
 }
 
 func TestNGINXIntegrationNotValidURL_NoHttp(t *testing.T) {
@@ -161,12 +140,10 @@ func TestNGINXIntegrationNotValidURL_NoHttp(t *testing.T) {
 	expectedErrorMessage := "unsupported protocol scheme"
 
 	errMatch, _ := regexp.MatchString(expectedErrorMessage, stderr)
-	if err == nil || !errMatch {
-		t.Fatalf("Expected error message: '%s', got: '%s'", expectedErrorMessage, stderr)
-	}
-	if stdout != "" {
-		t.Fatalf("Unexpected output: %s", stdout)
-	}
+	assert.Error(t, err, "Expected error")
+	assert.Truef(t, errMatch, "Expected error message: '%s', got: '%s'", expectedErrorMessage, stderr)
+
+	assert.NotNil(t, stdout, "unexpected stdout")
 }
 
 func TestNGINXIntegrationNotValidURL_OnlyHttp(t *testing.T) {
@@ -177,12 +154,10 @@ func TestNGINXIntegrationNotValidURL_OnlyHttp(t *testing.T) {
 	expectedErrorMessage := "no Host in request URL"
 
 	errMatch, _ := regexp.MatchString(expectedErrorMessage, stderr)
-	if err == nil || !errMatch {
-		t.Fatalf("Expected error message: '%s', got: '%s'", expectedErrorMessage, stderr)
-	}
-	if stdout != "" {
-		t.Fatalf("Unexpected output: %s", stdout)
-	}
+	assert.Error(t, err, "Expected error")
+	assert.Truef(t, errMatch, "Expected error message: '%s', got: '%s'", expectedErrorMessage, stderr)
+
+	assert.NotNil(t, stdout, "unexpected stdout")
 }
 
 func TestNGINXIntegrationNotValidConfigPath_ExistingDirectory(t *testing.T) {
@@ -193,13 +168,10 @@ func TestNGINXIntegrationNotValidConfigPath_ExistingDirectory(t *testing.T) {
 	expectedErrorMessage := ": is a directory"
 
 	errMatch, _ := regexp.MatchString(expectedErrorMessage, stderr)
-	if err == nil || !errMatch {
-		t.Fatalf("Expected error message: '%s', got: '%s'", expectedErrorMessage, stderr)
-	}
+	assert.Error(t, err, "Expected error")
+	assert.Truef(t, errMatch, "Expected error message: '%s', got: '%s'", expectedErrorMessage, stderr)
 
-	if stdout != "" {
-		t.Fatalf("Unexpected output: %s", stdout)
-	}
+	assert.NotNil(t, stdout, "unexpected stdout")
 }
 
 func TestNGINXIntegrationNotValidConfigPath_NonExistingFile(t *testing.T) {
@@ -210,11 +182,8 @@ func TestNGINXIntegrationNotValidConfigPath_NonExistingFile(t *testing.T) {
 	expectedErrorMessage := "no such file or directory"
 
 	errMatch, _ := regexp.MatchString(expectedErrorMessage, stderr)
-	if err == nil || !errMatch {
-		t.Fatalf("Expected error message: '%s', got: '%s'", expectedErrorMessage, stderr)
-	}
+	assert.Error(t, err, "Expected error")
+	assert.Truef(t, errMatch, "Expected error message: '%s', got: '%s'", expectedErrorMessage, stderr)
 
-	if stdout != "" {
-		t.Fatalf("Unexpected output: %s", stdout)
-	}
+	assert.NotNil(t, stdout, "unexpected stdout")
 }
