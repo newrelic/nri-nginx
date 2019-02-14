@@ -23,7 +23,7 @@ const (
 	integrationName    = "com.newrelic.nginx"
 	integrationVersion = "1.1.0"
 
-	entityRemoteType = "nginx"
+	entityRemoteType = "server"
 
 	httpsProtocol    = `https`
 	httpProtocol     = `http`
@@ -39,10 +39,7 @@ func main() {
 	i, err := createIntegration()
 	fatalIfErr(err)
 
-	hostname, port, err := parseStatusURL(args.StatusURL)
-	fatalIfErr(err)
-
-	e, err := entity(i, hostname, port)
+	e, err := entity(i)
 	fatalIfErr(err)
 
 	if args.HasInventory() {
@@ -50,6 +47,9 @@ func main() {
 	}
 
 	if args.HasMetrics() {
+		hostname, port, err := parseStatusURL(args.StatusURL)
+		fatalIfErr(err)
+
 		hostnameAttr := metric.Attr("hostname", hostname)
 		portAttr := metric.Attr("port", port)
 
@@ -60,8 +60,12 @@ func main() {
 	fatalIfErr(i.Publish())
 }
 
-func entity(i *integration.Integration, hostname, port string) (*integration.Entity, error) {
+func entity(i *integration.Integration) (*integration.Entity, error) {
 	if args.RemoteMonitoring {
+		hostname, port, err := parseStatusURL(args.StatusURL)
+		if err != nil {
+			return nil, err
+		}
 		n := fmt.Sprintf("%s:%s", hostname, port)
 		return i.Entity(n, entityRemoteType)
 	}
