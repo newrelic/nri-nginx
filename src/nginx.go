@@ -70,7 +70,7 @@ func entity(i *integration.Integration) (*integration.Entity, error) {
 	return i.LocalEntity(), nil
 }
 
-func metricSet(e *integration.Entity, eventType string, hostname string, port string) *metric.Set {
+func metricSet(e *integration.Entity, eventType, hostname, port string) *metric.Set {
 	if args.RemoteMonitoring {
 		return e.NewMetricSet(
 			eventType,
