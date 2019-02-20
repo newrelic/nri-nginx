@@ -1,6 +1,6 @@
 name: com.newrelic.nginx
 description: Reports status and metrics for NGINX server
-protocol_version: 2
+protocol_version: 2.1
 os: linux
 
 commands:
