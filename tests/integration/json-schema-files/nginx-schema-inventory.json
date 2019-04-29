@@ -344,7 +344,7 @@
     },
     "protocol_version": {
       "minLength": 1,
-      "pattern": "^2$",
+      "pattern": "^3$",
       "type": "string"
     }
   },
