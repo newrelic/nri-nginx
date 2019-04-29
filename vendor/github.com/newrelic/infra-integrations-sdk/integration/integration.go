@@ -23,9 +23,15 @@ const (
 	CustomAttrService = "service_name"
 )
 
+// Standard attributes
+const (
+	AttrReportingEntity   = "reportingEntityKey"
+	AttrReportingEndpoint = "reportingEndpoint"
+)
+
 // NR infrastructure agent protocol version
 const (
-	protocolVersion = "2"
+	protocolVersion = "3"
 )
 
 // Integration defines the format of the output JSON that integrations will return for protocol 2.
@@ -117,21 +123,42 @@ func (i *Integration) LocalEntity() *Entity {
 	return e
 }
 
+// EntityReportedBy entity being reported from another entity that is not producing the actual entity data.
+func (i *Integration) EntityReportedBy(reportingEntity EntityKey, reportedEntityName, reportedEntityNamespace string, idAttributes ...IDAttribute) (e *Entity, err error) {
+	e, err = i.Entity(reportedEntityName, reportedEntityNamespace, idAttributes...)
+	if err != nil {
+		return
+	}
+
+	e.setCustomAttribute(AttrReportingEntity, reportingEntity.String())
+	return
+}
+
+// EntityReportedVia entity being reported from a known endpoint.
+func (i *Integration) EntityReportedVia(endpoint, reportedEntityName, reportedEntityNamespace string, idAttributes ...IDAttribute) (e *Entity, err error) {
+	e, err = i.Entity(reportedEntityName, reportedEntityNamespace, idAttributes...)
+	if err != nil {
+		return
+	}
+
+	e.setCustomAttribute(AttrReportingEndpoint, endpoint)
+	return
+}
+
 // Entity method creates or retrieves an already created entity.
-func (i *Integration) Entity(name, namespace string) (e *Entity, err error) {
+func (i *Integration) Entity(name, namespace string, idAttributes ...IDAttribute) (e *Entity, err error) {
 	i.locker.Lock()
 	defer i.locker.Unlock()
 
-	// we should change this to map for performance
-	for _, e = range i.Entities {
-		if e.Metadata != nil && e.Metadata.Name == name && e.Metadata.Namespace == namespace {
-			return e, nil
-		}
-	}
-
-	e, err = newEntity(name, namespace, i.storer, i.addHostnameToMeta)
+	e, err = newEntity(name, namespace, i.storer, i.addHostnameToMeta, idAttributes...)
 	if err != nil {
 		return nil, err
+	}
+
+	for _, eIt := range i.Entities {
+		if e.SameAs(eIt) {
+			return eIt, nil
+		}
 	}
 
 	defaultArgs := args.GetDefaultArgs(i.args)
