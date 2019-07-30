@@ -12,8 +12,8 @@ can be found at github.com/newrelic/nri-nginx.
 
 ## Contents
  
-* [newrelic/infra-integrations-sdk](#newrelicinfra-integrations-sdk)
 * [Sirupsen/logrus](#Sirupsenlogrus)
+* [newrelic/infra-integrations-sdk](#newrelicinfra-integrations-sdk)
 
 ## newrelic/infra-integrations-sdk
 
