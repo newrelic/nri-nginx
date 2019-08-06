@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
-	"github.com/newrelic/infra-integrations-sdk/data/metric"
 	"io"
 	"net/http"
 	"regexp"
@@ -12,6 +11,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/jeremywohl/flatten"
+	"github.com/newrelic/infra-integrations-sdk/data/metric"
 	"github.com/newrelic/infra-integrations-sdk/log"
 )
 
@@ -157,7 +158,120 @@ func populateMetrics(sample *metric.Set, metrics map[string]interface{}, metrics
 	return nil
 }
 
-func getMetricsData(sample *metric.Set) error {
+func getMetricsData(sample *metric.Set) (err error) {
+	switch args.StatusModule {
+	case httpStubStatus:
+		resp, err := getStatus("")
+		if err != nil {
+			return err
+		}
+		defer resp.Body.Close()
+
+		metricsDefinition := metricsStandardDefinition
+		rawMetrics, err := getStandardMetrics(bufio.NewReader(resp.Body))
+		rawVersion := strings.Replace(resp.Header.Get("Server"), "nginx/", "", -1)
+		rawMetrics["version"] = rawVersion
+
+		if err != nil {
+			return err
+		}
+		return populateMetrics(sample, rawMetrics, metricsDefinition)
+
+	case httpStatus:
+		resp, err := getStatus("")
+		if err != nil {
+			return err
+		}
+		defer resp.Body.Close()
+
+		metricsDefinition := metricsPlusDefinition
+		rawMetrics, err := getPlusMetrics(bufio.NewReader(resp.Body))
+
+		if err != nil {
+			return err
+		}
+		return populateMetrics(sample, rawMetrics, metricsDefinition)
+
+	case httpApiStatus:
+		for _, p := range strings.Split(args.Endpoints, ",") {
+			resp, err := getStatus(p)
+			if err != nil {
+				fmt.Printf("%+v\n", err)
+				continue
+			}
+			getHttpApiMetrics(p, sample, bufio.NewReader(resp.Body))
+			resp.Body.Close()
+		}
+	}
+	return
+}
+
+// No tests for this. All we'd be testing is that Decode and Flatten work.
+func getHttpApiMetrics(path string, sample *metric.Set, reader *bufio.Reader) {
+	jsonMetrics := make(map[string]interface{})
+	dec := json.NewDecoder(reader)
+	err := dec.Decode(&jsonMetrics)
+	if err != nil {
+		return
+	}
+	if jsonMetrics == nil || len(jsonMetrics) <= 0 {
+		return
+	}
+
+	flat, err := flatten.Flatten(jsonMetrics, "", flatten.DotStyle)
+	if err != nil {
+		log.Error("Error flattening json: %+v", err)
+		return
+	}
+
+	for k, v := range flat {
+		sample.SetMetric(pathToPrefix(path)+k, v, getAttributeType(v))
+	}
+}
+
+var notJustDots = regexp.MustCompile(`[^.]`)
+
+func pathToPrefix(path string) (prefix string) {
+	prefix = strings.TrimPrefix(path, "/")
+	prefix = strings.ReplaceAll(prefix, "/", ".")
+	if !strings.HasSuffix(prefix, ".") {
+		prefix = prefix + "."
+	}
+	if prefix == "." {
+		prefix = ""
+	}
+	if !notJustDots.MatchString(prefix) {
+		prefix = ""
+	}
+	return prefix
+}
+
+// The v4 API only has Gauges & Attributes, no Rates
+func getAttributeType(v interface{}) metric.SourceType {
+	switch v.(type) {
+	case string:
+		return metric.ATTRIBUTE
+	default:
+		return metric.GAUGE
+	}
+
+}
+
+func getStatus(path string) (resp *http.Response, err error) {
+	netClient := &http.Client{
+		Timeout: time.Second * 1,
+	}
+	resp, err = netClient.Get(args.StatusURL + path)
+	if err != nil {
+		return
+	}
+	if resp.StatusCode != http.StatusOK {
+		return resp, fmt.Errorf("failed to get stats from %s. Server returned code %d (%s). Expecting 200", args.StatusURL+path, resp.StatusCode, resp.Status)
+	}
+	return
+}
+
+func getMetricsData2(sample *metric.Set) error {
 	netClient := &http.Client{
 		Timeout: time.Second * 1,
 	}

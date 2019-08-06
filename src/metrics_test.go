@@ -119,3 +119,32 @@ func TestGetStandardMetricsWithInvalidData(t *testing.T) {
 		t.Error()
 	}
 }
+
+func Test_pathToPrefix(t *testing.T) {
+	tests := []struct {
+		name   string
+		path   string
+		prefix string
+	}{
+		{"Single", "nginx", "nginx."},
+		{"Single, prefix", "/nginx", "nginx."},
+		{"Single, suffix", "nginx/", "nginx."},
+		{"Single,  bracketed", "/nginx/", "nginx."},
+		{"Multi", "nginx/version", "nginx.version."},
+		{"Multi, prefix", "/nginx/version", "nginx.version."},
+		{"Multi, suffix", "nginx/version/", "nginx.version."},
+		{"Multi, bracketed", "/nginx/version/", "nginx.version."},
+		{"Empty", "", ""},
+		{"Single slash", "/", ""},
+		{"Double slash", "//", ""},
+		{"Triple slash", "///", ""},
+		{"Quad slash", "////", ""},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if gotPrefix := pathToPrefix(tt.path); gotPrefix != tt.prefix {
+				t.Errorf("pathToPrefix() = %v, want %v", gotPrefix, tt.prefix)
+			}
+		})
+	}
+}

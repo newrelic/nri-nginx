@@ -9,8 +9,16 @@ See [metrics]() or [inventory]() for more details about collected data and revie
 
 ## Configuration
 * Depending on which NGINX edition you use please update your configuration enabling
-  * [HTTP stub status module](http://nginx.org/en/docs/http/ngx_http_stub_status_module.html) for NGINX Open Source
-  * [HTTP status module](http://nginx.org/en/docs/http/ngx_http_status_module.html) for NGINX Plus
+  * [ngx_http_stub_status_module](http://nginx.org/en/docs/http/ngx_http_stub_status_module.html) for NGINX Open Source
+  * [ngx_http_status_module](http://nginx.org/en/docs/http/ngx_http_status_module.html) for NGINX Plus pre 1.13.3
+  * [ngx_http_api_module](http://nginx.org/en/docs/http/ngx_http_api_module.html) for NGINX 1.13.3 and higher
+  
+### ngx_http_api_module configuration
+Additions to the `nginx-config.yaml` file:
+* status_url: full path to the status url _including_ the api version. For example `http://localhost/api/4`
+* status_module: `ngx_http_api_module`
+* endpoints: list of `api/4`, NON PARAMETERIZED, endpoints to query
+  * Default:"/nginx,/processes,/connections,/ssl,/slabs,/http,/http/requests,/http/server_zones,/http/caches,/http/upstreams,/http/keyvals,/stream,/stream/server_zones,/stream/upstreams,/stream/keyvals,/stream/zone_sync" 
 
 ## Installation
 * download an archive file for the NGINX Integration
