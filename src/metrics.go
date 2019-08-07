@@ -270,35 +270,3 @@ func getStatus(path string) (resp *http.Response, err error) {
 	}
 	return
 }
-
-func getMetricsData2(sample *metric.Set) error {
-	netClient := &http.Client{
-		Timeout: time.Second * 1,
-	}
-	resp, err := netClient.Get(args.StatusURL)
-	if err != nil {
-		return err
-	}
-	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("failed to get stats from nginx. Server returned code %d (%s). Expecting 200",
-			resp.StatusCode, resp.Status)
-	}
-	defer resp.Body.Close()
-	var rawMetrics map[string]interface{}
-	var metricsDefinition map[string][]interface{}
-
-	if resp.Header.Get("content-type") == "application/json" {
-		metricsDefinition = metricsPlusDefinition
-		rawMetrics, err = getPlusMetrics(bufio.NewReader(resp.Body))
-	} else {
-		metricsDefinition = metricsStandardDefinition
-		rawMetrics, err = getStandardMetrics(bufio.NewReader(resp.Body))
-		rawVersion := strings.Replace(resp.Header.Get("Server"), "nginx/", "", -1)
-		rawMetrics["version"] = rawVersion
-
-	}
-	if err != nil {
-		return err
-	}
-	return populateMetrics(sample, rawMetrics, metricsDefinition)
-}

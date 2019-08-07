@@ -13,6 +13,12 @@
 			"revisionTime": "2018-08-30T19:11:22Z"
 		},
 		{
+			"checksumSHA1": "peajuCOZXpi7Pwivo5UZmyevkiM=",
+			"path": "github.com/jeremywohl/flatten",
+			"revision": "588fe0d4c603f5dc8b3854ff3f7f16e570618ef7",
+			"revisionTime": "2018-09-23T03:50:01Z"
+		},
+		{
 			"checksumSHA1": "ZfId5ZYn7jmL0xTxooHcxrLlXoA=",
 			"path": "github.com/newrelic/infra-integrations-sdk/args",
 			"revision": "1d56d083ff58c63604755586fe1a65036a064de7",

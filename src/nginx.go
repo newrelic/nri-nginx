@@ -24,7 +24,7 @@ type argumentList struct {
 
 const (
 	integrationName    = "com.newrelic.nginx"
-	integrationVersion = "1.1.0"
+	integrationVersion = "1.3.0"
 
 	entityRemoteType = "server"
 
@@ -33,7 +33,6 @@ const (
 	httpDefaultPort  = `80`
 	httpsDefaultPort = `443`
 
-	apiv4          = "/api/4"
 	httpStubStatus = "ngx_http_stub_status_module"
 	httpStatus     = "ngx_http_status_module"
 	httpApiStatus  = "ngx_http_api_module"
