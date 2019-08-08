@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Support for `ngx_http_api_module`.
 - New configuration options:
     - `connection_timeout`: timeout (in seconds) for the connection from the integration to Nginx
-    - `status_module` (default: `discover`). Aaccepted values:
+    - `status_module` (default: `discover`). Accepted values:
         * `ngx_http_stub_status_module`
         * `ngx_http_status_module`
         * `ngx_http_api_module`
