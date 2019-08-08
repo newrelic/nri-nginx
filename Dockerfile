@@ -1,4 +1,4 @@
-FROM golang:1.12 as builder
+FROM golang:1.9 as builder
 RUN go get -d github.com/newrelic/nri-nginx/... && \
     cd /go/src/github.com/newrelic/nri-nginx && \
     make && \
