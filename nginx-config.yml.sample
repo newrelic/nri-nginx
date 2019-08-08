@@ -6,8 +6,8 @@ instances:
       arguments:
           # If you're using ngx_http_api_module be certain to use the full path up to and including the version number
           status_url: http://127.0.0.1/status
-	      # Name of Nginx status module OHI is query against. ngx_http_stub_status_module | ngx_http_status_module | ngx_http_api_module
-	      status_module: ngx_http_stub_status_module
+	      # Name of Nginx status module OHI is to query against. discovery | ngx_http_stub_status_module | ngx_http_status_module | ngx_http_api_module
+	      status_module: discovery
 
 	      # ngx_http_api_module ONLY
           # Comma separated list of ngx_http_api_module, NON PARAMETERIZED, Endpoints
