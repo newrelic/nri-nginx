@@ -2,14 +2,15 @@ package main
 
 import (
 	"fmt"
+	"net/url"
+	"os"
+
 	sdk_args "github.com/newrelic/infra-integrations-sdk/args"
 	"github.com/newrelic/infra-integrations-sdk/data/metric"
 	"github.com/newrelic/infra-integrations-sdk/integration"
 	"github.com/newrelic/infra-integrations-sdk/log"
 	"github.com/newrelic/infra-integrations-sdk/persist"
 	"github.com/pkg/errors"
-	"net/url"
-	"os"
 )
 
 type argumentList struct {
@@ -18,7 +19,7 @@ type argumentList struct {
 	ConfigPath        string `default:"/etc/nginx/nginx.conf" help:"NGINX configuration file."`
 	RemoteMonitoring  bool   `default:"false" help:"Identifies the monitored entity as 'remote'. In doubt: set to true."`
 	ConnectionTimeout int    `default:"1" help:"OHI connection to Nginx timeout in seconds"`
-	StatusModule      string `default:"ngx_http_stub_status_module" help:"Name of Nginx status module. ngx_http_stub_status_module | ngx_http_status_module | ngx_http_api_module"`
+	StatusModule      string `default:"discover" help:"Name of Nginx status module. discover | ngx_http_stub_status_module | ngx_http_status_module | ngx_http_api_module"`
 	Endpoints         string `default:"/nginx,/processes,/connections,/ssl,/slabs,/http,/http/requests,/http/server_zones,/http/caches,/http/upstreams,/http/keyvals,/stream,/stream/server_zones,/stream/upstreams,/stream/keyvals,/stream/zone_sync" help:"Comma separated list of ngx_http_api_module, NON PARAMETERIZED, Endpoints"`
 }
 
@@ -33,9 +34,10 @@ const (
 	httpDefaultPort  = `80`
 	httpsDefaultPort = `443`
 
+	discoverStatus = "discover"
 	httpStubStatus = "ngx_http_stub_status_module"
 	httpStatus     = "ngx_http_status_module"
-	httpApiStatus  = "ngx_http_api_module"
+	httpAPIStatus  = "ngx_http_api_module"
 )
 
 var (

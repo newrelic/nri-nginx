@@ -160,6 +160,8 @@ func populateMetrics(sample *metric.Set, metrics map[string]interface{}, metrics
 
 func getMetricsData(sample *metric.Set) (err error) {
 	switch args.StatusModule {
+	case discoverStatus:
+		return getDiscoveredMetricsData(sample)
 	case httpStubStatus:
 		resp, err := getStatus("")
 		if err != nil {
@@ -192,14 +194,14 @@ func getMetricsData(sample *metric.Set) (err error) {
 		}
 		return populateMetrics(sample, rawMetrics, metricsDefinition)
 
-	case httpApiStatus:
+	case httpAPIStatus:
 		for _, p := range strings.Split(args.Endpoints, ",") {
 			resp, err := getStatus(p)
 			if err != nil {
 				fmt.Printf("%+v\n", err)
 				continue
 			}
-			getHttpApiMetrics(p, sample, bufio.NewReader(resp.Body))
+			getHTTPAPIMetrics(p, sample, bufio.NewReader(resp.Body))
 			resp.Body.Close()
 		}
 	}
@@ -207,7 +209,7 @@ func getMetricsData(sample *metric.Set) (err error) {
 }
 
 // No tests for this. All we'd be testing is that Decode and Flatten work.
-func getHttpApiMetrics(path string, sample *metric.Set, reader *bufio.Reader) {
+func getHTTPAPIMetrics(path string, sample *metric.Set, reader *bufio.Reader) {
 	jsonMetrics := make(map[string]interface{})
 	dec := json.NewDecoder(reader)
 	err := dec.Decode(&jsonMetrics)
@@ -233,7 +235,7 @@ var notJustDots = regexp.MustCompile(`[^.]`)
 
 func pathToPrefix(path string) (prefix string) {
 	prefix = strings.TrimPrefix(path, "/")
-	prefix = strings.ReplaceAll(prefix, "/", ".")
+	prefix = strings.Replace(prefix, "/", ".", -1)
 	if !strings.HasSuffix(prefix, ".") {
 		prefix = prefix + "."
 	}
@@ -269,4 +271,38 @@ func getStatus(path string) (resp *http.Response, err error) {
 		return resp, fmt.Errorf("failed to get stats from %s. Server returned code %d (%s). Expecting 200", args.StatusURL+path, resp.StatusCode, resp.Status)
 	}
 	return
+}
+
+// For backwards compatibility, the integration tries to discover whether the metrics are standard or nginx plus based
+// on their format
+func getDiscoveredMetricsData(sample *metric.Set) error {
+	netClient := &http.Client{
+		Timeout: time.Second * 1,
+	}
+	resp, err := netClient.Get(args.StatusURL)
+	if err != nil {
+		return err
+	}
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("failed to get stats from nginx. Server returned code %d (%s). Expecting 200",
+			resp.StatusCode, resp.Status)
+	}
+	defer resp.Body.Close()
+	var rawMetrics map[string]interface{}
+	var metricsDefinition map[string][]interface{}
+
+	if resp.Header.Get("content-type") == "application/json" {
+		metricsDefinition = metricsPlusDefinition
+		rawMetrics, err = getPlusMetrics(bufio.NewReader(resp.Body))
+	} else {
+		metricsDefinition = metricsStandardDefinition
+		rawMetrics, err = getStandardMetrics(bufio.NewReader(resp.Body))
+		rawVersion := strings.Replace(resp.Header.Get("Server"), "nginx/", "", -1)
+		rawMetrics["version"] = rawVersion
+
+	}
+	if err != nil {
+		return err
+	}
+	return populateMetrics(sample, rawMetrics, metricsDefinition)
 }
