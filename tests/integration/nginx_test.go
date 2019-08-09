@@ -111,7 +111,7 @@ func TestNGINXIntegrationInvalidStatusURL(t *testing.T) {
 
 	stdout, stderr, err := runIntegration(t, "STATUS_URL=http://localhost/", fmt.Sprintf("NRIA_CACHE_PATH=%v", testName), "VERBOSE=true")
 
-	expectedErrorMessage := " connect: connection refused"
+	expectedErrorMessage := "connection refused"
 
 	errMatch, _ := regexp.MatchString(expectedErrorMessage, stderr)
 	assert.Error(t, err, "Expected error")
