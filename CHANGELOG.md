@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.3.0 (to be released)
+### Added
+- Support for `ngx_http_api_module`.
+- New configuration options:
+    - `connection_timeout`: timeout (in seconds) for the connection from the integration to Nginx
+    - `status_module` (default: `discover`). Accepted values:
+        * `ngx_http_stub_status_module`
+        * `ngx_http_status_module`
+        * `ngx_http_api_module`
+        * `discover` to automatically choose between `ngx_http_stub_status_module` or `ngx_http_status_module`.
+    - `endpoints`: if `status_module` is `ngx_http_api_module`, comma separated list, NON PARAMETERIZED, Endpoints   
+
 ## 1.2.0 (2019-04-29)
 ### Added
 - Upgraded to SDK v3.1.5. This version implements [the aget/integrations
