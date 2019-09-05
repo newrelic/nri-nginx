@@ -3,6 +3,8 @@ New Relic Infrastructure Integration for NGINX captures critical performance met
 
 Inventory data is obtained from the configuration files and metrics from the status modules.
 
+See our [documentation web site](https://docs.newrelic.com/docs/integrations/host-integrations/host-integrations-list/nginx-monitoring-integration) for more details.
+
 <!---
 See [metrics]() or [inventory]() for more details about collected data and review [dashboard]() in order to know how the data is presented.
 --->
