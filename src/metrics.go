@@ -158,10 +158,8 @@ func populateMetrics(sample *metric.Set, metrics map[string]interface{}, metrics
 	return nil
 }
 
-func getMetricsData(sample *metric.Set) (err error) {
+func getMetricsData(sample *metric.Set) error {
 	switch args.StatusModule {
-	case discoverStatus:
-		return getDiscoveredMetricsData(sample)
 	case httpStubStatus:
 		resp, err := getStatus("")
 		if err != nil {
@@ -178,7 +176,6 @@ func getMetricsData(sample *metric.Set) (err error) {
 			return err
 		}
 		return populateMetrics(sample, rawMetrics, metricsDefinition)
-
 	case httpStatus:
 		resp, err := getStatus("")
 		if err != nil {
@@ -188,24 +185,24 @@ func getMetricsData(sample *metric.Set) (err error) {
 
 		metricsDefinition := metricsPlusDefinition
 		rawMetrics, err := getPlusMetrics(bufio.NewReader(resp.Body))
-
 		if err != nil {
 			return err
 		}
 		return populateMetrics(sample, rawMetrics, metricsDefinition)
-
 	case httpAPIStatus:
 		for _, p := range strings.Split(args.Endpoints, ",") {
 			resp, err := getStatus(p)
 			if err != nil {
-				fmt.Printf("%+v\n", err)
+				log.Warn("Request to endpoint failed: %s", err)
 				continue
 			}
+			defer resp.Body.Close()
 			getHTTPAPIMetrics(p, sample, bufio.NewReader(resp.Body))
-			resp.Body.Close()
 		}
+		return nil
+	default:
+		return getDiscoveredMetricsData(sample)
 	}
-	return
 }
 
 // No tests for this. All we'd be testing is that Decode and Flatten work.
