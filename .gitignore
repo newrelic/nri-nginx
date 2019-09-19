@@ -37,3 +37,5 @@ go.sum
 
 # Vim session
 Session.vim
+
+.idea
