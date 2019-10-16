@@ -191,13 +191,20 @@ func getMetricsData(sample *metric.Set) error {
 		return populateMetrics(sample, rawMetrics, metricsDefinition)
 	case httpAPIStatus:
 		for _, p := range strings.Split(args.Endpoints, ",") {
+			log.Debug("Checking HTTP API path '%s'", p)
 			resp, err := getStatus(p)
 			if err != nil {
 				log.Warn("Request to endpoint failed: %s", err)
 				continue
 			}
-			defer resp.Body.Close()
-			getHTTPAPIMetrics(p, sample, bufio.NewReader(resp.Body))
+			defer func() {
+				if err := resp.Body.Close(); err != nil {
+					log.Warn("Unable to close response body: %s", err)
+				}
+			}()
+			if err := getHTTPAPIMetrics(p, sample, bufio.NewReader(resp.Body)); err != nil {
+				log.Warn("Unable to get HTTP API metrics from path '%s': %s", p, err)
+			}
 		}
 		return nil
 	default:
@@ -206,26 +213,29 @@ func getMetricsData(sample *metric.Set) error {
 }
 
 // No tests for this. All we'd be testing is that Decode and Flatten work.
-func getHTTPAPIMetrics(path string, sample *metric.Set, reader *bufio.Reader) {
+func getHTTPAPIMetrics(path string, sample *metric.Set, reader *bufio.Reader) error {
 	jsonMetrics := make(map[string]interface{})
 	dec := json.NewDecoder(reader)
 	err := dec.Decode(&jsonMetrics)
 	if err != nil {
-		return
+		return fmt.Errorf("unable to decode metrics: %s", err)
 	}
 	if jsonMetrics == nil || len(jsonMetrics) <= 0 {
-		return
+		log.Info("No metrics found for path '%s'", path)
+		return nil
 	}
 
 	flat, err := flatten.Flatten(jsonMetrics, "", flatten.DotStyle)
 	if err != nil {
-		log.Error("Error flattening json: %+v", err)
-		return
+		return fmt.Errorf("unable to flatten json: %s", err)
 	}
 
 	for k, v := range flat {
-		sample.SetMetric(pathToPrefix(path)+k, v, getAttributeType(v))
+		if err := sample.SetMetric(pathToPrefix(path)+k, v, getAttributeType(v)); err != nil {
+			log.Error("Unable to set sample metric: %s", err)
+		}
 	}
+	return nil
 }
 
 var notJustDots = regexp.MustCompile(`[^.]`)
