@@ -25,7 +25,7 @@ Additions to the `nginx-config.yaml` file:
 ## Installation
 * download an archive file for the NGINX Integration
 * extract `nginx-definition.yml` and `/bin` directory into `/var/db/newrelic-infra/newrelic-integrations`
-* add execute permissions for the binary file `nr-nginx` (if required)
+* add execute permissions for the binary file `nri-nginx` (if required)
 * extract `nginx-config.yml.sample` into `/etc/newrelic-infra/integrations.d`
 
 ## Usage
@@ -42,13 +42,13 @@ Assuming that you have source code you can build and run the NGINX Integration l
 ```bash
 $ make
 ```
-* The command above will execute tests for the NGINX Integration and build an executable file called `nr-nginx` in `bin` directory.
+* The command above will execute tests for the NGINX Integration and build an executable file called `nri-nginx` in `bin` directory.
 ```bash
-$ ./bin/nr-nginx
+$ ./bin/nri-nginx
 ```
-* If you want to know more about usage of `./nr-nginx` check
+* If you want to know more about usage of `./nri-nginx` check
 ```bash
-$ ./bin/nr-nginx -help
+$ ./bin/nri-nginx -help
 ```
 
 For managing external dependencies [govendor tool](https://github.com/kardianos/govendor) is used. It is required to lock all external dependencies to specific version (if possible) into vendor directory.
