@@ -12,6 +12,7 @@ services:
     - ./nginx/nginx.conf:/etc/nginx/nginx.conf
 
   nri-nginx:
+    container_name: integration_nri-nginx_1
     build:
       context: ../../
       dockerfile: tests/integration/Dockerfile
