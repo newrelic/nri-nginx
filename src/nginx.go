@@ -25,7 +25,7 @@ type argumentList struct {
 
 const (
 	integrationName    = "com.newrelic.nginx"
-	integrationVersion = "1.3.0"
+	integrationVersion = "1.4.0"
 
 	entityRemoteType = "server"
 
