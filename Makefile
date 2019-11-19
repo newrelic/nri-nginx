@@ -1,7 +1,7 @@
 export PATH := $(PATH):$(GOPATH)/bin
 
 INTEGRATION     := nginx
-BINARY_NAME      = nr-$(INTEGRATION)
+BINARY_NAME      = nri-$(INTEGRATION)
 SRC_DIR          = ./src/
 VALIDATE_DEPS    = golang.org/x/lint/golint
 TEST_DEPS        = github.com/axw/gocov/gocov github.com/AlekSi/gocov-xml

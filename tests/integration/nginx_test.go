@@ -21,7 +21,7 @@ var (
 
 	defaultContainer = "integration_nri-nginx_1"
 
-	defaultBinPath   = "/nr-nginx"
+	defaultBinPath   = "/nri-nginx"
 	defaultStatusURL = "http://nginx:8080/status"
 
 	// cli flags

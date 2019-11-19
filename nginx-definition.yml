@@ -6,13 +6,13 @@ os: linux
 commands:
     metrics:
         command:
-          - ./bin/nr-nginx
+          - ./bin/nri-nginx
           - -metrics
         interval: 30
 
     inventory:
         command:
-          - ./bin/nr-nginx
+          - ./bin/nri-nginx
           - -inventory
         prefix: config/nginx
         interval: 60
