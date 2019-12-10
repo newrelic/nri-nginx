@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.5.0 (2019-12-10)
+## Added
+- Added `validate_certs` configuration option (default: `true`). Set it to `false` if you have self-signed certificates
+  and want to avoid the integration to fail.
+
 ## 1.4.0 (2019-11-18)
 ### Changed
 - Renamed the integration executable from nr-nginx to nri-nginx in order to be consistent with the package naming. **Important Note:** if you have any security module rules (eg. SELinux), alerts or automation that depends on the name of this binary, these will have to be updated.
