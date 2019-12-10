@@ -257,7 +257,7 @@ func getAttributeType(v interface{}) metric.SourceType {
 
 }
 
-func httpClient(args argumentList) *http.Client {
+func httpClient() *http.Client {
 	netClient := http.Client{
 		Timeout: time.Second * 1,
 	}
@@ -270,7 +270,7 @@ func httpClient(args argumentList) *http.Client {
 }
 
 func getStatus(path string) (resp *http.Response, err error) {
-	netClient := httpClient(args)
+	netClient := httpClient()
 	resp, err = netClient.Get(args.StatusURL + path)
 	if err != nil {
 		return
@@ -284,7 +284,7 @@ func getStatus(path string) (resp *http.Response, err error) {
 // For backwards compatibility, the integration tries to discover whether the metrics are standard or nginx plus based
 // on their format
 func getDiscoveredMetricsData(sample *metric.Set) error {
-	netClient := httpClient(args)
+	netClient := httpClient()
 	resp, err := netClient.Get(args.StatusURL)
 	if err != nil {
 		return err
