@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.5.1 (2019-12-10)
+## Fixed
+- Integration version reporting
+
 ## 1.5.0 (2019-12-10)
 ## Added
 - Added `validate_certs` configuration option (default: `true`). Set it to `false` if you have self-signed certificates
