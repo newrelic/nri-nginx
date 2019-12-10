@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -256,10 +257,20 @@ func getAttributeType(v interface{}) metric.SourceType {
 
 }
 
-func getStatus(path string) (resp *http.Response, err error) {
-	netClient := &http.Client{
+func httpClient(args argumentList) *http.Client {
+	netClient := http.Client{
 		Timeout: time.Second * 1,
 	}
+	if !args.ValidateCerts {
+		netClient.Transport = &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		}
+	}
+	return &netClient
+}
+
+func getStatus(path string) (resp *http.Response, err error) {
+	netClient := httpClient(args)
 	resp, err = netClient.Get(args.StatusURL + path)
 	if err != nil {
 		return
@@ -273,9 +284,7 @@ func getStatus(path string) (resp *http.Response, err error) {
 // For backwards compatibility, the integration tries to discover whether the metrics are standard or nginx plus based
 // on their format
 func getDiscoveredMetricsData(sample *metric.Set) error {
-	netClient := &http.Client{
-		Timeout: time.Second * 1,
-	}
+	netClient := httpClient(args)
 	resp, err := netClient.Get(args.StatusURL)
 	if err != nil {
 		return err
