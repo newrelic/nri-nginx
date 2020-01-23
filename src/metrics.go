@@ -27,6 +27,15 @@ var metricsPlusDefinition = map[string][]interface{}{
 	"software.version":                 {"version", metric.ATTRIBUTE},
 }
 
+var metricsPlusAPIDefinition = map[string]string{
+	"connections.active":   "net.connectionsActive",
+	"connections.idle":     "net.connectionsIdle",
+	"connections.accepted": "net.connectionsAcceptedPerSecond",
+	"connections.dropped":  "net.connectionsDroppedPerSecond",
+	"http.requests.total":  "net.requestsPerSecond",
+	"nginx.version":        "software.version",
+}
+
 var metricsStandardDefinition = map[string][]interface{}{
 	"net.connectionsActive":            {"active", metric.GAUGE},
 	"net.connectionsAcceptedPerSecond": {"accepted", metric.RATE},
@@ -197,7 +206,11 @@ func getMetricsData(sample *metric.Set) error {
 				log.Warn("Request to endpoint failed: %s", err)
 				continue
 			}
-			defer resp.Body.Close()
+			defer func() {
+				if err := resp.Body.Close(); err != nil {
+					log.Warn("Unable to close response body: %s", err)
+				}
+			}()
 			getHTTPAPIMetrics(p, sample, bufio.NewReader(resp.Body))
 		}
 		return nil
@@ -206,7 +219,6 @@ func getMetricsData(sample *metric.Set) error {
 	}
 }
 
-// No tests for this. All we'd be testing is that Decode and Flatten work.
 func getHTTPAPIMetrics(path string, sample *metric.Set, reader *bufio.Reader) {
 	jsonMetrics := make(map[string]interface{})
 	dec := json.NewDecoder(reader)
@@ -225,7 +237,13 @@ func getHTTPAPIMetrics(path string, sample *metric.Set, reader *bufio.Reader) {
 	}
 
 	for k, v := range flat {
-		sample.SetMetric(pathToPrefix(path)+k, v, getAttributeType(v))
+		key := pathToPrefix(path) + k
+		if overrideKey, ok := metricsPlusAPIDefinition[key]; ok {
+			key = overrideKey
+		}
+		if err := sample.SetMetric(key, v, getAttributeType(v)); err != nil {
+			log.Error("Unable to set metric: %s", err)
+		}
 	}
 }
 
