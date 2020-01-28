@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.0.0 (2019-01-28)
+## Fixed
+- Nginx Plus metrics were not being renamed like Nginx standard metrics
+## Changed
+- Major version change as the fix above breaks compatibility by renaming metrics
+
 ## 1.5.1 (2019-12-10)
 ## Fixed
 - Integration version reporting
