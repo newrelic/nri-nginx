@@ -1,0 +1,22 @@
+  nginx-config.yml: |
+    ---
+    # Run auto discovery to find pods with label "app=nginx"
+    # https://docs.newrelic.com/docs/integrations/host-integrations/installation/container-auto-discovery
+    discovery:
+      command:
+        # Run NRI Discovery for Kubernetes
+        # https://github.com/newrelic/nri-discovery-kubernetes
+        exec: /var/db/newrelic-infra/nri-discovery-kubernetes
+        match:
+          label.app: nginx
+    integrations:
+      - name: nri-nginx
+        env:
+          # If you're using ngx_http_api_module be certain to use the full path up to and including the version number
+          # Use the discovered IP as the host address
+          STATUS_URL: http://${discovery.ip}/status
+          # Comma separated list of ngx_http_api_module, NON PARAMETERIZED, Endpoints
+          # endpoints: /nginx,/processes,/connections,/ssl,/slabs,/http,/http/requests,/http/server_zones,/http/caches,/http/upstreams,/http/keyvals,/stream,/stream/server_zones,/stream/upstreams,/stream/keyvals,/stream/zone_sync
+          # Name of Nginx status module OHI is to query against. discover | ngx_http_stub_status_module | ngx_http_status_module | ngx_http_api_module
+          STATUS_MODULE: discover
+          METRICS: 1
