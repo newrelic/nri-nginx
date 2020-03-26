@@ -2,6 +2,16 @@ package main
 
 import (
 	"bufio"
+	"fmt"
+	"github.com/newrelic/infra-integrations-sdk/data/metric"
+	"github.com/newrelic/infra-integrations-sdk/integration"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+	"golang.org/x/tools/go/ssa/interp/testdata/src/errors"
+	"io"
+	"net/http"
+	"net/http/httptest"
+	"net/url"
 	"strings"
 	"testing"
 )
@@ -144,6 +154,73 @@ func Test_pathToPrefix(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if gotPrefix := pathToPrefix(tt.path); gotPrefix != tt.prefix {
 				t.Errorf("pathToPrefix() = %v, want %v", gotPrefix, tt.prefix)
+			}
+		})
+	}
+}
+
+func Test_getMetricsData(t *testing.T) {
+	tests := []struct {
+		name                      string
+		response                  string
+		expectErr                 error
+		expectedConnectionsActive float64
+		isPlus                    bool
+	}{
+		{
+			name:                      "testNginxStandardStatus",
+			response:                  testNginxStandardStatus,
+			expectedConnectionsActive: 291,
+		},
+		{
+			name:      "testBadNginxStandardStatus",
+			response:  testBadNginxStandardStatus,
+			expectErr: errors.New("Line 2 of status doesn't match"),
+		},
+		{
+			name:     "testNginxPlusStatus",
+			response: testNginxPlusStatus,
+			isPlus:   true,
+			expectedConnectionsActive: 6,
+		},
+		{
+			name:      "testBadNginxPlusStatus",
+			response:  "testBadNginxPlusStatus",
+			isPlus:    true,
+			expectErr: errors.New("invalid character 'e' in literal true (expecting 'r')"),
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				if tt.isPlus {
+					w.Header().Set("content-type", "application/json")
+				}
+				_, err := io.WriteString(w, tt.response)
+				assert.NoError(t, err)
+			}))
+			defer ts.Close()
+			i, err := integration.New(tt.name, "test")
+			require.NoError(t, err)
+			uri, err := url.ParseRequestURI(ts.URL)
+			require.NoError(t, err)
+			e, err := i.Entity(fmt.Sprintf("%s:%s", uri.Hostname(), uri.Port()), "server")
+			require.NoError(t, err)
+			ms := e.NewMetricSet(
+				"test",
+				metric.Attr("hostname", uri.Hostname()),
+				metric.Attr("port", uri.Port()),
+			)
+			t.Log(ts.URL)
+			args.StatusURL = ts.URL
+			err = getMetricsData(ms)
+			t.Log(err)
+			if tt.expectErr != nil {
+				assert.EqualError(t, err, tt.expectErr.Error())
+			} else {
+				assert.NoError(t, err)
+				t.Log(ms)
+				assert.Equal(t, tt.expectedConnectionsActive, ms.Metrics["net.connectionsActive"])
 			}
 		})
 	}

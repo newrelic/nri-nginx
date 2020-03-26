@@ -179,12 +179,12 @@ func getMetricsData(sample *metric.Set) error {
 
 		metricsDefinition := metricsStandardDefinition
 		rawMetrics, err := getStandardMetrics(bufio.NewReader(resp.Body))
-		rawVersion := strings.Replace(resp.Header.Get("Server"), "nginx/", "", -1)
-		rawMetrics["version"] = rawVersion
-
 		if err != nil {
 			return err
 		}
+
+		rawVersion := strings.Replace(resp.Header.Get("Server"), "nginx/", "", -1)
+		rawMetrics["version"] = rawVersion
 		return populateMetrics(sample, rawMetrics, metricsDefinition)
 	case httpStatus:
 		resp, err := getStatus("")
@@ -318,15 +318,17 @@ func getDiscoveredMetricsData(sample *metric.Set) error {
 	if resp.Header.Get("content-type") == "application/json" {
 		metricsDefinition = metricsPlusDefinition
 		rawMetrics, err = getPlusMetrics(bufio.NewReader(resp.Body))
+		if err != nil {
+			return err
+		}
 	} else {
 		metricsDefinition = metricsStandardDefinition
 		rawMetrics, err = getStandardMetrics(bufio.NewReader(resp.Body))
+		if err != nil {
+			return err
+		}
 		rawVersion := strings.Replace(resp.Header.Get("Server"), "nginx/", "", -1)
 		rawMetrics["version"] = rawVersion
-
-	}
-	if err != nil {
-		return err
 	}
 	return populateMetrics(sample, rawMetrics, metricsDefinition)
 }
