@@ -20,6 +20,8 @@ instances:
           # versus remote entities:
           # https://github.com/newrelic/infra-integrations-sdk/blob/master/docs/entity-definition.md
           remote_monitoring: true
+          # validate_certs: true 
+          # default: true If the status URL is HTTPS with a self-signed certificate, set this to false if you want to avoid certificate validation
       labels:
           env: production
           role: load_balancer
