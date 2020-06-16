@@ -37,6 +37,9 @@ instances:
           # versus remote entities:
           # https://github.com/newrelic/infra-integrations-sdk/blob/master/docs/entity-definition.md
           remote_monitoring: true #new users should leave remote_monitoring = true
+
+          # status_url is used to identify the monitored entity to which the inventory will be attached.
+          status_url: http://127.0.0.1/status
       labels:
           env: production
           role: load_balancer

@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.0.1 (2020-06-12)
+## Fixed
+- Updated the configuration sample to include the status_url for inventory required
+  for entity naming.
+
 ## 2.0.0 (2019-01-28)
 ## Fixed
 - Nginx Plus metrics were not being renamed like Nginx standard metrics
