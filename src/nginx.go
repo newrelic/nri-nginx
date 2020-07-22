@@ -2,10 +2,12 @@ package main
 
 import (
 	"fmt"
+
 	"net/url"
 	"os"
 
 	sdk_args "github.com/newrelic/infra-integrations-sdk/args"
+	"github.com/newrelic/infra-integrations-sdk/data/attribute"
 	"github.com/newrelic/infra-integrations-sdk/data/metric"
 	"github.com/newrelic/infra-integrations-sdk/integration"
 	"github.com/newrelic/infra-integrations-sdk/log"
@@ -84,14 +86,14 @@ func metricSet(e *integration.Entity, eventType, hostname, port string, remote b
 	if remote {
 		return e.NewMetricSet(
 			eventType,
-			metric.Attr("hostname", hostname),
-			metric.Attr("port", port),
+			attribute.Attr("hostname", hostname),
+			attribute.Attr("port", port),
 		)
 	}
 
 	return e.NewMetricSet(
 		eventType,
-		metric.Attr("port", port),
+		attribute.Attr("port", port),
 	)
 }
 
