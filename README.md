@@ -1,84 +1,89 @@
-# New Relic Infrastructure Integration for NGINX
-New Relic Infrastructure Integration for NGINX captures critical performance metrics and inventory reported by NGINX server. There is an open source and a commercial version of NGINX, both supported by this integration.
+[![Community Project header](https://github.com/newrelic/open-source-office/raw/master/examples/categories/images/Community_Project.png)](https://github.com/newrelic/open-source-office/blob/master/examples/categories/index.md#community-project)
+
+# New Relic infrastructure integration for NGINX
+
+New Relic infrastructure integration for NGINX captures critical performance metrics and inventory reported by NGINX server. There is an open source and a commercial version of NGINX, both supported by this integration.
 
 Inventory data is obtained from the configuration files and metrics from the status modules.
 
-See our [documentation web site](https://docs.newrelic.com/docs/integrations/host-integrations/host-integrations-list/nginx-monitoring-integration) for more details.
+## Installation and usage
 
-<!---
-See [metrics]() or [inventory]() for more details about collected data and review [dashboard]() in order to know how the data is presented.
---->
+For installation and usage instructions, see our [documentation web site](https://docs.newrelic.com/docs/integrations/host-integrations/host-integrations-list/nginx-monitoring-integration).
 
-## Configuration
-* Depending on which NGINX edition you use please update your configuration enabling
-  * [ngx_http_stub_status_module](http://nginx.org/en/docs/http/ngx_http_stub_status_module.html) for NGINX Open Source
-  * [ngx_http_status_module](http://nginx.org/en/docs/http/ngx_http_status_module.html) for NGINX Plus pre 1.13.3
-  * [ngx_http_api_module](http://nginx.org/en/docs/http/ngx_http_api_module.html) for NGINX 1.13.3 and higher
-  
-### ngx_http_api_module configuration
-Additions to the `nginx-config.yaml` file:
-* status_url: full path to the status url _including_ the api version. For example `http://localhost/api/4`
-* status_module: `ngx_http_api_module`
-* endpoints: list of `api/4`, NON PARAMETERIZED, endpoints to query
-  * Default:"/nginx,/processes,/connections,/ssl,/slabs,/http,/http/requests,/http/server_zones,/http/caches,/http/upstreams,/http/keyvals,/stream,/stream/server_zones,/stream/upstreams,/stream/keyvals,/stream/zone_sync" 
+## Building
 
-## Installation
-* download an archive file for the NGINX Integration
-* extract `nginx-definition.yml` and `/bin` directory into `/var/db/newrelic-infra/newrelic-integrations`
-* add execute permissions for the binary file `nri-nginx` (if required)
-* extract `nginx-config.yml.sample` into `/etc/newrelic-infra/integrations.d`
+Golang is required to build the integration. We recommend Golang 1.11 or higher.
 
-## Usage
-This is the description about how to run the NGINX Integration with New Relic Infrastructure agent, so it is required to have the agent installed (see [agent installation](https://docs.newrelic.com/docs/infrastructure/new-relic-infrastructure/installation/install-infrastructure-linux)).
+After cloning this repository, go to the directory of the NGINX integration and build it:
 
-In order to use the NGINX Integration it is required to configure `nginx-config.yml.sample` file. Firstly, rename the file to `nginx-config.yml`. Then, depending on your needs, specify all instances that you want to monitor. Once this is done, restart the Infrastructure agent.
-
-You can view your data in Insights by creating your own custom NRQL queries. To do so use the **NginxSample** event type.
-
-## Integration development usage
-Assuming that you have source code you can build and run the NGINX Integration locally.
-
-* Go to directory of the NGINX Integration and build it
 ```bash
 $ make
 ```
-* The command above will execute tests for the NGINX Integration and build an executable file called `nri-nginx` in `bin` directory.
+
+The command above executes the tests for the NGINX integration and builds an executable file called `nri-nginx` under the `bin` directory. 
+
+To start the integration, run `nri-nginx`:
+
 ```bash
 $ ./bin/nri-nginx
 ```
-* If you want to know more about usage of `./nri-nginx` check
+
+If you want to know more about usage of `./bin/nri-nginx`, pass the `-help` parameter:
+
 ```bash
 $ ./bin/nri-nginx -help
 ```
 
-For managing external dependencies [govendor tool](https://github.com/kardianos/govendor) is used. It is required to lock all external dependencies to specific version (if possible) into vendor directory.
+External dependencies are managed through the [govendor tool](https://github.com/kardianos/govendor). Locking all external dependencies to a specific version (if possible) into the vendor directory is required.
 
-## Contributing Code
+## Testing
 
-We welcome code contributions (in the form of pull requests) from our user
-community. Before submitting a pull request please review [these guidelines](https://github.com/newrelic/nri-nginx/blob/master/CONTRIBUTING.md).
+To run the tests execute:
 
-Following these helps us efficiently review and incorporate your contribution
-and avoid breaking your code with future changes to the agent.
-
-## Custom Integrations
-
-To extend your monitoring solution with custom metrics, we offer the Integrations
-Golang SDK which can be found on [github](https://github.com/newrelic/infra-integrations-sdk).
-
-Refer to [our docs site](https://docs.newrelic.com/docs/infrastructure/integrations-sdk/get-started/intro-infrastructure-integrations-sdk)
-to get help on how to build your custom integrations.
+```bash
+$ make test
+```
 
 ## Support
 
-You can find more detailed documentation [on our website](http://newrelic.com/docs),
-and specifically in the [Infrastructure category](https://docs.newrelic.com/docs/infrastructure).
+Should you need assistance with New Relic products, you are in good hands with several support diagnostic tools and support channels.
 
-If you can't find what you're looking for there, reach out to us on our [support
-site](http://support.newrelic.com/) or our [community forum](http://forum.newrelic.com)
-and we'll be happy to help you.
+> This [troubleshooting framework](https://discuss.newrelic.com/t/troubleshooting-frameworks/108787) steps you through common troubleshooting questions.
 
-Find a bug? Contact us via [support.newrelic.com](http://support.newrelic.com/),
-or email support@newrelic.com.
+> New Relic offers NRDiag, [a client-side diagnostic utility](https://docs.newrelic.com/docs/using-new-relic/cross-product-functions/troubleshooting/new-relic-diagnostics) that automatically detects common problems with New Relic agents. If NRDiag detects a problem, it suggests troubleshooting steps. NRDiag can also automatically attach troubleshooting data to a New Relic Support ticket.
 
-New Relic, Inc.
+If the issue has been confirmed as a bug or is a Feature request, please file a Github issue.
+
+**Support Channels**
+
+* [New Relic Documentation](https://docs.newrelic.com): Comprehensive guidance for using our platform
+* [New Relic Community](https://discuss.newrelic.com): The best place to engage in troubleshooting questions
+* [New Relic Developer](https://developer.newrelic.com/): Resources for building a custom observability applications
+* [New Relic University](https://learn.newrelic.com/): A range of online training for New Relic users of every level
+
+## Privacy
+
+At New Relic we take your privacy and the security of your information seriously, and are committed to protecting your information. We must emphasize the importance of not sharing personal data in public forums, and ask all users to scrub logs and diagnostic information for sensitive information, whether personal, proprietary, or otherwise.
+
+We define “Personal Data” as any information relating to an identified or identifiable individual, including, for example, your name, phone number, post code or zip code, Device ID, IP address and email address.
+
+Review [New Relic’s General Data Privacy Notice](https://newrelic.com/termsandconditions/privacy) for more information.
+
+## Contributing
+
+We encourage your contributions to improve the NGINX integration! Keep in mind when you submit your pull request, you'll need to sign the CLA via the click-through using CLA-Assistant. You only have to sign the CLA one time per project.
+
+If you have any questions, or to execute our corporate CLA, required if your contribution is on behalf of a company,  please drop us an email at opensource@newrelic.com.
+
+**A note about vulnerabilities**
+
+As noted in our [security policy](/SECURITY.md), New Relic is committed to the privacy and security of our customers and their data. We believe that providing coordinated disclosure by security researchers and engaging with the security community are important means to achieve our security goals.
+
+If you believe you have found a security vulnerability in this project or any of New Relic's products or websites, we welcome and greatly appreciate you reporting it to New Relic through [HackerOne](https://hackerone.com/newrelic).
+
+If you would like to contribute to this project, please review [these guidelines](./CONTRIBUTING.md).
+
+To all contributors, we thank you!  Without your contribution, this project would not be what it is today.
+
+## License
+nri-nginx is licensed under the [Apache 2.0](http://apache.org/licenses/LICENSE-2.0.txt) License.
