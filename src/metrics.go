@@ -17,26 +17,9 @@ import (
 	"github.com/newrelic/infra-integrations-sdk/log"
 )
 
-var metricsPlusDefinition = map[string][]interface{}{
-	"net.connectionsActive":            {"connections.active", metric.GAUGE},
-	"net.connectionsIdle":              {"connections.idle", metric.GAUGE},
-	"net.connectionsAcceptedPerSecond": {"connections.accepted", metric.RATE},
-	"net.connectionsDroppedPerSecond":  {"connections.dropped", metric.RATE},
-	"net.requestsPerSecond":            {"requests.total", metric.RATE},
-	"software.edition":                 {"edition", metric.ATTRIBUTE},
-	"software.version":                 {"version", metric.ATTRIBUTE},
-}
-
-var metricsPlusAPIDefinition = map[string]string{
-	"connections.active":   "net.connectionsActive",
-	"connections.idle":     "net.connectionsIdle",
-	"connections.accepted": "net.connectionsAcceptedPerSecond",
-	"connections.dropped":  "net.connectionsDroppedPerSecond",
-	"http.requests.total":  "net.requestsPerSecond",
-	"nginx.version":        "software.version",
-}
-
 var metricsStandardDefinition = map[string][]interface{}{
+	"nginx.edition":                    {"edition", metric.ATTRIBUTE},
+	"nginx.version":                    {"version", metric.ATTRIBUTE},
 	"net.connectionsActive":            {"active", metric.GAUGE},
 	"net.connectionsAcceptedPerSecond": {"accepted", metric.RATE},
 	"net.connectionsDroppedPerSecond":  {connectionsDropped, metric.RATE},
@@ -44,8 +27,34 @@ var metricsStandardDefinition = map[string][]interface{}{
 	"net.connectionsWaiting":           {"waiting", metric.GAUGE},
 	"net.connectionsWriting":           {"writing", metric.GAUGE},
 	"net.requestsPerSecond":            {"requests", metric.RATE},
-	"software.edition":                 {"edition", metric.ATTRIBUTE},
-	"software.version":                 {"version", metric.ATTRIBUTE},
+}
+
+var metricsPlusDefinition = map[string][]interface{}{
+	"nginx.edition":                    {"edition", metric.ATTRIBUTE},
+	"nginx.version":                    {"version", metric.ATTRIBUTE},
+	"net.connectionsActive":            {"connections.active", metric.GAUGE},
+	"net.connectionsIdle":              {"connections.idle", metric.GAUGE},
+	"net.connectionsAcceptedPerSecond": {"connections.accepted", metric.RATE},
+	"net.connectionsDroppedPerSecond":  {"connections.dropped", metric.RATE},
+	"net.requestsPerSecond":            {"requests.total", metric.RATE},
+	"processes.respawned":              {"processes.respawned", metric.DELTA},
+	"ssl.handshakes":                   {"ssl.handshakes", metric.DELTA},
+	"ssl.failedHandshakes":             {"ssl.handshakes_failed", metric.DELTA},
+	"ssl.sessionReuses":                {"ssl.session_reuses", metric.DELTA},
+}
+
+var metricsPlusAPIDefinition = map[string][]interface{}{
+	"nginx.version":         {"nginx.version", metric.ATTRIBUTE},
+	"connections.active":    {"net.connectionsActive", metric.GAUGE},
+	"connections.idle":      {"net.connectionsIdle", metric.GAUGE},
+	"connections.accepted":  {"net.connectionsAcceptedPerSecond", metric.RATE},
+	"connections.dropped":   {"net.connectionsDroppedPerSecond", metric.RATE},
+	"processes.respawned":   {"processes.respawned", metric.DELTA},
+	"ssl.handshakes":        {"ssl.handshakes", metric.DELTA},
+	"ssl.handshakes_failed": {"ssl.failedHandshakes", metric.DELTA},
+	"ssl.session_reuses":    {"ssl.sessionReuses", metric.DELTA},
+	"http.requests.total":   {"net.requestsPerSecond", metric.RATE},
+	"http.requests.current": {"net.requests", metric.GAUGE},
 }
 
 // expressions contains the structure of the input data and defines the attributes we want to store
@@ -119,7 +128,7 @@ func getPlusMetrics(reader *bufio.Reader) (map[string]interface{}, error) {
 		return nil, err
 	}
 
-	roots := [2]string{"connections", "requests"}
+	roots := [4]string{"connections", "requests", "ssl", "processes"}
 
 	for _, rootKey := range roots {
 		rootNode, ok := jsonMetrics[rootKey].(map[string]interface{})
@@ -200,7 +209,8 @@ func getMetricsData(sample *metric.Set) error {
 		}
 		return populateMetrics(sample, rawMetrics, metricsDefinition)
 	case httpAPIStatus:
-		for _, p := range strings.Split(args.Endpoints, ",") {
+		paths := []string{"/nginx", "/processes", "/connections", "/http/requests", "/ssl"}
+		for _, p := range paths {
 			resp, err := getStatus(p)
 			if err != nil {
 				log.Warn("Request to endpoint failed: %s", err)
@@ -238,10 +248,9 @@ func getHTTPAPIMetrics(path string, sample *metric.Set, reader *bufio.Reader) {
 
 	for k, v := range flat {
 		key := pathToPrefix(path) + k
-		if overrideKey, ok := metricsPlusAPIDefinition[key]; ok {
-			key = overrideKey
-		}
-		if err := sample.SetMetric(key, v, getAttributeType(v)); err != nil {
+		realKey, typ := getAttributeType(key, v)
+
+		if err := sample.SetMetric(realKey, v, typ); err != nil {
 			log.Error("Unable to set metric: %s", err)
 		}
 	}
@@ -264,20 +273,23 @@ func pathToPrefix(path string) (prefix string) {
 	return prefix
 }
 
-// The v4 API only has Gauges & Attributes, no Rates
-func getAttributeType(v interface{}) metric.SourceType {
-	switch v.(type) {
-	case string:
-		return metric.ATTRIBUTE
-	default:
-		return metric.GAUGE
+func getAttributeType(key string, v interface{}) (string, metric.SourceType) {
+	if md, ok := metricsPlusAPIDefinition[key]; ok {
+		return md[0].(string), md[1].(metric.SourceType)
 	}
 
+	// if nothing else matches infer type from the value
+	switch v.(type) {
+	case string:
+		return key, metric.ATTRIBUTE
+	default:
+		return key, metric.GAUGE
+	}
 }
 
 func httpClient() *http.Client {
 	netClient := http.Client{
-		Timeout: time.Second * 1,
+		Timeout: time.Second * 5,
 	}
 	if !args.ValidateCerts {
 		netClient.Transport = &http.Transport{

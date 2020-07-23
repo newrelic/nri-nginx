@@ -59,11 +59,9 @@ func main() {
 	}
 
 	if args.HasMetrics() {
-		hostname, port, err := parseStatusURL(args.StatusURL)
+		ms := metricSet(e, "NginxSample", args.RemoteMonitoring)
+		err = getMetricsData(ms)
 		fatalIfErr(err)
-
-		ms := metricSet(e, "NginxSample", hostname, port, args.RemoteMonitoring)
-		fatalIfErr(getMetricsData(ms))
 	}
 
 	fatalIfErr(i.Publish())
@@ -82,7 +80,9 @@ func entity(i *integration.Integration) (*integration.Entity, error) {
 	return i.LocalEntity(), nil
 }
 
-func metricSet(e *integration.Entity, eventType, hostname, port string, remote bool) *metric.Set {
+func metricSet(e *integration.Entity, eventType string, remote bool) *metric.Set {
+	hostname, port, err := parseStatusURL(args.StatusURL)
+	fatalIfErr(err)
 	if remote {
 		return e.NewMetricSet(
 			eventType,

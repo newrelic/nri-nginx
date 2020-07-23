@@ -3,7 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/newrelic/infra-integrations-sdk/data/metric"
+	"github.com/newrelic/infra-integrations-sdk/data/attribute"
 	"github.com/newrelic/infra-integrations-sdk/integration"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -178,9 +178,9 @@ func Test_getMetricsData(t *testing.T) {
 			expectErr: errors.New("Line 2 of status doesn't match"),
 		},
 		{
-			name:     "testNginxPlusStatus",
-			response: testNginxPlusStatus,
-			isPlus:   true,
+			name:                      "testNginxPlusStatus",
+			response:                  testNginxPlusStatus,
+			isPlus:                    true,
 			expectedConnectionsActive: 6,
 		},
 		{
@@ -208,8 +208,8 @@ func Test_getMetricsData(t *testing.T) {
 			require.NoError(t, err)
 			ms := e.NewMetricSet(
 				"test",
-				metric.Attr("hostname", uri.Hostname()),
-				metric.Attr("port", uri.Port()),
+				attribute.Attr("hostname", uri.Hostname()),
+				attribute.Attr("port", uri.Port()),
 			)
 			t.Log(ts.URL)
 			args.StatusURL = ts.URL
