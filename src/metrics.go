@@ -18,8 +18,8 @@ import (
 )
 
 var metricsStandardDefinition = map[string][]interface{}{
-	"nginx.edition":                    {"edition", metric.ATTRIBUTE},
-	"nginx.version":                    {"version", metric.ATTRIBUTE},
+	"software.edition":                 {"edition", metric.ATTRIBUTE},
+	"software.version":                 {"version", metric.ATTRIBUTE},
 	"net.connectionsActive":            {"active", metric.GAUGE},
 	"net.connectionsAcceptedPerSecond": {"accepted", metric.RATE},
 	"net.connectionsDroppedPerSecond":  {connectionsDropped, metric.RATE},
@@ -30,8 +30,8 @@ var metricsStandardDefinition = map[string][]interface{}{
 }
 
 var metricsPlusDefinition = map[string][]interface{}{
-	"nginx.edition":                    {"edition", metric.ATTRIBUTE},
-	"nginx.version":                    {"version", metric.ATTRIBUTE},
+	"software.edition":                 {"edition", metric.ATTRIBUTE},
+	"software.version":                 {"version", metric.ATTRIBUTE},
 	"net.connectionsActive":            {"connections.active", metric.GAUGE},
 	"net.connectionsIdle":              {"connections.idle", metric.GAUGE},
 	"net.connectionsAcceptedPerSecond": {"connections.accepted", metric.RATE},
@@ -44,7 +44,7 @@ var metricsPlusDefinition = map[string][]interface{}{
 }
 
 var metricsPlusAPIDefinition = map[string][]interface{}{
-	"nginx.version":         {"nginx.version", metric.ATTRIBUTE},
+	"software.version":      {"nginx.version", metric.ATTRIBUTE},
 	"connections.active":    {"net.connectionsActive", metric.GAUGE},
 	"connections.idle":      {"net.connectionsIdle", metric.GAUGE},
 	"connections.accepted":  {"net.connectionsAcceptedPerSecond", metric.RATE},
@@ -253,6 +253,9 @@ func getHTTPAPIMetrics(path string, sample *metric.Set, reader *bufio.Reader) {
 		if err := sample.SetMetric(realKey, v, typ); err != nil {
 			log.Error("Unable to set metric: %s", err)
 		}
+	}
+	if err := sample.SetMetric("software.edition", "plus", metric.ATTRIBUTE); err != nil {
+		log.Error("Unable to set metric: %s", err)
 	}
 }
 

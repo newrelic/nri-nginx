@@ -178,9 +178,9 @@ func Test_getMetricsData(t *testing.T) {
 			expectErr: errors.New("Line 2 of status doesn't match"),
 		},
 		{
-			name:                      "testNginxPlusStatus",
-			response:                  testNginxPlusStatus,
-			isPlus:                    true,
+			name:     "testNginxPlusStatus",
+			response: testNginxPlusStatus,
+			isPlus:   true,
 			expectedConnectionsActive: 6,
 		},
 		{
