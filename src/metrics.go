@@ -128,7 +128,7 @@ func getPlusMetrics(reader *bufio.Reader) (map[string]interface{}, error) {
 		return nil, err
 	}
 
-	roots := [4]string{"connections", "requests", "ssl", "processes"}
+	roots := []string{"connections", "requests", "ssl", "processes"}
 
 	for _, rootKey := range roots {
 		rootNode, ok := jsonMetrics[rootKey].(map[string]interface{})

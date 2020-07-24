@@ -22,7 +22,6 @@ type argumentList struct {
 	RemoteMonitoring  bool   `default:"false" help:"Identifies the monitored entity as 'remote'. In doubt: set to true."`
 	ConnectionTimeout int    `default:"1" help:"OHI connection to Nginx timeout in seconds"`
 	StatusModule      string `default:"discover" help:"Name of Nginx status module. discover | ngx_http_stub_status_module | ngx_http_status_module | ngx_http_api_module"`
-	Endpoints         string `default:"/nginx,/processes,/connections,/ssl,/slabs,/http,/http/requests,/http/server_zones,/http/caches,/http/upstreams,/http/keyvals,/stream,/stream/server_zones,/stream/upstreams,/stream/keyvals,/stream/zone_sync" help:"Comma separated list of ngx_http_api_module, NON PARAMETERIZED, Endpoints"`
 	ValidateCerts     bool   `default:"true" help:"If the status URL is HTTPS with a self-signed certificate, set this to false if you want to avoid certificate validation"`
 }
 
