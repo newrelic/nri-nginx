@@ -2,10 +2,12 @@ package main
 
 import (
 	"fmt"
+
 	"net/url"
 	"os"
 
 	sdk_args "github.com/newrelic/infra-integrations-sdk/args"
+	"github.com/newrelic/infra-integrations-sdk/data/attribute"
 	"github.com/newrelic/infra-integrations-sdk/data/metric"
 	"github.com/newrelic/infra-integrations-sdk/integration"
 	"github.com/newrelic/infra-integrations-sdk/log"
@@ -20,13 +22,12 @@ type argumentList struct {
 	RemoteMonitoring  bool   `default:"false" help:"Identifies the monitored entity as 'remote'. In doubt: set to true."`
 	ConnectionTimeout int    `default:"1" help:"OHI connection to Nginx timeout in seconds"`
 	StatusModule      string `default:"discover" help:"Name of Nginx status module. discover | ngx_http_stub_status_module | ngx_http_status_module | ngx_http_api_module"`
-	Endpoints         string `default:"/nginx,/processes,/connections,/ssl,/slabs,/http,/http/requests,/http/server_zones,/http/caches,/http/upstreams,/http/keyvals,/stream,/stream/server_zones,/stream/upstreams,/stream/keyvals,/stream/zone_sync" help:"Comma separated list of ngx_http_api_module, NON PARAMETERIZED, Endpoints"`
 	ValidateCerts     bool   `default:"true" help:"If the status URL is HTTPS with a self-signed certificate, set this to false if you want to avoid certificate validation"`
 }
 
 const (
 	integrationName    = "com.newrelic.nginx"
-	integrationVersion = "2.0.1"
+	integrationVersion = "3.0.0"
 
 	entityRemoteType = "server"
 
@@ -57,11 +58,9 @@ func main() {
 	}
 
 	if args.HasMetrics() {
-		hostname, port, err := parseStatusURL(args.StatusURL)
+		ms := metricSet(e, "NginxSample", args.RemoteMonitoring)
+		err = getMetricsData(ms)
 		fatalIfErr(err)
-
-		ms := metricSet(e, "NginxSample", hostname, port, args.RemoteMonitoring)
-		fatalIfErr(getMetricsData(ms))
 	}
 
 	fatalIfErr(i.Publish())
@@ -80,18 +79,20 @@ func entity(i *integration.Integration) (*integration.Entity, error) {
 	return i.LocalEntity(), nil
 }
 
-func metricSet(e *integration.Entity, eventType, hostname, port string, remote bool) *metric.Set {
+func metricSet(e *integration.Entity, eventType string, remote bool) *metric.Set {
+	hostname, port, err := parseStatusURL(args.StatusURL)
+	fatalIfErr(err)
 	if remote {
 		return e.NewMetricSet(
 			eventType,
-			metric.Attr("hostname", hostname),
-			metric.Attr("port", port),
+			attribute.Attr("hostname", hostname),
+			attribute.Attr("port", port),
 		)
 	}
 
 	return e.NewMetricSet(
 		eventType,
-		metric.Attr("port", port),
+		attribute.Attr("port", port),
 	)
 }
 

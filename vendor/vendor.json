@@ -21,54 +21,38 @@
 		{
 			"checksumSHA1": "ZfId5ZYn7jmL0xTxooHcxrLlXoA=",
 			"path": "github.com/newrelic/infra-integrations-sdk/args",
-			"revision": "1d56d083ff58c63604755586fe1a65036a064de7",
-			"revisionTime": "2019-04-25T14:09:40Z",
-			"version": "=v3.1.0",
-			"versionExact": "v3.1.0"
+			"revision": "a0a65355871ff1900df15b343853ee620da4bd16",
+			"revisionTime": "2020-04-24T12:34:47Z",
+			"version": "v3.6.4",
+			"versionExact": "v3.6.4"
 		},
 		{
-			"checksumSHA1": "KaZLSd/JUZz/mqfW3jFd1j2QdWA=",
+			"checksumSHA1": "g3YmAYfuMWFGW3ZoAxOatE9IZPY=",
 			"path": "github.com/newrelic/infra-integrations-sdk/data/event",
-			"revision": "1d56d083ff58c63604755586fe1a65036a064de7",
-			"revisionTime": "2019-04-25T14:09:40Z",
-			"version": "=v3.1.0",
-			"versionExact": "v3.1.0"
+			"revision": "a0a65355871ff1900df15b343853ee620da4bd16",
+			"revisionTime": "2020-04-24T12:34:47Z",
+			"version": "v3.6.4",
+			"versionExact": "v3.6.4"
 		},
 		{
 			"checksumSHA1": "EOoxXGqFDPkCvj7wec2S5kCXY2I=",
 			"path": "github.com/newrelic/infra-integrations-sdk/data/inventory",
-			"revision": "1d56d083ff58c63604755586fe1a65036a064de7",
-			"revisionTime": "2019-04-25T14:09:40Z",
-			"version": "=v3.1.0",
-			"versionExact": "v3.1.0"
+			"revision": "a0a65355871ff1900df15b343853ee620da4bd16",
+			"revisionTime": "2020-04-24T12:34:47Z",
+			"version": "v3.6.4",
+			"versionExact": "v3.6.4"
 		},
 		{
-			"checksumSHA1": "B7mdbYyNHbBY4/x65J4zvUXn0Wk=",
+			"checksumSHA1": "0c+7FpKvJY1fop09wCVo3ZfsRAU=",
 			"path": "github.com/newrelic/infra-integrations-sdk/data/metric",
-			"revision": "1d56d083ff58c63604755586fe1a65036a064de7",
-			"revisionTime": "2019-04-25T14:09:40Z",
-			"version": "=v3.1.0",
-			"versionExact": "v3.1.0"
-		},
-		{
-			"checksumSHA1": "DdUizp/J5c7mAFZg2hoz4rRPOYM=",
-			"path": "github.com/newrelic/infra-integrations-sdk/integration",
-			"revision": "1d56d083ff58c63604755586fe1a65036a064de7",
-			"revisionTime": "2019-04-25T14:09:40Z",
-			"version": "=v3.1.0",
-			"versionExact": "v3.1.0"
+			"revision": "a0a65355871ff1900df15b343853ee620da4bd16",
+			"revisionTime": "2020-04-24T12:34:47Z",
+			"version": "v3.6.4",
+			"versionExact": "v3.6.4"
 		},
 		{
 			"checksumSHA1": "6/DhD+/LhC/k3NaLgkpd6iE8b5E=",
 			"path": "github.com/newrelic/infra-integrations-sdk/log",
-			"revision": "1d56d083ff58c63604755586fe1a65036a064de7",
-			"revisionTime": "2019-04-25T14:09:40Z",
-			"version": "=v3.1.0",
-			"versionExact": "v3.1.0"
-		},
-		{
-			"checksumSHA1": "BsHp62Etporko0d+4GpVxrP2qtw=",
-			"path": "github.com/newrelic/infra-integrations-sdk/persist",
 			"revision": "1d56d083ff58c63604755586fe1a65036a064de7",
 			"revisionTime": "2019-04-25T14:09:40Z",
 			"version": "=v3.1.0",
