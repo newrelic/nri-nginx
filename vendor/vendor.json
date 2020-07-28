@@ -27,6 +27,14 @@
 			"versionExact": "v3.6.4"
 		},
 		{
+			"checksumSHA1": "31zRckJsW2ysGejUOfODuQJfWlo=",
+			"path": "github.com/newrelic/infra-integrations-sdk/data/attribute",
+			"revision": "a0a65355871ff1900df15b343853ee620da4bd16",
+			"revisionTime": "2020-04-24T12:34:47Z",
+			"version": "v3.6.4",
+			"versionExact": "v3.6.4"
+		},
+		{
 			"checksumSHA1": "g3YmAYfuMWFGW3ZoAxOatE9IZPY=",
 			"path": "github.com/newrelic/infra-integrations-sdk/data/event",
 			"revision": "a0a65355871ff1900df15b343853ee620da4bd16",
@@ -51,12 +59,28 @@
 			"versionExact": "v3.6.4"
 		},
 		{
+			"checksumSHA1": "Ri3ma4J1Ta97oPBA8baxWgRLGqA=",
+			"path": "github.com/newrelic/infra-integrations-sdk/integration",
+			"revision": "a0a65355871ff1900df15b343853ee620da4bd16",
+			"revisionTime": "2020-04-24T12:34:47Z",
+			"version": "v3.6.4",
+			"versionExact": "v3.6.4"
+		},
+		{
 			"checksumSHA1": "6/DhD+/LhC/k3NaLgkpd6iE8b5E=",
 			"path": "github.com/newrelic/infra-integrations-sdk/log",
 			"revision": "1d56d083ff58c63604755586fe1a65036a064de7",
 			"revisionTime": "2019-04-25T14:09:40Z",
-			"version": "=v3.1.0",
-			"versionExact": "v3.1.0"
+			"version": "v3.6.4",
+			"versionExact": "v3.6.4"
+		},
+		{
+			"checksumSHA1": "BsHp62Etporko0d+4GpVxrP2qtw=",
+			"path": "github.com/newrelic/infra-integrations-sdk/persist",
+			"revision": "a0a65355871ff1900df15b343853ee620da4bd16",
+			"revisionTime": "2020-04-24T12:34:47Z",
+			"version": "v3.6.4",
+			"versionExact": "v3.6.4"
 		},
 		{
 			"checksumSHA1": "0H/VjT8w1CB702qWpbYMqr65Mf0=",
