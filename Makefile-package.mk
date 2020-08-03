@@ -22,7 +22,7 @@ package: create-bins prep-pkg-env $(PACKAGE_TYPES)
 
 create-bins:
 	echo "=== Main === [ create-bins ]: creating binary ..."
-	go build -v -ldflags '-X main.buildVersion=$(VERSION)' -o $(BINS_DIR)/$(BINARY_NAME) $(GO_FILES) || exit 1
+	go build -v -ldflags '-X main.integrationVersion=$(VERSION)' -o $(BINS_DIR)/$(BINARY_NAME) $(GO_FILES) || exit 1
 	@echo ""
 
 prep-pkg-env:

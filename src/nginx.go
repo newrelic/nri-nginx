@@ -26,8 +26,7 @@ type argumentList struct {
 }
 
 const (
-	integrationName    = "com.newrelic.nginx"
-	integrationVersion = "3.0.0"
+	integrationName = "com.newrelic.nginx"
 
 	entityRemoteType = "server"
 
@@ -44,6 +43,8 @@ const (
 
 var (
 	args argumentList
+	// this variable is filled using ldflag at building.
+	integrationVersion = "0.0.0"
 )
 
 func main() {

@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.0.1 (2020-08-03)
+## Fixed
+- Updated the configuration sample to exclude endpoints.
+- Take integrationVersion var from the ldflags
+
+## 3.0.0 (2020-07-29)
+## Fixed
+- Fixed metric types for NGINx Plus metrics.
+### Changed
+- Removed support for dynamic endpoint metrics. This will be addressed in a future release.
+
 ## 2.0.1 (2020-06-12)
 ## Fixed
 - Updated the configuration sample to include the status_url for inventory required
