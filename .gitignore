@@ -39,3 +39,4 @@ go.sum
 Session.vim
 
 .idea
+.vscode
