@@ -1,0 +1,116 @@
+before:
+  hooks:
+  # You may remove this if you don't use go modules.
+  #- go mod download
+  # you may remove this if you don't need go generate
+  #- go generate ./...
+  #- make validate
+
+builds:
+  - id: nri-nginx-nix
+    main: ./src
+    binary: nri-nginx
+    gobinary: "go1.9.7"
+    ldflags:
+      - -s -w -X main.integrationVersion={{.Version}} -X main.gitCommit={{.Commit}}
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - 386
+      - amd64
+      - arm
+      - arm64
+    ignore:
+      - goos: darwin
+        goarch: 386
+
+  - id: nri-nginx-win
+    main: ./src
+    binary: nri-nginx
+    gobinary: "go1.9.7"
+    ldflags:
+      - -s -w -X main.integrationVersion={{.Version}} -X main.gitCommit={{.Commit}}
+    goos:
+      - windows
+    goarch:
+      - 386
+      - amd64
+    hooks:
+      pre: build/windows/set_exe_properties.sh {{ .Env.TAG }} "nginx"
+
+nfpms:
+  - id: nri-nginx-deb
+    builds:
+      - nri-nginx-nix
+    file_name_template: "{{ .ProjectName }}_{{ .Version }}-1_{{ .Arch }}"
+    vendor: "New Relic, Inc."
+    homepage: "https://www.newrelic.com/infrastructure"
+    maintainer: "New Relic Infrastructure Team <infrastructure-eng@newrelic.com>"
+    description: "New Relic Infrastructure nginx Integration extend the core New Relic\nInfrastructure agent's capabilities to allow you to collect metric and\nlive state data from nginx components."
+    license: "https://newrelic.com/terms (also see LICENSE installed with this package)"
+    # Formats to be generated.
+    formats:
+      - deb
+    bindir: "/var/db/newrelic-infra/newrelic-integrations/bin"
+    files:
+      "nginx-config.yml.sample": "/etc/newrelic-infra/integrations.d/nginx-config.yml.sample"
+      "CHANGELOG.md": "/usr/share/doc/nri-nginx/CHANGELOG.md"
+      "README.md":  "/usr/share/doc/nri-nginx/README.md"
+      "LICENSE": "/usr/share/doc/nri-nginx/LICENSE"
+    config_files:
+      "nginx-definition.yml": "/var/db/newrelic-infra/newrelic-integrations/nginx-definition.yml"
+    dependencies:
+      - "newrelic-infra"
+
+  - id: nri-nginx-rpm
+    builds:
+      - nri-nginx-nix
+    file_name_template: "{{ .ProjectName }}-{{ .Version }}-{{ .Arch }}"
+    vendor: "New Relic, Inc."
+    homepage: "https://www.newrelic.com/infrastructure"
+    maintainer: "New Relic Infrastructure Team <infrastructure-eng@newrelic.com>"
+    description: "New Relic Infrastructure nginx Integration extend the core New Relic\nInfrastructure agent's capabilities to allow you to collect metric and\nlive state data from nginx components."
+    license: "https://newrelic.com/terms (also see LICENSE installed with this package)"
+    # Formats to be generated.
+    formats:
+      - rpm
+    bindir: "/var/db/newrelic-infra/newrelic-integrations/bin"
+    files:
+      "nginx-config.yml.sample": "/etc/newrelic-infra/integrations.d/nginx-config.yml.sample"
+      "CHANGELOG.md": "/usr/share/doc/nri-nginx/CHANGELOG.md"
+      "README.md":  "/usr/share/doc/nri-nginx/README.md"
+      "LICENSE": "/usr/share/doc/nri-nginx/LICENSE"
+    config_files:
+      "nginx-definition.yml": "/var/db/newrelic-infra/newrelic-integrations/nginx-definition.yml"
+    dependencies:
+      - "newrelic-infra"
+    overrides:
+      rpm:
+        replacements:
+          amd64: 1.x86_64
+
+archives:
+  - id: nri-nginx-nix
+    builds:
+      - nri-nginx-nix
+    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Version }}_{{ .Arch }}_dirty"
+    files:
+      - nginx-config.yml.sample
+      - nginx-definition.yml
+      # installation scripts?
+    format: tar.gz
+
+  - id: nri-nginx-win
+    builds:
+      - nri-nginx-win
+    name_template: "{{ .ProjectName }}-{{ .Arch }}.{{ .Version }}_dirty"
+    files:
+      - nginx-win-config.yml.sample
+      - nginx-win-definition.yml
+      # installation scripts?
+    format: zip
+
+# we use custom publisher for fixing archives and signing them
+release:
+  disable: true

@@ -40,3 +40,13 @@ Session.vim
 
 .idea
 .vscode
+
+# Local development tools/files
+.idea
+.env
+.envrc
+*.gpg
+
+# build files
+src/versioninfo.json
+src/resource.syso

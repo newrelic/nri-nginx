@@ -1,0 +1,18 @@
+name: com.newrelic.nginx
+description: Reports status and metrics for nginx service
+protocol_version: 3
+os: windows
+
+commands:
+  metrics:
+    command:
+      - ./bin/nri-nginx
+      - --metrics
+    interval: 15
+
+  inventory:
+    command:
+      - ./bin/nri-nginx
+      - --inventory
+    prefix: config/nginx
+    interval: 60

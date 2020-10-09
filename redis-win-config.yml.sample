@@ -1,0 +1,45 @@
+integration_name: com.newrelic.nginx
+
+instances:
+  - name: nginx-metrics
+    command: metrics
+    arguments:
+      hostname: localhost
+      port: 6379
+      keys: '{"0":["<KEY_1>"],"1":["<KEY_2>"]}'
+
+      # New users should leave this property as `true`, to identify the
+      # monitored entities as `remote`. Setting this property to `false` (the
+      # default value) is deprecated and will be removed soon, disallowing
+      # entities that are identified as `local`.
+      # Please check the documentation to get more information about local
+      # versus remote entities:
+      # https://github.com/newrelic/infra-integrations-sdk/blob/master/docs/entity-definition.md
+      remote_monitoring: true
+
+      # New users should leave this property as `true`, to uniquely identify the monitored entities when using
+      # Unix sockets.
+      use_unix_socket: true
+    labels:
+      environment: production
+
+  - name: nginx-inventory
+    command: inventory
+    arguments:
+      hostname: localhost
+      port: 6379
+
+      # New users should leave this property as `true`, to identify the
+      # monitored entities as `remote`. Setting this property to `false` (the
+      # default value) is deprecated and will be removed soon, disallowing
+      # entities that are identified as `local`.
+      # Please check the documentation to get more information about local
+      # versus remote entities:
+      # https://github.com/newrelic/infra-integrations-sdk/blob/master/docs/entity-definition.md
+      remote_monitoring: true
+
+      # New users should leave this property as `true`, to uniquely identify the monitored entities when using
+      # Unix sockets.
+      use_unix_socket: true
+    labels:
+      environment: production
