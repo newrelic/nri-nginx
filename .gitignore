@@ -50,3 +50,8 @@ Session.vim
 # build files
 src/versioninfo.json
 src/resource.syso
+
+# CICD
+dist/
+bin/
+*.gpg
