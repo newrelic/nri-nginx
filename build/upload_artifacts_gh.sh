@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 #
-# Upload dist packages to GH Release assets
+# Upload dist artifacts to GH Release assets
 #
 #
 cd dist

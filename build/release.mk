@@ -6,11 +6,11 @@ bin:
 	@mkdir -p $(BUILD_DIR)
 
 $(GORELEASER_BIN): bin
-	@echo "=== $(INTEGRATION) === [$(GORELEASER_BIN)] Installing goreleaser $(GORELEASER_VERSION)"
+	@echo "===> $(INTEGRATION) === [$(GORELEASER_BIN)] Installing goreleaser $(GORELEASER_VERSION)"
 	@(wget -qO /tmp/goreleaser.tar.gz https://github.com/goreleaser/goreleaser/releases/download/$(GORELEASER_VERSION)/goreleaser_$(OS_DOWNLOAD)_x86_64.tar.gz)
 	@(tar -xf  /tmp/goreleaser.tar.gz -C bin/)
 	@(rm -f /tmp/goreleaser.tar.gz)
-	@echo "=== $(INTEGRATION) === [$(GORELEASER_BIN)] goreleaser downloaded"
+	@echo "===> $(INTEGRATION) === [$(GORELEASER_BIN)] goreleaser downloaded"
 
 .PHONY : release/clean
 release/clean:

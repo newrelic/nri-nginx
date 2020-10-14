@@ -8,7 +8,6 @@ param (
     [ValidateSet("amd64", "386")]
     [string]$arch="amd64",
     [string]$tag="v0.0.0",
-    [string]$pfx_certificate_base64="none",
     [string]$pfx_passphrase="none",
     [string]$pfx_certificate_description="none"
 )

@@ -33,12 +33,17 @@ ci/test: ci/deps
 
 .PHONY : ci/build
 ci/build: ci/deps
+ifdef TAG
 	@docker run --rm -t \
 			-v $(CURDIR):/go/src/github.com/newrelic/nri-$(INTEGRATION) \
 			-w /go/src/github.com/newrelic/nri-$(INTEGRATION) \
 			-e INTEGRATION=$(INTEGRATION) \
 			-e TAG \
 			$(BUILDER_TAG) make release/build
+else
+	@echo "===> $(INTEGRATION) ===  [ci/build] TAG env variable expected to be set"
+	exit 1
+endif
 
 .PHONY : ci/prerelease
 ci/prerelease: ci/deps
@@ -55,5 +60,6 @@ ifdef TAG
 			-e GPG_PRIVATE_KEY_BASE64 \
 			$(BUILDER_TAG) make release
 else
-	@echo "TAG env variable expected to be set"
+	@echo "===> $(INTEGRATION) ===  [ci/prerelease] TAG env variable expected to be set"
+	exit 1
 endif

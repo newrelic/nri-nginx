@@ -15,8 +15,6 @@ for zip_dirty in $(find dist -regex ".*_dirty\.\(zip\)");do
 
   mkdir -p "${ZIP_CONTENT_PATH}"
 
-  ls -la "${zip_dirty}"
-
   AGENT_DIR_IN_ZIP_PATH="${ZIP_CONTENT_PATH}/New Relic/newrelic-infra/newrelic-integrations/"
   CONF_IN_ZIP_PATH="${ZIP_CONTENT_PATH}/New Relic/newrelic-infra/integrations.d/"
 
