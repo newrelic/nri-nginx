@@ -1,9 +1,0 @@
-language: go
-
-go:
-- "1.9"
-
-services:
-- docker
-
-script: make clean validate test integration-test
