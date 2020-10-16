@@ -89,10 +89,6 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/golang@master
-        env:
-          SNYK_TOKEN: ${{env.SNYK_TOKEN}}
-        with:
-          args: --severity-threshold=high
+      - name: Scan code for vulnerabilities
+        run: make ci/snyk-test
 

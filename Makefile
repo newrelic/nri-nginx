@@ -82,6 +82,10 @@ integration-test: test-deps
 	@go test -v -tags=integration ./tests/integration/. || (ret=$$?; docker-compose -f tests/integration/docker-compose.yml down && exit $$ret)
 	@docker-compose -f tests/integration/docker-compose.yml down
 
+snyk-test:
+	@snyk auth $(SNYK_TOKEN)
+	@snyk test --severity-threshold=high
+
 install: bin/$(BINARY_NAME)
 	@echo "=== $(INTEGRATION) === [ install ]: installing bin/$(BINARY_NAME)..."
 	@sudo install -D --mode=755 --owner=root --strip $(ROOT)bin/$(BINARY_NAME) $(INTEGRATIONS_DIR)/bin/$(BINARY_NAME)
@@ -92,4 +96,4 @@ install: bin/$(BINARY_NAME)
 include $(CURDIR)/build/ci.mk
 include $(CURDIR)/build/release.mk
 
-.PHONY: all build clean validate-deps validate-only validate compile-deps compile test-deps test-only test integration-test install
+.PHONY: all build clean validate-deps validate-only validate compile-deps compile test-deps test-only test integration-test install snyk-test
