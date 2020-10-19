@@ -11,7 +11,3 @@ RUN apt-get update \
         zip \
     && go get golang.org/dl/go1.9.7 \
     && /go/bin/go1.9.7 download
-
-# install Snyk
-RUN apt install -y nodejs npm
-RUN npm install -g snyk
