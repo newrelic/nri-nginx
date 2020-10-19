@@ -1,13 +1,8 @@
 BUILDER_TAG ?= nri-$(INTEGRATION)-builder
-SNYK_TAG ?= snyk-cli
 
 .PHONY : ci/deps
 ci/deps:
 	@docker build -t $(BUILDER_TAG) -f $(CURDIR)/build/Dockerfile $(CURDIR)
-
-.PHONY : ci/deps-snyk
-ci/deps-snyk:
-	@docker build -t $(SNYK_TAG) -f $(CURDIR)/build/snyk.Dockerfile $(CURDIR)
 
 .PHONY : ci/debug-container
 ci/debug-container: ci/deps
@@ -37,13 +32,13 @@ ci/test: ci/deps
 			$(BUILDER_TAG) make test
 
 .PHONY : ci/snyk-test
-ci/snyk-test: ci/deps-snyk
+ci/snyk-test:
 	@docker run --rm -t \
 			--name "nri-$(INTEGRATION)-snyk-test" \
 			-v $(CURDIR):/go/src/github.com/newrelic/nri-$(INTEGRATION) \
 			-w /go/src/github.com/newrelic/nri-$(INTEGRATION) \
 			-e SNYK_TOKEN \
-			$(SNYK_TAG) make snyk-test
+			snyk/snyk:golang snyk test --severity-threshold=high
 
 .PHONY : ci/build
 ci/build: ci/deps
