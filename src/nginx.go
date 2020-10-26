@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"runtime"
+	"strings"
 
 	"net/url"
 	"os"
@@ -23,6 +25,7 @@ type argumentList struct {
 	ConnectionTimeout int    `default:"1" help:"OHI connection to Nginx timeout in seconds"`
 	StatusModule      string `default:"discover" help:"Name of Nginx status module. discover | ngx_http_stub_status_module | ngx_http_status_module | ngx_http_api_module"`
 	ValidateCerts     bool   `default:"true" help:"If the status URL is HTTPS with a self-signed certificate, set this to false if you want to avoid certificate validation"`
+	ShowVersion       bool   `default:"false" help:"Print build information and exit"`
 }
 
 const (
@@ -42,14 +45,27 @@ const (
 )
 
 var (
-	args argumentList
-	// this variable is filled using ldflag at building.
+	args               argumentList
 	integrationVersion = "0.0.0"
+	gitCommit          = ""
+	buildDate          = ""
 )
 
 func main() {
 	i, err := createIntegration()
 	fatalIfErr(err)
+
+	if args.ShowVersion {
+		fmt.Printf(
+			"New Relic %s integration Version: %s, Platform: %s, GoVersion: %s, GitCommit: %s, BuildDate: %s\n",
+			strings.Title(strings.Replace(integrationName, "com.newrelic.", "", 1)),
+			integrationVersion,
+			fmt.Sprintf("%s/%s", runtime.GOOS, runtime.GOARCH),
+			runtime.Version(),
+			gitCommit,
+			buildDate)
+		os.Exit(0)
+	}
 
 	e, err := entity(i)
 	fatalIfErr(err)
