@@ -133,7 +133,7 @@ jobs:
         if: ${{ failure() }}
         uses: archive/github-actions-slack@master
         with:
-          slack-bot-user-oauth-access-token: ${{ secrets.SLACK_TOKEN }}
+          slack-bot-user-oauth-access-token: ${{ env.SLACK_TOKEN }}
           slack-channel: ${{ env.SLACK_CHANNEL }}
           slack-text: ":shit: Repo: ${{ env.REPO_FULL_NAME }}, prerelease for nix FAILURE!"
 
@@ -173,6 +173,6 @@ jobs:
         if: ${{ failure() }}
         uses: archive/github-actions-slack@master
         with:
-          slack-bot-user-oauth-access-token: ${{ secrets.SLACK_TOKEN }}
+          slack-bot-user-oauth-access-token: ${{ env.SLACK_TOKEN }}
           slack-channel: ${{ env.SLACK_CHANNEL }}
           slack-text: ":shit: Repo: ${{ env.REPO_FULL_NAME }}, prerelease for Windows FAILURE!"
