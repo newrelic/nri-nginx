@@ -13,8 +13,8 @@ env:
   ORIGINAL_REPO_NAME: "newrelic/nri-nginx"
   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
   GO_VERSION: '1.9.7'
-  DOCKER_HUB_ID: ${{ secrets.DOCKER_HUB_ID }}
-  DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+  DOCKER_HUB_ID: ${{ secrets.OHAI_DOCKER_HUB_ID }}
+  DOCKER_HUB_PASSWORD: ${{ secrets.OHAI_DOCKER_HUB_PASSWORD }}
 
 jobs:
 
