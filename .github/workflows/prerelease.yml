@@ -23,6 +23,8 @@ env:
   SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
   TAG: ${{ github.event.release.tag_name }}
+  DOCKER_HUB_ID: ${{ secrets.DOCKER_HUB_ID }}
+  DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
 jobs:
 
@@ -31,6 +33,11 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ env.DOCKER_HUB_ID }}
+          password: ${{ env.DOCKER_HUB_PASSWORD }}
       - name: Validate code
         run: make ci/validate
 
@@ -39,6 +46,11 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ env.DOCKER_HUB_ID }}
+          password: ${{ env.DOCKER_HUB_PASSWORD }}
       - name: Scan code for vulnerabilities
         run: make ci/snyk-test
 
@@ -47,6 +59,11 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ env.DOCKER_HUB_ID }}
+          password: ${{ env.DOCKER_HUB_PASSWORD }}
       - name: Unit tests
         run: make ci/test
 
@@ -89,6 +106,11 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: ${{env.GO_VERSION}}
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ env.DOCKER_HUB_ID }}
+          password: ${{ env.DOCKER_HUB_PASSWORD }}
       - name: Integration test
         env:
           GOPATH: ${{ github.workspace }}
@@ -100,6 +122,11 @@ jobs:
     needs: [validate, test-nix, test-windows, snyk, test-integration-nix]
     steps:
       - uses: actions/checkout@v2
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ env.DOCKER_HUB_ID }}
+          password: ${{ env.DOCKER_HUB_PASSWORD }}
       - name: Pre release
         run: make ci/prerelease
       - name: Notify failure via Slack
