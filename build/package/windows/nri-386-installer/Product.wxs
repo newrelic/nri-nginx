@@ -90,8 +90,8 @@
             <Component Id="CMP_NRI_$(var.IntegrationName)_CONFIG_YML" Guid="7cb741a2-aff9-4a92-bf2f-9ce3fe9eb597" Win64="no"
                        NeverOverwrite="yes" Permanent="yes">
                 <File Id="FILE_NRI_$(var.IntegrationName)_CONFIG_YML"
-                      Name="$(var.IntegrationName)-win-config.yml.sample"
-                      Source="$(var.BinariesPath)New Relic\newrelic-infra\integrations.d\$(var.IntegrationName)-win-config.yml.sample"
+                      Name="$(var.IntegrationName)-config.yml.sample"
+                      Source="$(var.BinariesPath)New Relic\newrelic-infra\integrations.d\$(var.IntegrationName)-config.yml.sample"
                       KeyPath="yes"/>
             </Component>
         </ComponentGroup>

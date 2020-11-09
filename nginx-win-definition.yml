@@ -1,18 +1,18 @@
 name: com.newrelic.nginx
 description: Reports status and metrics for NGINX server
 protocol_version: 3
-os: linux
+os: windows
 
 commands:
   metrics:
     command:
-      - ./bin/nri-nginx
+      - .\bin\nri-nginx.exe
       - -metrics
     interval: 30
 
   inventory:
     command:
-      - ./bin/nri-nginx
+      - .\bin\nri-nginx.exe
       - -inventory
     prefix: config/nginx
     interval: 60
