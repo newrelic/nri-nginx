@@ -97,7 +97,7 @@ archives:
       - nri-win
     name_template: "{{ .ProjectName }}-{{ .Arch }}.{{ .Version }}_dirty"
     files:
-      - nginx-win-config.yml.sample
+      - nginx-config.yml.sample
       - nginx-win-definition.yml
     format: zip
 
