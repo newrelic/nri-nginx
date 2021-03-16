@@ -50,3 +50,10 @@ jobs:
           # used for signing package stuff
           gpg_passphrase: ${{ secrets.OHAI_GPG_PASSPHRASE }}
           gpg_private_key_base64: ${{ secrets.OHAI_GPG_PRIVATE_KEY_BASE64 }}
+      - name: Test package from prod repo
+        uses: newrelic/integrations-pkg-test-action/linux@v1
+        with:
+          tag: ${{ env.TAG }}
+          integration: 'nri-${{ env.INTEGRATION }}' # Required, with nri- prefix
+          packageLocation: repo
+          upgrade: false
