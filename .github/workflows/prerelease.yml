@@ -226,3 +226,4 @@ jobs:
           integration: nri-${{ env.INTEGRATION }}
           packageLocation: repo
           stagingRepo: true
+          upgrade: false
