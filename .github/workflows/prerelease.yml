@@ -130,7 +130,6 @@ jobs:
         with:
           tag: ${{ env.TAG }}
           integration: nri-${{ env.INTEGRATION }}
-          postInstall: /var/db/newrelic-infra/newrelic-integrations/bin/nri-${{ env.INTEGRATION }} -show_version 2>&1
 
   package-win:
     name: Create MSI & Upload into GH Release assets
