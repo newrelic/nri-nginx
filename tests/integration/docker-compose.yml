@@ -18,3 +18,5 @@ services:
       dockerfile: tests/integration/Dockerfile
     volumes:
     - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    dns:
+      - 8.8.8.8
