@@ -1,6 +1,6 @@
-FROM golang:1.15.2-buster
+FROM golang:1.16-buster
 
-ARG GH_VERSION='1.1.0'
+ARG GH_VERSION='1.6.0'
 
 RUN apt-get update \
     && apt-get -y install \

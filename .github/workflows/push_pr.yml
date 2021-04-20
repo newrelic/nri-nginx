@@ -11,7 +11,7 @@ env:
   TAG: "v0.0.0" # needed for goreleaser windows builds
   REPO_FULL_NAME: ${{ github.event.repository.full_name }}
   ORIGINAL_REPO_NAME: "newrelic/nri-nginx"
-  GO_VERSION: '1.9.7'
+  GO_VERSION: '1.16'
   DOCKER_LOGIN_AVAILABLE: ${{ secrets.OHAI_DOCKER_HUB_ID }}
 
 jobs:
@@ -29,6 +29,13 @@ jobs:
           password: ${{ secrets.OHAI_DOCKER_HUB_PASSWORD }}
       - name: Validate code
         run: make ci/validate
+
+  golangci-lint:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v2
 
   snyk:
     name: Run security checks via snyk

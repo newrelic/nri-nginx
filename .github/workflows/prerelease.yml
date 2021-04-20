@@ -9,7 +9,7 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  GO_VERSION: '1.9.7'
+  GO_VERSION: '1.16'
   INTEGRATION: "nginx"
   ORIGINAL_REPO_NAME: ${{ github.event.repository.full_name }}
   REPO_FULL_NAME: ${{ github.event.repository.full_name }}
