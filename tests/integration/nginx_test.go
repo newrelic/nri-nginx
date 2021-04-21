@@ -68,8 +68,7 @@ func TestMain(m *testing.M) {
 }
 
 func TestNGINXIntegration(t *testing.T) {
-	testName := helpers.GetTestName(t)
-	stdout, stderr, err := runIntegration(t, fmt.Sprintf("NRIA_CACHE_PATH=/tmp/%v.json", testName))
+	stdout, stderr, err := runIntegration(t, fmt.Sprintf("NRIA_CACHE_PATH=/tmp/%v.json", t.Name()))
 
 	assert.NotNil(t, stderr, "unexpected stderr")
 	assert.NoError(t, err, "Unexpected error")
@@ -81,8 +80,7 @@ func TestNGINXIntegration(t *testing.T) {
 }
 
 func TestNGINXIntegrationOnlyMetrics(t *testing.T) {
-	testName := helpers.GetTestName(t)
-	stdout, stderr, err := runIntegration(t, "METRICS=true", fmt.Sprintf("NRIA_CACHE_PATH=/tmp/%v.json", testName))
+	stdout, stderr, err := runIntegration(t, "METRICS=true", fmt.Sprintf("NRIA_CACHE_PATH=/tmp/%v.json", t.Name()))
 
 	assert.NotNil(t, stderr, "unexpected stderr")
 	assert.NoError(t, err, "Unexpected error")
@@ -94,8 +92,7 @@ func TestNGINXIntegrationOnlyMetrics(t *testing.T) {
 }
 
 func TestNGINXIntegrationOnlyInventory(t *testing.T) {
-	testName := helpers.GetTestName(t)
-	stdout, stderr, err := runIntegration(t, "INVENTORY=true", fmt.Sprintf("NRIA_CACHE_PATH=/tmp/%v.json", testName))
+	stdout, stderr, err := runIntegration(t, "INVENTORY=true", fmt.Sprintf("NRIA_CACHE_PATH=/tmp/%v.json", t.Name()))
 
 	assert.NotNil(t, stderr, "unexpected stderr")
 	assert.NoError(t, err, "Unexpected error")
@@ -107,9 +104,7 @@ func TestNGINXIntegrationOnlyInventory(t *testing.T) {
 }
 
 func TestNGINXIntegrationInvalidStatusURL(t *testing.T) {
-	testName := helpers.GetTestName(t)
-
-	stdout, stderr, err := runIntegration(t, "STATUS_URL=http://localhost/", fmt.Sprintf("NRIA_CACHE_PATH=%v", testName), "VERBOSE=true")
+	stdout, stderr, err := runIntegration(t, "STATUS_URL=http://localhost/", fmt.Sprintf("NRIA_CACHE_PATH=%v", t.Name()), "VERBOSE=true")
 
 	expectedErrorMessage := "connection refused"
 
@@ -121,9 +116,7 @@ func TestNGINXIntegrationInvalidStatusURL(t *testing.T) {
 }
 
 func TestNGINXIntegrationInvalidStatusURL_NoExistingHost(t *testing.T) {
-	testName := helpers.GetTestName(t)
-
-	stdout, stderr, err := runIntegration(t, "STATUS_URL=http://nonExistingHost/status", fmt.Sprintf("NRIA_CACHE_PATH=%v", testName))
+	stdout, stderr, err := runIntegration(t, "STATUS_URL=http://nonExistingHost/status", fmt.Sprintf("NRIA_CACHE_PATH=%v", t.Name()))
 
 	expectedErrorMessage := "no such host"
 
@@ -135,9 +128,7 @@ func TestNGINXIntegrationInvalidStatusURL_NoExistingHost(t *testing.T) {
 }
 
 func TestNGINXIntegrationNotValidURL_NoHttp(t *testing.T) {
-	testName := helpers.GetTestName(t)
-
-	stdout, stderr, err := runIntegration(t, "STATUS_URL=localhost/status", fmt.Sprintf("NRIA_CACHE_PATH=/tmp/%v.json", testName))
+	stdout, stderr, err := runIntegration(t, "STATUS_URL=localhost/status", fmt.Sprintf("NRIA_CACHE_PATH=/tmp/%v.json", t.Name()))
 
 	expectedErrorMessage := "unsupported protocol scheme"
 
@@ -149,9 +140,7 @@ func TestNGINXIntegrationNotValidURL_NoHttp(t *testing.T) {
 }
 
 func TestNGINXIntegrationNotValidURL_OnlyHttp(t *testing.T) {
-	testName := helpers.GetTestName(t)
-
-	stdout, stderr, err := runIntegration(t, "STATUS_URL=http://", fmt.Sprintf("NRIA_CACHE_PATH=/tmp/%v.json", testName))
+	stdout, stderr, err := runIntegration(t, "STATUS_URL=http://", fmt.Sprintf("NRIA_CACHE_PATH=/tmp/%v.json", t.Name()))
 
 	expectedErrorMessage := "no Host in request URL"
 
@@ -163,9 +152,7 @@ func TestNGINXIntegrationNotValidURL_OnlyHttp(t *testing.T) {
 }
 
 func TestNGINXIntegrationNotValidConfigPath_ExistingDirectory(t *testing.T) {
-	testName := helpers.GetTestName(t)
-
-	stdout, stderr, err := runIntegration(t, "CONFIG_PATH=/etc/nginx/", fmt.Sprintf("NRIA_CACHE_PATH=/tmp/%v.json", testName))
+	stdout, stderr, err := runIntegration(t, "CONFIG_PATH=/etc/nginx/", fmt.Sprintf("NRIA_CACHE_PATH=/tmp/%v.json", t.Name()))
 
 	expectedErrorMessage := ": is a directory"
 
@@ -177,9 +164,7 @@ func TestNGINXIntegrationNotValidConfigPath_ExistingDirectory(t *testing.T) {
 }
 
 func TestNGINXIntegrationNotValidConfigPath_NonExistingFile(t *testing.T) {
-	testName := helpers.GetTestName(t)
-
-	stdout, stderr, err := runIntegration(t, "CONFIG_PATH=/nonExisting/nginx.conf", fmt.Sprintf("NRIA_CACHE_PATH=/tmp/%v.json", testName))
+	stdout, stderr, err := runIntegration(t, "CONFIG_PATH=/nonExisting/nginx.conf", fmt.Sprintf("NRIA_CACHE_PATH=/tmp/%v.json", t.Name()))
 
 	expectedErrorMessage := "no such file or directory"
 

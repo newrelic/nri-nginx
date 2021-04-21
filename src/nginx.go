@@ -38,7 +38,6 @@ const (
 	httpDefaultPort  = `80`
 	httpsDefaultPort = `443`
 
-	discoverStatus = "discover"
 	httpStubStatus = "ngx_http_stub_status_module"
 	httpStatus     = "ngx_http_status_module"
 	httpAPIStatus  = "ngx_http_api_module"
