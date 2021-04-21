@@ -9,6 +9,8 @@ github.com/jeremywohl/flatten v0.0.0-20180923035001-588fe0d4c603 h1:gSech9iGLFCo
 github.com/jeremywohl/flatten v0.0.0-20180923035001-588fe0d4c603/go.mod h1:4AmD/VxjWcI5SRB0n6szE2A6s2fsNHDLO0nAlMHgfLQ=
 github.com/newrelic/infra-integrations-sdk v3.6.4+incompatible h1:pYjT0FCzUpwArkbcaEvt/2R2AoY8WEcbXui9+Aa1Q60=
 github.com/newrelic/infra-integrations-sdk v3.6.4+incompatible/go.mod h1:tMUHRMq6mJS0YyBnbWrTXAnREnQqC1AGO6Lu45u5xAM=
+github.com/newrelic/infra-integrations-sdk v3.6.6+incompatible h1:ThGyTlLKvSM0hiTW1dj+yITUH4U1o4fHQ4vwV0WLp6c=
+github.com/newrelic/infra-integrations-sdk v3.6.6+incompatible/go.mod h1:tMUHRMq6mJS0YyBnbWrTXAnREnQqC1AGO6Lu45u5xAM=
 github.com/pkg/errors v0.8.2-0.20190109061628-ffb6e22f0193 h1:0+zEoO0EfrvcxHtYt+VS+OGlNllWCScvxyiUupfkbXY=
 github.com/pkg/errors v0.8.2-0.20190109061628-ffb6e22f0193/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
