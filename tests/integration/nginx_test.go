@@ -116,7 +116,7 @@ func TestNGINXIntegrationInvalidStatusURL(t *testing.T) {
 }
 
 func TestNGINXIntegrationInvalidStatusURL_NoExistingHost(t *testing.T) {
-	stdout, stderr, err := runIntegration(t, "METRICS=true", "CONNECTION_TIMEOUT=10", "STATUS_URL=http://nonExistingHost/status", fmt.Sprintf("NRIA_CACHE_PATH=%v", t.Name()))
+	stdout, stderr, err := runIntegration(t, "METRICS=true", "CONNECTION_TIMEOUT=20", "STATUS_URL=http://nonExistingHost/status", fmt.Sprintf("NRIA_CACHE_PATH=%v", t.Name()))
 
 	expectedErrorMessage := "no such host"
 
