@@ -3,11 +3,10 @@ export PATH := $(PATH):$(GOPATH)/bin
 INTEGRATION     := nginx
 BINARY_NAME      = nri-$(INTEGRATION)
 SRC_DIR          = ./src/
-#VALIDATE_DEPS    = github.com/golangci/golangci-lint
-#TEST_DEPS        = github.com/axw/gocov github.com/AlekSi/gocov-xml
 INTEGRATIONS_DIR = /var/db/newrelic-infra/newrelic-integrations/
 CONFIG_DIR       = /etc/newrelic-infra/integrations.d
 GO_FILES        := ./src/
+GOFLAGS			 = -mod=vendor
 GOLANGCI_LINT	 = github.com/golangci/golangci-lint/cmd/golangci-lint
 GOCOV            = github.com/axw/gocov/gocov
 GOCOV_XML		 = github.com/AlekSi/gocov-xml
@@ -21,7 +20,7 @@ clean:
 	@rm -rfv bin coverage.xml vendor/modules.txt
 
 vendor/modules.txt:
-	@echo "=== $(INTEGRATION) === [ dependencies ]: downloading vendor..."
+	@echo "=== $(INTEGRATION) === [ dependencies ]: downloading vendor dependencies..."
 	@go mod vendor
 
 validate: vendor/modules.txt
@@ -29,7 +28,7 @@ ifeq ($(strip $(GO_FILES)),)
 	@echo "=== $(INTEGRATION) === [ validate ]: no Go files found. Skipping validation."
 else
 	@printf "=== $(INTEGRATION) === [ validate ]: running golangci-lint... "
-	@go run -mod=vendor $(GOLANGCI_LINT) run --verbose
+	@go run $(GOFLAGS) $(GOLANGCI_LINT) run --verbose
 endif
 
 bin/$(BINARY_NAME): vendor/modules.txt
@@ -40,7 +39,7 @@ compile: bin/$(BINARY_NAME)
 
 test: vendor/modules.txt
 	@echo "=== $(INTEGRATION) === [ test ]: running unit tests..."
-	@go run -mod=vendor $(GOCOV) test ./... | go run -mod=vendor $(GOCOV_XML) > coverage.xml
+	@go run $(GOFLAGS) $(GOCOV) test ./... | go run -mod=vendor $(GOCOV_XML) > coverage.xml
 
 integration-test: vendor/modules.txt
 	@echo "=== $(INTEGRATION) === [ test ]: running integration tests..."
