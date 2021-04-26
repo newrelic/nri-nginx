@@ -17,7 +17,7 @@ build: clean validate compile test
 
 clean:
 	@echo "=== $(INTEGRATION) === [ clean ]: cleaning workspace..."
-	@rm -rfv bin coverage.xml vendor/modules.txt
+	@rm -rfv bin coverage.xml vendor
 
 vendor/modules.txt:
 	@echo "=== $(INTEGRATION) === [ dependencies ]: downloading vendor dependencies..."
