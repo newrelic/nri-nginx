@@ -1,6 +1,6 @@
 FROM golang:1.16
 
-ARG GH_VERSION='1.6.0'
+ARG GH_VERSION='1.9.0'
 
 RUN apt-get update \
     && apt-get -y install \
