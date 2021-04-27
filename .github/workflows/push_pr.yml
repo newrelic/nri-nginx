@@ -16,7 +16,7 @@ env:
 
 jobs:
   golangci-lint:
-    name: Validate code
+    name: Validate code via golangci
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
