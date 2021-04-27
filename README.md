@@ -34,7 +34,7 @@ If you want to know more about usage of `./bin/nri-nginx`, pass the `-help` para
 $ ./bin/nri-nginx -help
 ```
 
-External dependencies are managed through the [govendor tool](https://github.com/kardianos/govendor). Locking all external dependencies to a specific version (if possible) into the vendor directory is required.
+External dependencies are managed through the [go modules](https://blog.golang.org/using-go-modules). All the external dependencies and its versions are listed in the `go.mod` file. The vendor folder is not required anymore.
 
 ## Testing
 

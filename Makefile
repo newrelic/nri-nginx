@@ -2,7 +2,6 @@ export PATH := $(PATH):$(GOPATH)/bin
 
 INTEGRATION     := nginx
 BINARY_NAME      = nri-$(INTEGRATION)
-SRC_DIR          = ./src/
 INTEGRATIONS_DIR = /var/db/newrelic-infra/newrelic-integrations/
 CONFIG_DIR       = /etc/newrelic-infra/integrations.d
 GO_FILES        := ./src/
