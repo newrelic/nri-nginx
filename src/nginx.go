@@ -22,7 +22,7 @@ type argumentList struct {
 	StatusURL         string `default:"http://127.0.0.1/status" help:"NGINX status URL. If you are using ngx_http_api_module be sure to include the full path ending with the API version number"`
 	ConfigPath        string `default:"/etc/nginx/nginx.conf" help:"NGINX configuration file."`
 	RemoteMonitoring  bool   `default:"false" help:"Identifies the monitored entity as 'remote'. In doubt: set to true."`
-	ConnectionTimeout int    `default:"1" help:"OHI connection to Nginx timeout in seconds"`
+	ConnectionTimeout int    `default:"5" help:"Connection timeout to the Nginx instance in seconds"`
 	StatusModule      string `default:"discover" help:"Name of Nginx status module. discover | ngx_http_stub_status_module | ngx_http_status_module | ngx_http_api_module"`
 	ValidateCerts     bool   `default:"true" help:"If the status URL is HTTPS with a self-signed certificate, set this to false if you want to avoid certificate validation"`
 	ShowVersion       bool   `default:"false" help:"Print build information and exit"`
@@ -38,7 +38,6 @@ const (
 	httpDefaultPort  = `80`
 	httpsDefaultPort = `443`
 
-	discoverStatus = "discover"
 	httpStubStatus = "ngx_http_stub_status_module"
 	httpStatus     = "ngx_http_status_module"
 	httpAPIStatus  = "ngx_http_api_module"

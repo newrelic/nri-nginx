@@ -292,7 +292,7 @@ func getAttributeType(key string, v interface{}) (string, metric.SourceType) {
 
 func httpClient() *http.Client {
 	netClient := http.Client{
-		Timeout: time.Second * 5,
+		Timeout: time.Duration(args.ConnectionTimeout) * time.Second,
 	}
 	if !args.ValidateCerts {
 		netClient.Transport = &http.Transport{

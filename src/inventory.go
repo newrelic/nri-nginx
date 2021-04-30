@@ -47,7 +47,10 @@ func populateInventory(reader *bufio.Reader, i *inventory.Inventory) error {
 		case ';':
 			// parse end statement
 			prefix = append(prefix, curCmd)
-			i.SetItem(strings.Join(prefix, "/"), "value", curValue)
+			err = i.SetItem(strings.Join(prefix, "/"), "value", curValue)
+			if err != nil {
+				return err
+			}
 			prefix = prefix[:len(prefix)-1]
 
 			curValue = ""
@@ -58,7 +61,10 @@ func populateInventory(reader *bufio.Reader, i *inventory.Inventory) error {
 				r, _, _ = reader.ReadRune()
 			}
 			lineNo++
-			reader.UnreadRune()
+			err = reader.UnreadRune()
+			if err != nil {
+				return err
+			}
 		case '#':
 			// ignore comments
 			for r != '\n' {

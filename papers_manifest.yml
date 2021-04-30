@@ -1,25 +1,45 @@
 golang:
-  github.com/newrelic/nri-nginx/vendor/github.com/Sirupsen/logrus:
+  github.com/jeremywohl/flatten:
     license: MIT
-    license_url: github.com/newrelic/nri-nginx/vendor/github.com/Sirupsen/logrus/LICENSE
-    project_url: github.com/newrelic/nri-nginx/vendor/github.com/Sirupsen/logrus
-  github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/args:
-    license: Unknown
-    license_url: github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/LICENSE
-    project_url: github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/args
-  github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/cache:
-    license: Unknown
-    license_url: github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/LICENSE
-    project_url: github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/cache
-  github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/log:
-    license: Unknown
-    license_url: github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/LICENSE
-    project_url: github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/log
-  github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/metric:
-    license: Unknown
-    license_url: github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/LICENSE
-    project_url: github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/metric
-  github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/sdk:
-    license: Unknown
-    license_url: github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/LICENSE
-    project_url: github.com/newrelic/nri-nginx/vendor/github.com/newrelic/infra-integrations-sdk/sdk
+    license_url: github.com/jeremywohl/flatten/LICENSE
+    project_url: github.com/jeremywohl/flatten
+  github.com/newrelic/infra-integrations-sdk/args:
+    license: Apache-2.0
+    license_url: github.com/newrelic/infra-integrations-sdk/LICENSE
+    project_url: github.com/newrelic/infra-integrations-sdk/args
+  github.com/newrelic/infra-integrations-sdk/data/event:
+    license: Apache-2.0
+    license_url: github.com/newrelic/infra-integrations-sdk/LICENSE
+    project_url: github.com/newrelic/infra-integrations-sdk/data/event
+  github.com/newrelic/infra-integrations-sdk/data/inventory:
+    license: Apache-2.0
+    license_url: github.com/newrelic/infra-integrations-sdk/LICENSE
+    project_url: github.com/newrelic/infra-integrations-sdk/data/inventory
+  github.com/newrelic/infra-integrations-sdk/data/metric:
+    license: Apache-2.0
+    license_url: github.com/newrelic/infra-integrations-sdk/LICENSE
+    project_url: github.com/newrelic/infra-integrations-sdk/data/metric
+  github.com/newrelic/infra-integrations-sdk/integration:
+    license: Apache-2.0
+    license_url: github.com/newrelic/infra-integrations-sdk/LICENSE
+    project_url: github.com/newrelic/infra-integrations-sdk/integration
+  github.com/newrelic/infra-integrations-sdk/log:
+    license: Apache-2.0
+    license_url: github.com/newrelic/infra-integrations-sdk/LICENSE
+    project_url: github.com/newrelic/infra-integrations-sdk/log
+  github.com/pkg/errors:
+    license: BSD-2-Clause
+    license_url: github.com/pkg/errors/LICENSE
+    project_url: github.com/pkg/errors
+  github.com/xeipuuv/gojsonpointer:
+    license: Apache-2.0
+    license_url: github.com/xeipuuv/gojsonpointer/LICENSE-APACHE-2.0.txt
+    project_url: github.com/xeipuuv/gojsonpointer
+  github.com/xeipuuv/gojsonreference:
+    license: Apache-2.0
+    license_url: github.com/xeipuuv/gojsonreference/LICENSE-APACHE-2.0.txt
+    project_url: github.com/xeipuuv/gojsonreference
+  github.com/xeipuuv/gojsonschema:
+    license: Apache-2.0
+    license_url: github.com/xeipuuv/gojsonschema/LICENSE-APACHE-2.0.txt
+    project_url: github.com/xeipuuv/gojsonschema

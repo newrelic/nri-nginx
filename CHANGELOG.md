@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.1.0 (2021-04-30)
+## Changed
+- Update Go to v1.16.
+- Migrate to Go Modules
+- Update Infrastracture SDK to v3.6.7.
+- Update other dependecies.
+
 ## 3.0.1 (2020-08-03)
 ## Fixed
 - Updated the configuration sample to exclude endpoints.
