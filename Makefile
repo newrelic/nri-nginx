@@ -5,10 +5,10 @@ BINARY_NAME      = nri-$(INTEGRATION)
 INTEGRATIONS_DIR = /var/db/newrelic-infra/newrelic-integrations/
 CONFIG_DIR       = /etc/newrelic-infra/integrations.d
 GO_FILES        := ./src/
-GOFLAGS			 = -mod=mod
-GOLANGCI_LINT	 = github.com/golangci/golangci-lint/cmd/golangci-lint
+GOFLAGS          = -mod=readonly # ignore the vendor directory and to report an error if go.mod needs to be updated.
+GOLANGCI_LINT    = github.com/golangci/golangci-lint/cmd/golangci-lint
 GOCOV            = github.com/axw/gocov/gocov
-GOCOV_XML		 = github.com/AlekSi/gocov-xml
+GOCOV_XML        = github.com/AlekSi/gocov-xml
 
 all: build
 
