@@ -22,8 +22,13 @@ validate:
 ifeq ($(strip $(GO_FILES)),)
 	@echo "=== $(INTEGRATION) === [ validate ]: no Go files found. Skipping validation."
 else
-	@printf "=== $(INTEGRATION) === [ validate ]: running golangci-lint... "
-	@go run $(GOFLAGS) $(GOLANGCI_LINT) run --verbose
+	@printf "=== $(INTEGRATION) === [ validate ]: running golangci-lint & semgrep... "
+	@go run  $(GOFLAGS) $(GOLANGCI_LINT) run --verbose
+	@if [ -f .semgrep.yml ]; then \
+        docker run --rm -v "${PWD}:/src:ro" --workdir /src returntocorp/semgrep -c .semgrep.yml ; \
+    else \
+    	docker run --rm -v "${PWD}:/src:ro" --workdir /src returntocorp/semgrep -c p/golang ; \
+    fi
 endif
 
 bin/$(BINARY_NAME):
