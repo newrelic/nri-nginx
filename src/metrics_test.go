@@ -43,7 +43,12 @@ var testNginxPlusStatus = `{
   "nginx_version": "1.0"
 }
 `
+
+var testNginxPlusApiConnections = `{"accepted":13,"dropped":0,"active":6,"idle":0}`
+
 var testBadNginxPlusStatus = `{`
+
+var testNginxPlusApiStatus = `["nginx","processes","connections","slabs","http","resolvers","ssl"]`
 
 func TestGetPlusMetrics(t *testing.T) {
 	rawMetrics, err := getPlusMetrics(bufio.NewReader(strings.NewReader(testNginxPlusStatus)))
@@ -189,6 +194,18 @@ func Test_getMetricsData(t *testing.T) {
 			isPlus:    true,
 			expectErr: errors.New("invalid character 'e' in literal true (expecting 'r')"),
 		},
+		{
+			name:                      "testNginxPlusApiStatus",
+			response:                  testNginxPlusApiStatus,
+			isPlus:                    true,
+			expectedConnectionsActive: 6,
+		},
+		{
+			name:      "testBadNginxPlusApiStatus",
+			response:  "testBadNginxPlusApiStatus",
+			isPlus:    true,
+			expectErr: errors.New("invalid character 'e' in literal true (expecting 'r')"),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -196,8 +213,17 @@ func Test_getMetricsData(t *testing.T) {
 				if tt.isPlus {
 					w.Header().Set("content-type", "application/json")
 				}
-				_, err := io.WriteString(w, tt.response)
-				assert.NoError(t, err)
+				switch r.URL.Path {
+				case "/":
+					_, err := io.WriteString(w, tt.response)
+					assert.NoError(t, err)
+				case "/connections":
+					_, err := io.WriteString(w, testNginxPlusApiConnections)
+					assert.NoError(t, err)
+				default:
+					_, err := io.WriteString(w, "{}")
+					assert.NoError(t, err)
+				}
 			}))
 			defer ts.Close()
 			i, err := integration.New(tt.name, "test")

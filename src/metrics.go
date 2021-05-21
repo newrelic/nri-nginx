@@ -2,10 +2,12 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"regexp"
 	"strconv"
@@ -209,24 +211,28 @@ func getMetricsData(sample *metric.Set) error {
 		}
 		return populateMetrics(sample, rawMetrics, metricsDefinition)
 	case httpAPIStatus:
-		paths := []string{"/nginx", "/processes", "/connections", "/http/requests", "/ssl"}
-		for _, p := range paths {
-			resp, err := getStatus(p)
-			if err != nil {
-				log.Warn("Request to endpoint failed: %s", err)
-				continue
-			}
-			defer func() {
-				if err := resp.Body.Close(); err != nil {
-					log.Warn("Unable to close response body: %s", err)
-				}
-			}()
-			getHTTPAPIMetrics(p, sample, bufio.NewReader(resp.Body))
-		}
-		return nil
+		return pollHttpAPIStatusEndpoints(sample)
 	default:
 		return getDiscoveredMetricsData(sample)
 	}
+}
+
+func pollHttpAPIStatusEndpoints(sample *metric.Set) error {
+	paths := []string{"/nginx", "/processes", "/connections", "/http/requests", "/ssl"}
+	for _, p := range paths {
+		resp, err := getStatus(p)
+		if err != nil {
+			log.Warn("Request to endpoint failed: %s", err)
+			continue
+		}
+		defer func() {
+			if err := resp.Body.Close(); err != nil {
+				log.Warn("Unable to close response body: %s", err)
+			}
+		}()
+		getHTTPAPIMetrics(p, sample, bufio.NewReader(resp.Body))
+	}
+	return nil
 }
 
 func getHTTPAPIMetrics(path string, sample *metric.Set, reader *bufio.Reader) {
@@ -331,8 +337,15 @@ func getDiscoveredMetricsData(sample *metric.Set) error {
 	var metricsDefinition map[string][]interface{}
 
 	if resp.Header.Get("content-type") == "application/json" {
+		bodyBytes, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			return err
+		}
+		if strings.Contains(string(bodyBytes), nginxPlusApiRootNginxEndpoint) {
+			return pollHttpAPIStatusEndpoints(sample)
+		}
 		metricsDefinition = metricsPlusDefinition
-		rawMetrics, err = getPlusMetrics(bufio.NewReader(resp.Body))
+		rawMetrics, err = getPlusMetrics(bufio.NewReader(bytes.NewBuffer(bodyBytes)))
 		if err != nil {
 			return err
 		}
