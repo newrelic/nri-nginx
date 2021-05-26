@@ -9,6 +9,8 @@ import (
 	"strings"
 )
 
+var errMissingClosingBracket = fmt.Errorf("missing closing bracket")
+
 func populateInventory(reader *bufio.Reader, i *inventory.Inventory) error {
 	var curCmd string
 	var curValue string
@@ -23,7 +25,8 @@ func populateInventory(reader *bufio.Reader, i *inventory.Inventory) error {
 			if err == io.EOF {
 				return nil
 			}
-			return fmt.Errorf("error occured while checking inventory from nginx config file, error: %v", err)
+
+			return fmt.Errorf("reading file at line %d: %w", lineNo, err)
 		}
 
 		switch r {
@@ -41,7 +44,7 @@ func populateInventory(reader *bufio.Reader, i *inventory.Inventory) error {
 			// parse end section
 			closeIdx := len(prefix) - 1
 			if closeIdx < 0 {
-				return fmt.Errorf("Error parsing config file in Line %d", lineNo)
+				return fmt.Errorf("at line %d: %w", lineNo, errMissingClosingBracket)
 			}
 			prefix = prefix[:closeIdx]
 		case ';':
@@ -56,14 +59,19 @@ func populateInventory(reader *bufio.Reader, i *inventory.Inventory) error {
 			curValue = ""
 			curCmd = ""
 		case '\n':
-			// parse end line and ignore spaces
-			for r == '\n' || r == ' ' || r == '\t' {
-				r, _, _ = reader.ReadRune()
+			// parse end line and subsequent spaces
+			for err == nil && (r == '\n' || r == ' ' || r == '\t') {
+				if r == '\n' {
+					lineNo++
+				}
+				r, _, err = reader.ReadRune()
 			}
-			lineNo++
+			if err != nil {
+				continue // Break to outer loop so we can handle errors/EOF
+			}
 			err = reader.UnreadRune()
 			if err != nil {
-				return err
+				return fmt.Errorf("parsing line %d: %w", lineNo, err)
 			}
 		case '#':
 			// ignore comments
@@ -89,9 +97,14 @@ func populateInventory(reader *bufio.Reader, i *inventory.Inventory) error {
 func setInventoryData(i *inventory.Inventory) error {
 	f, err := os.Open(args.ConfigPath)
 	if err != nil {
-		return err
+		return fmt.Errorf("cannot open nginx config file '%s': %w", args.ConfigPath, err)
 	}
 	defer f.Close()
 
-	return populateInventory(bufio.NewReader(f), i)
+	err = populateInventory(bufio.NewReader(f), i)
+	if err != nil {
+		return fmt.Errorf("error parsing inventory from nginx config file '%s': %w", args.ConfigPath, err)
+	}
+
+	return nil
 }

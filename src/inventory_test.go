@@ -56,7 +56,8 @@ http {
       deny all;
     }
   }
-}`
+}
+`
 )
 
 func TestParseNginxConf(t *testing.T) {
@@ -66,20 +67,19 @@ func TestParseNginxConf(t *testing.T) {
 	err := populateInventory(bufio.NewReader(strings.NewReader(testNginxConf)), i)
 
 	if err != nil {
-		t.Fatal()
+		t.Fatalf("%v", err)
 	}
 
 	if i.Items()["pid"]["value"] != "/run/nginx.pid" {
-		t.Error()
+		t.Error("PID value not found")
 	}
 	if i.Items()["events/worker_connections"]["value"] != "1024" {
-		t.Error()
+		t.Error("worker_connections value not found")
 	}
 	if i.Items()["http/server/server_name"]["value"] != "www.example.com" {
-		t.Error()
+		t.Error("server_name not found")
 	}
 	if i.Items()["http/server/location::status/allow"]["value"] != "192.168.100.0/24" {
-		t.Error()
+		t.Error("unexpected value for http/server/location::status/allow")
 	}
-
 }
