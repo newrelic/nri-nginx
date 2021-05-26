@@ -56,7 +56,8 @@ http {
       deny all;
     }
   }
-}`
+}
+`
 )
 
 func TestParseNginxConf(t *testing.T) {
