@@ -57,11 +57,16 @@ func populateInventory(reader *bufio.Reader, i *inventory.Inventory) error {
 			curValue = ""
 			curCmd = ""
 		case '\n':
-			// parse end line and ignore spaces
-			for r == '\n' || r == ' ' || r == '\t' {
-				r, _, _ = reader.ReadRune()
+			// parse end line and subsequent spaces
+			for err == nil && (r == '\n' || r == ' ' || r == '\t') {
+				if r == '\n' {
+					lineNo++
+				}
+				r, _, err = reader.ReadRune()
 			}
-			lineNo++
+			if err != nil {
+				continue // Break to outer loop so we can handle errors/EOF
+			}
 			err = reader.UnreadRune()
 			if err != nil {
 				return fmt.Errorf("parsing line %d: %w", lineNo, err)
