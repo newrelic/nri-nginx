@@ -9,6 +9,8 @@ import (
 	"strings"
 )
 
+var errMissingClosingBracket = fmt.Errorf("missing closing bracket")
+
 func populateInventory(reader *bufio.Reader, i *inventory.Inventory) error {
 	var curCmd string
 	var curValue string
@@ -42,7 +44,7 @@ func populateInventory(reader *bufio.Reader, i *inventory.Inventory) error {
 			// parse end section
 			closeIdx := len(prefix) - 1
 			if closeIdx < 0 {
-				return fmt.Errorf("missing closing bracket at line %d", lineNo)
+				return fmt.Errorf("at line %d: %w", lineNo, errMissingClosingBracket)
 			}
 			prefix = prefix[:closeIdx]
 		case ';':
