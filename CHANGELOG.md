@@ -4,9 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## 3.1.1 (2021-06-07)
+## 3.1.2 (2021-06-07)
 ## Changed
 - Support for ARM
+
+## 3.1.1 (2021-05-27)
+## Changed
+- Fixed a bug that preventing the integration from running when the nginx file being parsed included an empty line at the end of the file #80 (#81)
 
 ## 3.1.0 (2021-04-30)
 ## Changed
