@@ -16,8 +16,8 @@ integrations:
     # https://github.com/newrelic/infra-integrations-sdk/blob/master/docs/entity-definition.md
     REMOTE_MONITORING: true
 
+    # validate_certs is true by default, to avoid certificate validation connecting to a HTTPS status URL set it to false 
     # VALIDATE_CERTS: true 
-    # DEFAULT: true If the status URL is HTTPS with a self-signed certificate, set this to false if you want to avoid certificate validation
   interval: 30s
   labels:
     env: production
