@@ -1,5 +1,5 @@
 name: com.newrelic.nginx
-description: Reports status and metrics for NGINX server. Legacy file kept for compatibility.
+description: Reports status and metrics for NGINX server
 protocol_version: 3
 os: windows
 
