@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## 3.1.3 (2021-10-20)
+## 3.2.2 (2021-10-20)
 ### Added
 Added support for more distributions:
 - Debian 11
@@ -16,6 +16,11 @@ Added support for more distributions:
 - SUSE 15.3
 - Oracle Linux 7
 - Oracle Linux 8
+
+## 3.2.1 (2021-10-20)
+## Changed
+Moved default config.sample to [V4](https://docs.newrelic.com/docs/create-integrations/infrastructure-integrations-sdk/specifications/host-integrations-newer-configuration-format/), added a dependency for infra-agent version 1.20.0 https://github.com/newrelic/nri-nginx/pull/83
+Please notice that old [V3](https://docs.newrelic.com/docs/create-integrations/infrastructure-integrations-sdk/specifications/host-integrations-standard-configuration-format/) configuration format is deprecated, but still supported.
 
 ## 3.1.2 (2021-06-07)
 ## Changed
