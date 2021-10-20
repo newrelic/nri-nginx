@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.1.3 (2021-10-20)
+### Added
+Added support for more distributions:
+- Debian 11
+- Ubuntu 20.10
+- Ubuntu 21.04
+- SUSE 12.15
+- SUSE 15.1
+- SUSE 15.2
+- SUSE 15.3
+- Oracle Linux 7
+- Oracle Linux 8
+
 ## 3.1.2 (2021-06-07)
 ## Changed
 - Support for ARM
