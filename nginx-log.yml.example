@@ -1,0 +1,15 @@
+###############################################################################
+# Log forwarder configuration file for nginx access and error logs            #
+# Source: file                                                                #
+# Available customization parameters: attributes, max_line_kb, pattern        #
+###############################################################################
+logs:
+  - name: nginx-access
+    file: /var/log/nginx/access.log
+    attributes:
+      logtype: nginx
+  - name: nginx-error
+    file: /var/log/nginx/error.log
+    attributes:
+      logtype: nginx-error
+      
