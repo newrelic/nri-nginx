@@ -12,4 +12,3 @@ logs:
     file: /var/log/nginx/error.log
     attributes:
       logtype: nginx-error
-      
