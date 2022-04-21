@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.2.3 (2022-04-21)
+### Added
+- Config logs examples.
+## Changed
+- All DELTA and RATE metrics has been changed to PDELTA and PRATE preventing the integration to report negative values whenever the counters are reset. (#90)
+- Use Go 1.18 (#89)
+- Bump dependencies (#89)
+
 ## 3.2.2 (2021-10-20)
 ### Added
 Added support for more distributions:
