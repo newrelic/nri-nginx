@@ -23,12 +23,12 @@ var metricsStandardDefinition = map[string][]interface{}{
 	"software.edition":                 {"edition", metric.ATTRIBUTE},
 	"software.version":                 {"version", metric.ATTRIBUTE},
 	"net.connectionsActive":            {"active", metric.GAUGE},
-	"net.connectionsAcceptedPerSecond": {"accepted", metric.RATE},
-	"net.connectionsDroppedPerSecond":  {connectionsDropped, metric.RATE},
+	"net.connectionsAcceptedPerSecond": {"accepted", metric.PRATE},
+	"net.connectionsDroppedPerSecond":  {connectionsDropped, metric.PRATE},
 	"net.connectionsReading":           {"reading", metric.GAUGE},
 	"net.connectionsWaiting":           {"waiting", metric.GAUGE},
 	"net.connectionsWriting":           {"writing", metric.GAUGE},
-	"net.requestsPerSecond":            {"requests", metric.RATE},
+	"net.requestsPerSecond":            {"requests", metric.PRATE},
 }
 
 var metricsPlusDefinition = map[string][]interface{}{
@@ -36,26 +36,26 @@ var metricsPlusDefinition = map[string][]interface{}{
 	"software.version":                 {"version", metric.ATTRIBUTE},
 	"net.connectionsActive":            {"connections.active", metric.GAUGE},
 	"net.connectionsIdle":              {"connections.idle", metric.GAUGE},
-	"net.connectionsAcceptedPerSecond": {"connections.accepted", metric.RATE},
-	"net.connectionsDroppedPerSecond":  {"connections.dropped", metric.RATE},
-	"net.requestsPerSecond":            {"requests.total", metric.RATE},
-	"processes.respawned":              {"processes.respawned", metric.DELTA},
-	"ssl.handshakes":                   {"ssl.handshakes", metric.DELTA},
-	"ssl.failedHandshakes":             {"ssl.handshakes_failed", metric.DELTA},
-	"ssl.sessionReuses":                {"ssl.session_reuses", metric.DELTA},
+	"net.connectionsAcceptedPerSecond": {"connections.accepted", metric.PRATE},
+	"net.connectionsDroppedPerSecond":  {"connections.dropped", metric.PRATE},
+	"net.requestsPerSecond":            {"requests.total", metric.PRATE},
+	"processes.respawned":              {"processes.respawned", metric.PDELTA},
+	"ssl.handshakes":                   {"ssl.handshakes", metric.PDELTA},
+	"ssl.failedHandshakes":             {"ssl.handshakes_failed", metric.PDELTA},
+	"ssl.sessionReuses":                {"ssl.session_reuses", metric.PDELTA},
 }
 
 var metricsPlusAPIDefinition = map[string][]interface{}{
 	"software.version":      {"nginx.version", metric.ATTRIBUTE},
 	"connections.active":    {"net.connectionsActive", metric.GAUGE},
 	"connections.idle":      {"net.connectionsIdle", metric.GAUGE},
-	"connections.accepted":  {"net.connectionsAcceptedPerSecond", metric.RATE},
-	"connections.dropped":   {"net.connectionsDroppedPerSecond", metric.RATE},
-	"processes.respawned":   {"processes.respawned", metric.DELTA},
-	"ssl.handshakes":        {"ssl.handshakes", metric.DELTA},
-	"ssl.handshakes_failed": {"ssl.failedHandshakes", metric.DELTA},
-	"ssl.session_reuses":    {"ssl.sessionReuses", metric.DELTA},
-	"http.requests.total":   {"net.requestsPerSecond", metric.RATE},
+	"connections.accepted":  {"net.connectionsAcceptedPerSecond", metric.PRATE},
+	"connections.dropped":   {"net.connectionsDroppedPerSecond", metric.PRATE},
+	"processes.respawned":   {"processes.respawned", metric.PDELTA},
+	"ssl.handshakes":        {"ssl.handshakes", metric.PDELTA},
+	"ssl.handshakes_failed": {"ssl.failedHandshakes", metric.PDELTA},
+	"ssl.session_reuses":    {"ssl.sessionReuses", metric.PDELTA},
+	"http.requests.total":   {"net.requestsPerSecond", metric.PRATE},
 	"http.requests.current": {"net.requests", metric.GAUGE},
 }
 
@@ -170,7 +170,6 @@ func populateMetrics(sample *metric.Set, metrics map[string]interface{}, metrics
 			continue
 		}
 		err := sample.SetMetric(metricName, rawMetric, metricType)
-
 		if err != nil {
 			log.Warn("Error setting value: %s", err)
 			continue
