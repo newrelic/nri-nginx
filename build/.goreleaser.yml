@@ -49,8 +49,8 @@ nfpms:
     contents:
       - src: "nginx-config.yml.sample"
         dst: "/etc/newrelic-infra/integrations.d/nginx-config.yml.sample"
-      - src: "nginx-log.yml.example"
-        dst: "/etc/newrelic-infra/logging.d/nginx-log.yml.example"
+      - src: "nginx-log.yml"
+        dst: "/etc/newrelic-infra/logging.d/nginx-log.yml"
       - src: "CHANGELOG.md"
         dst: "/usr/share/doc/nri-nginx/CHANGELOG.md"
       - src: "README.md"
