@@ -11,7 +11,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Added support for more distributions:
 - RHEL(EL) 9
 - Ubuntu 22.04
-- Amazon Linux 2022
 
 ## 3.2.3 (2022-04-21)
 ### Added
