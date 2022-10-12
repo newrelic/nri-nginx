@@ -90,6 +90,7 @@ archives:
     name_template: "{{ .ProjectName }}-{{ .Arch }}.{{ .Version }}_dirty"
     files:
       - nginx-config.yml.sample
+      - nginx-win-log.yml.example
       - src: 'legacy/nginx-win-definition.yml'
         dst: .
         strip_parent: true
