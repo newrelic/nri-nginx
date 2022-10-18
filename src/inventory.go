@@ -76,7 +76,13 @@ func populateInventory(reader *bufio.Reader, i *inventory.Inventory) error {
 		case '#':
 			// ignore comments
 			for r != '\n' {
-				r, _, _ = reader.ReadRune()
+				r, _, err = reader.ReadRune()
+				if err != nil {
+					if err == io.EOF {
+						return nil
+					}
+					return fmt.Errorf("ignoring comment at line %d: %w", lineNo, err)
+				}
 			}
 		case '\t', ' ':
 			if curValue == "" {
