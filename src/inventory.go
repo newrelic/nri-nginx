@@ -67,10 +67,14 @@ func populateInventory(reader *bufio.Reader, i *inventory.Inventory) error {
 					lineNo++
 				}
 				r, _, err = reader.ReadRune()
+				if err != nil {
+					if errors.Is(err, io.EOF) {
+						return nil
+					}
+					return fmt.Errorf("parsing line %d: %w", lineNo, err)
+				}
 			}
-			if err != nil {
-				continue // Break to outer loop so we can handle errors/EOF
-			}
+
 			err = reader.UnreadRune()
 			if err != nil {
 				return fmt.Errorf("parsing line %d: %w", lineNo, err)
@@ -83,7 +87,7 @@ func populateInventory(reader *bufio.Reader, i *inventory.Inventory) error {
 					if errors.Is(err, io.EOF) {
 						return nil
 					}
-					return fmt.Errorf("ignoring comment at line %d: %w", lineNo, err)
+					return fmt.Errorf("parsing line %d: %w", lineNo, err)
 				}
 			}
 		case '\t', ' ':
