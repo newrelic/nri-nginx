@@ -3,10 +3,12 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/newrelic/infra-integrations-sdk/data/inventory"
 	"io"
 	"os"
 	"strings"
+
+	"github.com/newrelic/infra-integrations-sdk/data/inventory"
+	"github.com/pkg/errors"
 )
 
 var errMissingClosingBracket = fmt.Errorf("missing closing bracket")
@@ -22,7 +24,7 @@ func populateInventory(reader *bufio.Reader, i *inventory.Inventory) error {
 		r, _, err := reader.ReadRune()
 		if err != nil {
 			// If we reached the end of the file no error should be returned.
-			if err == io.EOF {
+			if errors.Is(err, io.EOF) {
 				return nil
 			}
 
@@ -78,7 +80,7 @@ func populateInventory(reader *bufio.Reader, i *inventory.Inventory) error {
 			for r != '\n' {
 				r, _, err = reader.ReadRune()
 				if err != nil {
-					if err == io.EOF {
+					if errors.Is(err, io.EOF) {
 						return nil
 					}
 					return fmt.Errorf("ignoring comment at line %d: %w", lineNo, err)

@@ -180,7 +180,7 @@ func Test_getMetricsData(t *testing.T) {
 		{
 			name:      "testBadNginxStandardStatus",
 			response:  testBadNginxStandardStatus,
-			expectErr: errors.New("Line 2 of status doesn't match"),
+			expectErr: errors.New("line 2 of status doesn't match"),
 		},
 		{
 			name:                      "testNginxPlusStatus",
