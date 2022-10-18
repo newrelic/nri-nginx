@@ -337,7 +337,8 @@ func getDiscoveredMetricsData(sample *metric.Set) error {
 	var metricsDefinition map[string][]interface{}
 
 	if resp.Header.Get("content-type") == "application/json" {
-		bodyBytes, err := io.ReadAll(resp.Body)
+		var bodyBytes []byte
+		bodyBytes, err = io.ReadAll(resp.Body)
 		if err != nil {
 			return err
 		}
