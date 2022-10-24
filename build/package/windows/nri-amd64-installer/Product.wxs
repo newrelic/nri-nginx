@@ -30,6 +30,7 @@
             <ComponentGroupRef Id="CustomPluginsBinComponent"/>
             <ComponentGroupRef Id="CustomPluginsComponent"/>
             <ComponentGroupRef Id="PluginConfigsComponent"/>
+            <ComponentGroupRef Id="PluginLogConfigsComponent"/>
         </Feature>
     </Product>
 
