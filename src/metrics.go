@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
+
 	"net/http"
 	"regexp"
 	"strconv"
@@ -17,6 +17,7 @@ import (
 	"github.com/jeremywohl/flatten"
 	"github.com/newrelic/infra-integrations-sdk/data/metric"
 	"github.com/newrelic/infra-integrations-sdk/log"
+	"github.com/pkg/errors"
 )
 
 var metricsStandardDefinition = map[string][]interface{}{
@@ -96,7 +97,7 @@ func getStandardMetrics(reader *bufio.Reader) (map[string]interface{}, error) {
 
 		match := re.FindStringSubmatch(line)
 		if match == nil {
-			return nil, fmt.Errorf("Line %d of status doesn't match", lineNo)
+			return nil, errors.Errorf("line %d of status doesn't match", lineNo)
 		}
 
 		for i, name := range re.SubexpNames() {
@@ -314,7 +315,7 @@ func getStatus(path string) (resp *http.Response, err error) {
 		return
 	}
 	if resp.StatusCode != http.StatusOK {
-		return resp, fmt.Errorf("failed to get stats from %s. Server returned code %d (%s). Expecting 200", args.StatusURL+path, resp.StatusCode, resp.Status)
+		return resp, errors.Errorf("failed to get stats from %s. Server returned code %d (%s). Expecting 200", args.StatusURL+path, resp.StatusCode, resp.Status)
 	}
 	return
 }
@@ -328,7 +329,7 @@ func getDiscoveredMetricsData(sample *metric.Set) error {
 		return err
 	}
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("failed to get stats from nginx. Server returned code %d (%s). Expecting 200",
+		return errors.Errorf("failed to get stats from nginx. Server returned code %d (%s). Expecting 200",
 			resp.StatusCode, resp.Status)
 	}
 	defer resp.Body.Close()
@@ -336,7 +337,8 @@ func getDiscoveredMetricsData(sample *metric.Set) error {
 	var metricsDefinition map[string][]interface{}
 
 	if resp.Header.Get("content-type") == "application/json" {
-		bodyBytes, err := ioutil.ReadAll(resp.Body)
+		var bodyBytes []byte
+		bodyBytes, err = io.ReadAll(resp.Body)
 		if err != nil {
 			return err
 		}

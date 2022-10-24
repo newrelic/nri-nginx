@@ -3,10 +3,12 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/newrelic/infra-integrations-sdk/data/inventory"
 	"io"
 	"os"
 	"strings"
+
+	"github.com/newrelic/infra-integrations-sdk/data/inventory"
+	"github.com/pkg/errors"
 )
 
 var errMissingClosingBracket = fmt.Errorf("missing closing bracket")
@@ -22,7 +24,7 @@ func populateInventory(reader *bufio.Reader, i *inventory.Inventory) error {
 		r, _, err := reader.ReadRune()
 		if err != nil {
 			// If we reached the end of the file no error should be returned.
-			if err == io.EOF {
+			if errors.Is(err, io.EOF) {
 				return nil
 			}
 
@@ -65,10 +67,14 @@ func populateInventory(reader *bufio.Reader, i *inventory.Inventory) error {
 					lineNo++
 				}
 				r, _, err = reader.ReadRune()
+				if err != nil {
+					if errors.Is(err, io.EOF) {
+						return nil
+					}
+					return fmt.Errorf("parsing line %d: %w", lineNo, err)
+				}
 			}
-			if err != nil {
-				continue // Break to outer loop so we can handle errors/EOF
-			}
+
 			err = reader.UnreadRune()
 			if err != nil {
 				return fmt.Errorf("parsing line %d: %w", lineNo, err)
@@ -76,7 +82,13 @@ func populateInventory(reader *bufio.Reader, i *inventory.Inventory) error {
 		case '#':
 			// ignore comments
 			for r != '\n' {
-				r, _, _ = reader.ReadRune()
+				r, _, err = reader.ReadRune()
+				if err != nil {
+					if errors.Is(err, io.EOF) {
+						return nil
+					}
+					return fmt.Errorf("parsing line %d: %w", lineNo, err)
+				}
 			}
 		case '\t', ' ':
 			if curValue == "" {

@@ -2,9 +2,13 @@ package main
 
 import (
 	"bufio"
-	"github.com/newrelic/infra-integrations-sdk/data/inventory"
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/newrelic/infra-integrations-sdk/data/inventory"
+	"github.com/stretchr/testify/require"
 )
 
 var (
@@ -61,7 +65,6 @@ http {
 )
 
 func TestParseNginxConf(t *testing.T) {
-
 	i := inventory.New()
 
 	err := populateInventory(bufio.NewReader(strings.NewReader(testNginxConf)), i)
@@ -81,5 +84,22 @@ func TestParseNginxConf(t *testing.T) {
 	}
 	if i.Items()["http/server/location::status/allow"]["value"] != "192.168.100.0/24" {
 		t.Error("unexpected value for http/server/location::status/allow")
+	}
+}
+
+// TestParseNginxConfWithClosingComment checks that there's no error when reading from a file with the last line being a
+// comment. This caused some unexpected bugs in the past. The fix was handling the EOF err while parsing the comments in
+// the `populateInventory` func.
+//
+// NOTE: This cannot be reproduced by reading the content right from a string like in the previous test.
+func TestParseNginxConfWithClosingComment(t *testing.T) {
+	i := inventory.New()
+
+	f, err := os.Open(filepath.Join("testdata", "nginx_with_comment.conf"))
+	require.NoError(t, err)
+
+	err = populateInventory(bufio.NewReader(f), i)
+	if err != nil {
+		t.Fatalf("%v", err)
 	}
 }
