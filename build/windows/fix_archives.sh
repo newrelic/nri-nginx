@@ -17,9 +17,11 @@ for zip_dirty in $(find dist -regex ".*_dirty\.\(zip\)");do
 
   AGENT_DIR_IN_ZIP_PATH="${ZIP_CONTENT_PATH}/New Relic/newrelic-infra/newrelic-integrations/"
   CONF_IN_ZIP_PATH="${ZIP_CONTENT_PATH}/New Relic/newrelic-infra/integrations.d/"
+  LOG_CONF_IN_ZIP_PATH="${ZIP_CONTENT_PATH}/New Relic/newrelic-infra/logging.d"
 
   mkdir -p "${AGENT_DIR_IN_ZIP_PATH}/bin"
   mkdir -p "${CONF_IN_ZIP_PATH}"
+  mkdir -p "${LOG_CONF_IN_ZIP_PATH}"
 
   echo "===> Decompress ${zip_file_name} in ${ZIP_CONTENT_PATH}"
   unzip ${zip_dirty} -d ${ZIP_CONTENT_PATH}
@@ -28,6 +30,7 @@ for zip_dirty in $(find dist -regex ".*_dirty\.\(zip\)");do
   mv ${ZIP_CONTENT_PATH}/nri-${INTEGRATION}.exe "${AGENT_DIR_IN_ZIP_PATH}/bin"
   mv ${ZIP_CONTENT_PATH}/${INTEGRATION}-win-definition.yml "${AGENT_DIR_IN_ZIP_PATH}"
   mv ${ZIP_CONTENT_PATH}/${INTEGRATION}-config.yml.sample "${CONF_IN_ZIP_PATH}"
+  mv ${ZIP_CONTENT_PATH}/${INTEGRATION}-log-win.yml.example "${LOG_CONF_IN_ZIP_PATH}"
 
   echo "===> Creating zip ${ZIP_CLEAN}"
   cd "${ZIP_CONTENT_PATH}"

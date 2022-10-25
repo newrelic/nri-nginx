@@ -1,5 +1,5 @@
 ###############################################################################
-# Log forwarder configuration for Linux nginx acess and error logs            #
+# Log forwarder configuration for Windows nginx acess and error logs          #
 # NOTE: nginx installations can vary.  Use the appropriate file:              #
 #       log location that matches your environment / installation             #
 # Source: file                                                                #
@@ -8,10 +8,15 @@
 
 logs:
   - name: nginx-access
-    file: /var/log/nginx/access.log
+    file: C:\Program Files\nginx*\logs\access.log
+#   file: C:\<install_path>\logs\access.log
+#   file: C:\<install_path>\logs\access_log.log
     attributes:
       logtype: nginx
+
   - name: nginx-error
-    file: /var/log/nginx/error.log
+    file: C:\Program Files\nginx*\logs\error.log
+#   file: C:\<install_path>\logs\error.log
+#   file: C:\<install_path>\logs\error_log.log
     attributes:
       logtype: nginx-error

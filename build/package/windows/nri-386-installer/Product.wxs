@@ -24,11 +24,13 @@
 
         <Feature Id="ProductFeature" Title="New Relic Infrastructure Integration, nri-$(var.IntegrationName)" Level="1">
             <ComponentRef Id="CMP_V1_PLUGIN_CONFIGS"/>
+            <ComponentRef Id="CMP_V1_PLUGIN_LOG_CONFIGS"/>
             <ComponentRef Id="CMP_V1_CUSTOM_PLUGINS"/>
             <ComponentRef Id="CMP_V1_CUSTOM_PLUGINS_BIN"/>
             <ComponentGroupRef Id="CustomPluginsBinComponent"/>
             <ComponentGroupRef Id="CustomPluginsComponent"/>
             <ComponentGroupRef Id="PluginConfigsComponent"/>
+            <ComponentGroupRef Id="PluginLogConfigsComponent"/>
         </Feature>
     </Product>
 
@@ -38,6 +40,7 @@
                 <Directory Id="CompanyFolder" Name="New Relic">
                     <Directory Id="AgentBinaryFolder" Name="newrelic-infra">
                         <Directory Id="PluginConfigsFolder" Name="integrations.d"/>
+                        <Directory Id="PluginLogConfigsFolder" Name="logging.d"/>
                         <Directory Id="CustomPluginsFolder" Name="newrelic-integrations">
                             <Directory Id="CustomPluginsBinFolder" Name="bin"/>
                         </Directory>
@@ -50,6 +53,11 @@
     <Fragment>
         <DirectoryRef Id="PluginConfigsFolder">
             <Component Id="CMP_V1_PLUGIN_CONFIGS" Guid="fda3b000-0e6a-4594-8ab6-aae83593d2b6" KeyPath="yes">
+                <CreateFolder/>
+            </Component>
+        </DirectoryRef>
+        <DirectoryRef Id="PluginLogConfigsFolder">
+            <Component Id="CMP_V1_PLUGIN_LOG_CONFIGS" Guid="b71e19fb-0c59-4e3e-a13f-ee92f994f0ed" KeyPath="yes">
                 <CreateFolder/>
             </Component>
         </DirectoryRef>
@@ -92,6 +100,14 @@
                 <File Id="FILE_NRI_$(var.IntegrationName)_CONFIG_YML"
                       Name="$(var.IntegrationName)-config.yml.sample"
                       Source="$(var.BinariesPath)New Relic\newrelic-infra\integrations.d\$(var.IntegrationName)-config.yml.sample"
+                      KeyPath="yes"/>
+            </Component>
+        </ComponentGroup>
+        <ComponentGroup Id="PluginLogConfigsComponent" Directory="PluginLogConfigsFolder">
+            <Component Id="CMP_NRI_$(var.IntegrationName)_LOG_CONFIG_YML" Guid="70ea8a46-0005-4515-b41f-6090eebdd014" Win64="no">
+                <File Id="FILE_NRI_$(var.IntegrationName)_LOG_CONFIG_YML"
+                      Name="$(var.IntegrationName)-log-win.yml.example"
+                      Source="$(var.BinariesPath)New Relic\newrelic-infra\logging.d\$(var.IntegrationName)-log-win.yml.example"
                       KeyPath="yes"/>
             </Component>
         </ComponentGroup>
