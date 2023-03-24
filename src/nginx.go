@@ -3,11 +3,9 @@ package main
 
 import (
 	"fmt"
-	"runtime"
-	"strings"
-
 	"net/url"
 	"os"
+	"runtime"
 
 	sdk_args "github.com/newrelic/infra-integrations-sdk/args"
 	"github.com/newrelic/infra-integrations-sdk/data/attribute"
@@ -59,8 +57,7 @@ func main() {
 
 	if args.ShowVersion {
 		fmt.Printf(
-			"New Relic %s integration Version: %s, Platform: %s, GoVersion: %s, GitCommit: %s, BuildDate: %s\n",
-			strings.Title(strings.Replace(integrationName, "com.newrelic.", "", 1)),
+			"New Relic Nginx integration Version: %s, Platform: %s, GoVersion: %s, GitCommit: %s, BuildDate: %s\n",
 			integrationVersion,
 			fmt.Sprintf("%s/%s", runtime.GOOS, runtime.GOARCH),
 			runtime.Version(),
