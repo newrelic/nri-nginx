@@ -2,9 +2,9 @@
 
 # New Relic integration for NGINX
 
-The New Relic integration for NGINX captures critical performance metrics and inventory reported by NGINX server. There is an open source and a commercial version of NGINX, both supported by this integration.
+The New Relic integration for NGINX captures critical performance metrics, logs, and inventory reported by NGINX server. There is an open source and a commercial version of NGINX, both supported by this integration.
 
-Inventory data is obtained from the configuration files and metrics from the status modules.
+Inventory data is obtained from the configuration files, metrics from the status modules, and logs are forwarded.
 
 ## Installation and usage
 
@@ -47,8 +47,6 @@ $ make test
 ## Support
 
 Should you need assistance with New Relic products, you are in good hands with several support diagnostic tools and support channels.
-
-
 
 > New Relic offers NRDiag, [a client-side diagnostic utility](https://docs.newrelic.com/docs/using-new-relic/cross-product-functions/troubleshooting/new-relic-diagnostics) that automatically detects common problems with New Relic agents. If NRDiag detects a problem, it suggests troubleshooting steps. NRDiag can also automatically attach troubleshooting data to a New Relic Support ticket.
 
