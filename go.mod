@@ -1,14 +1,14 @@
 module github.com/newrelic/nri-nginx
 
-go 1.18
+go 1.20
 
 require (
 	github.com/jeremywohl/flatten v1.0.1
 	github.com/newrelic/infra-integrations-sdk v3.7.3+incompatible
 	github.com/pkg/errors v0.9.1
-	github.com/stretchr/testify v1.8.2
+	github.com/stretchr/testify v1.8.4
 	github.com/xeipuuv/gojsonschema v1.2.0
-	golang.org/x/tools v0.1.11
+	golang.org/x/tools v0.9.3
 )
 
 require (
