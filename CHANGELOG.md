@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.3.0 (2023-06-06)
+# Changed
+- Update Go version to 1.20
+
 ## 3.2.5 (2022-10-18)
 ## Fixed
 - Handle properly the error while parsing the `nginx.conf` file and ignoring the comments #96.
