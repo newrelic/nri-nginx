@@ -61,7 +61,7 @@ jobs:
         with:
           path: src/github.com/${{env.ORIGINAL_REPO_NAME}}
       - name: Install Go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v4
         with:
           go-version-file: "src/github.com/${{ env.ORIGINAL_REPO_NAME }}/go.mod"
       - name: Running unit tests
@@ -83,7 +83,7 @@ jobs:
           fetch-depth: 1
           path: src/github.com/${{env.ORIGINAL_REPO_NAME}}
       - name: Install Go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v4
         with:
           go-version-file: "src/github.com/${{ env.ORIGINAL_REPO_NAME }}/go.mod"
       - name: Login to DockerHub
