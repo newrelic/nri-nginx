@@ -8,8 +8,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Unreleased section should follow [Release Toolkit](https://github.com/newrelic/release-toolkit#render-markdown-and-update-markdown)
 
 ## Unreleased
-### enhancement
- - bumped golang version pinning 1.20.6
+
+## v3.4.0 - 2023-07-19
+
+### 🚀 Enhancements
+- bumped golang version pinning 1.20.6
+
+### ⛓️ Dependencies
+- Updated golang.org/x/tools to v0.11.0
 
 ## 3.3.0 (2023-06-06)
 ### Changed
