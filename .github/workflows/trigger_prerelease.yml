@@ -1,0 +1,20 @@
+name: Trigger prerelease creation
+
+# This workflow triggers a prerelease creation with changelog and the release notes created by the release toolkit.
+# This workflow should be triggered merely from the default branch.
+# If you wish to be 100% free creating a prerelease, just create it manually.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 17 * * 3"
+
+jobs:
+  prerelease:
+    uses: newrelic/coreint-automation/.github/workflows/trigger_prerelease.yaml@v1
+    secrets:
+      bot_token: ${{ secrets.COREINT_BOT_TOKEN }}
+      slack_channel:  ${{ secrets.COREINT_SLACK_CHANNEL }}
+      slack_token: ${{ secrets.COREINT_SLACK_TOKEN }}
+    with:
+      rt-included-files: go.mod,go.sum,build/Dockerfile

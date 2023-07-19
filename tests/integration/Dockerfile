@@ -1,4 +1,4 @@
-FROM golang:1.20-buster as builder
+FROM golang:1.20.6-bookworm as builder
 ARG CGO_ENABLED=0
 WORKDIR /go/src/github.com/newrelic/nri-nginx
 COPY . .

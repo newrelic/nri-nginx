@@ -54,3 +54,6 @@ src/resource.syso
 dist/
 bin/
 *.gpg
+
+# Release toolkit
+CHANGELOG.partial.md
