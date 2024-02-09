@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/jeremywohl/flatten v1.0.1
-	github.com/newrelic/infra-integrations-sdk v3.7.3+incompatible
+	github.com/newrelic/infra-integrations-sdk v3.8.0+incompatible
 	github.com/pkg/errors v0.9.1
 	github.com/stretchr/testify v1.8.4
 	github.com/xeipuuv/gojsonschema v1.2.0
