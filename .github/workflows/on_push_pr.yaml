@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: newrelic/newrelic-infra-checkers@v1
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v3
+        uses: golangci/golangci-lint-action@v4
         continue-on-error: ${{ github.event_name != 'pull_request' }}
         with:
           only-new-issues: true
