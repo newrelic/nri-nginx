@@ -1,23 +1,25 @@
-  nginx-config.yml: |
-    ---
-    # Run auto discovery to find pods with label "app=nginx"
-    # https://docs.newrelic.com/docs/integrations/host-integrations/installation/container-auto-discovery
-    discovery:
-      command:
-        # Use the following optional arguments:
-        # --namespaces: Comma separated list of namespaces to discover pods on
-        # --tls: Use secure (TLS) connection
-        # --port: Port used to connect to the kubelet. Default is 10255
-        exec: /var/db/newrelic-infra/nri-discovery-kubernetes
-        match:
-          label.app: nginx
-    integrations:
-      - name: nri-nginx
-        env:
-          # If you're using ngx_http_api_module be certain to use the full path up to and including the version number
-          # Use the discovered IP as the host address
-          STATUS_URL: http://${discovery.ip}/status
-          # Name of Nginx status module OHI is to query against. discover | ngx_http_stub_status_module | ngx_http_status_module | ngx_http_api_module
-          STATUS_MODULE: discover
-          METRICS: 1
-          REMOTE_MONITORING: 1
+newrelic-infrastructure:
+  enabled: true
+  integrations:
+    nginx-config.yml:
+      # Run auto discovery to find pods with label "app=nginx"
+      # https://docs.newrelic.com/docs/integrations/host-integrations/installation/container-auto-discovery
+      discovery:
+        command:
+          # Use the following optional arguments:
+          # --namespaces: Comma separated list of namespaces to discover pods on
+          # --tls: Use secure (TLS) connection
+          # --port: Port used to connect to the kubelet. Default is 10255
+          exec: /var/db/newrelic-infra/nri-discovery-kubernetes
+          match:
+            label.app: nginx
+      integrations:
+        - name: nri-nginx
+          env:
+            # If you're using ngx_http_api_module be certain to use the full path up to and including the version number
+            # Use the discovered IP as the host address
+            STATUS_URL: http://${discovery.ip}/status
+            # Name of Nginx status module OHI is to query against. discover | ngx_http_stub_status_module | ngx_http_status_module | ngx_http_api_module
+            STATUS_MODULE: discover
+            METRICS: 1
+            REMOTE_MONITORING: 1
