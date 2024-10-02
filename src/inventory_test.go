@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/newrelic/infra-integrations-sdk/data/inventory"
+	"github.com/newrelic/infra-integrations-sdk/v3/data/inventory"
 	"github.com/stretchr/testify/require"
 )
 
