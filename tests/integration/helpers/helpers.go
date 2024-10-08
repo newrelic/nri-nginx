@@ -2,9 +2,10 @@ package helpers
 
 import (
 	"bytes"
-	"github.com/newrelic/infra-integrations-sdk/log"
 	"os/exec"
 	"strings"
+
+	"github.com/newrelic/infra-integrations-sdk/v3/log"
 )
 
 // ExecInContainer executes the given command inside the specified container. It returns three values:

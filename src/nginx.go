@@ -7,12 +7,11 @@ import (
 	"os"
 	"runtime"
 
-	sdk_args "github.com/newrelic/infra-integrations-sdk/args"
-	"github.com/newrelic/infra-integrations-sdk/data/attribute"
-	"github.com/newrelic/infra-integrations-sdk/data/metric"
-	"github.com/newrelic/infra-integrations-sdk/integration"
-	"github.com/newrelic/infra-integrations-sdk/log"
-	"github.com/newrelic/infra-integrations-sdk/persist"
+	sdk_args "github.com/newrelic/infra-integrations-sdk/v3/args"
+	"github.com/newrelic/infra-integrations-sdk/v3/data/attribute"
+	"github.com/newrelic/infra-integrations-sdk/v3/data/metric"
+	"github.com/newrelic/infra-integrations-sdk/v3/integration"
+	"github.com/newrelic/infra-integrations-sdk/v3/log"
 	"github.com/pkg/errors"
 )
 
@@ -52,7 +51,7 @@ var (
 )
 
 func main() {
-	i, err := createIntegration()
+	i, err := integration.New(integrationName, integrationVersion, integration.Args(&args))
 	fatalIfErr(err)
 
 	if args.ShowVersion {
@@ -110,21 +109,6 @@ func metricSet(e *integration.Entity, eventType string, remote bool) *metric.Set
 		eventType,
 		attribute.Attr("port", port),
 	)
-}
-
-func createIntegration() (*integration.Integration, error) {
-	cachePath := os.Getenv("NRIA_CACHE_PATH")
-	if cachePath == "" {
-		return integration.New(integrationName, integrationVersion, integration.Args(&args))
-	}
-
-	l := log.NewStdErr(args.Verbose)
-	s, err := persist.NewFileStore(cachePath, l, persist.DefaultTTL)
-	if err != nil {
-		return nil, err
-	}
-
-	return integration.New(integrationName, integrationVersion, integration.Args(&args), integration.Storer(s), integration.Logger(l))
 }
 
 // parseStatusURL will extract the hostname and the port from the nginx status URL.
