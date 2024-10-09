@@ -9,12 +9,12 @@ Unreleased section should follow [Release Toolkit](https://github.com/newrelic/r
 
 ## Unreleased
 
-### dependency
+## v3.5.0 - 2024-10-09
 
+### dependency
 - Upgrade go to 1.23.2
 
-### enhancements
-
+### 🚀 Enhancements
 - Upgrade integrations SDK so the interval is variable and allows intervals up to 5 minutes
 
 ## v3.4.10 - 2024-09-18
