@@ -9,9 +9,6 @@ Unreleased section should follow [Release Toolkit](https://github.com/newrelic/r
 
 ## Unreleased
 
-### dependency
-- Update goreleaser to v2.4.4
-
 ### enhancements
 - Add FIPS compliant packages
 

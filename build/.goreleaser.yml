@@ -1,3 +1,7 @@
+---
+version: 2
+project_name: nri-nginx
+
 builds:
   - id: nri-nix
     main: ./src
@@ -56,7 +60,7 @@ builds:
 nfpms:
   - id: linux
     package_name: nri-nginx
-    file_name_template: "{{ .ProjectName }}_{{ .Version }}-1_{{ .Arch }}"
+    file_name_template: "{{ .PackageName }}_{{ .Version }}-1_{{ .Arch }}"
     vendor: "New Relic, Inc."
     homepage: "https://www.newrelic.com/infrastructure"
     maintainer: "New Relic Infrastructure Team <infrastructure-eng@newrelic.com>"
