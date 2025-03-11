@@ -13,4 +13,6 @@ jobs:
       tag: ${{ github.event.release.tag_name }}
       integration: "nginx"
       upload_fips_packages: true
+      dest_prefix: fips-test-nginx-rahul/
+      test_package: false
     secrets: inherit
