@@ -136,7 +136,7 @@ nfpms:
     overrides:
       rpm:
         file_name_template: >-
-           {{- .ProjectName }}-
+           {{- .ProjectName }}-fips-
            {{- .Version }}-1.
            {{- if eq .Arch "amd64" -}}x86_64
            {{- else -}}
