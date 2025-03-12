@@ -12,4 +12,5 @@ jobs:
     with:
       tag: ${{ github.event.release.tag_name }}
       integration: "nginx"
+      upload_fips_packages: true
     secrets: inherit

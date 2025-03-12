@@ -6,6 +6,8 @@ INTEGRATIONS_DIR = /var/db/newrelic-infra/newrelic-integrations/
 CONFIG_DIR       = /etc/newrelic-infra/integrations.d
 GO_FILES        := ./src/
 GOFLAGS          = -mod=readonly # ignore the vendor directory and to report an error if go.mod needs to be updated.
+GO_VERSION 		?= $(shell grep '^go ' go.mod | awk '{print $$2}')
+BUILDER_IMAGE 	?= "ghcr.io/newrelic/coreint-automation:latest-go$(GO_VERSION)-ubuntu16.04"
 
 all: build
 
