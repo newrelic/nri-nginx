@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
   nginx:
-    image: nginx:1.27.4
+    image: nginx:1.27.5
     restart: always
     ports:
     - "8080:8080"
