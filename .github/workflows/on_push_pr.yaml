@@ -14,5 +14,4 @@ jobs:
     uses: newrelic/coreint-automation/.github/workflows/reusable_push_pr.yaml@v3
     with:
       integration: nginx
-      run_test_build_fake_prerelease: true
     secrets: inherit
