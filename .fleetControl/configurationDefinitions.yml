@@ -1,0 +1,13 @@
+configurationDefinitions:
+  - platform: HOST
+    description: nginx integration configuration
+    type: agent-config
+    version: 1.0.0
+    format: yml
+    operatingSystem: LINUX
+  - platform: HOST
+    description: nginx integration configuration
+    type: agent-config
+    version: 1.0.0
+    format: yml
+    operatingSystem: WINDOWS
