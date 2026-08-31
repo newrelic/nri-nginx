@@ -9,15 +9,12 @@ Unreleased section should follow [Release Toolkit](https://github.com/newrelic/r
 
 ## Unreleased
 
-### 🚀 Enhancements
+### enhancement
 - Onboard nri-nginx to agent-control catalog (#197)
 
-### 🛡️ Security notices
+### security
 - Updated go module directive to v1.26.6 to address CVEs in net/http, crypto/tls, and encoding/json (#202)
 
-### ⛓️ Dependencies
-- Updated github.com/stretchr/testify to v1.12.1 (#199)
-- Updated nginx docker tag to v1.31.4 (#201)
 
 ## v3.8.3 - 2026-07-08
 
