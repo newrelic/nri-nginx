@@ -9,6 +9,13 @@ Unreleased section should follow [Release Toolkit](https://github.com/newrelic/r
 
 ## Unreleased
 
+### enhancement
+- Onboard nri-nginx to agent-control catalog (#197)
+
+### security
+- Updated go module directive to v1.26.6 to address CVEs in net/http, crypto/tls, and encoding/json (#202)
+
+
 ## v3.8.3 - 2026-07-08
 
 ### ⛓️ Dependencies
