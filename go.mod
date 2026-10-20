@@ -1,6 +1,6 @@
 module github.com/newrelic/nri-nginx
 
-go 1.27.2
+go 1.27.3
 
 require (
 	github.com/jeremywohl/flatten v1.0.1
